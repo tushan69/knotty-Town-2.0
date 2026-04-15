@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout | ANTIGRAVITY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d4dbdd",
+                        "inverse-surface": "#0c0f0f",
+                        "error": "#9f403d",
+                        "tertiary-fixed": "#fddab2",
+                        "surface-container-high": "#e4e9ea",
+                        "surface-bright": "#f9f9f9",
+                        "surface-tint": "#5f5e5e",
+                        "tertiary-fixed-dim": "#eecca5",
+                        "on-primary-fixed": "#403f3f",
+                        "secondary-fixed": "#dae5db",
+                        "inverse-on-surface": "#9c9d9d",
+                        "on-background": "#2d3435",
+                        "surface-container": "#ebeeef",
+                        "on-surface-variant": "#5a6061",
+                        "surface-variant": "#dde4e5",
+                        "on-tertiary": "#fff7f3",
+                        "background": "#f9f9f9",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "tertiary-container": "#fddab2",
+                        "inverse-primary": "#ffffff",
+                        "on-error": "#fff7f6",
+                        "primary-dim": "#535252",
+                        "primary-fixed-dim": "#d6d4d3",
+                        "on-error-container": "#752121",
+                        "secondary": "#57625a",
+                        "tertiary": "#745b3b",
+                        "primary-container": "#e5e2e1",
+                        "error-container": "#fe8983",
+                        "surface-container-highest": "#dde4e5",
+                        "secondary-dim": "#4b564e",
+                        "on-primary": "#faf7f6",
+                        "on-secondary-container": "#4a544c",
+                        "primary": "#5f5e5e",
+                        "on-primary-container": "#525151",
+                        "surface-container-low": "#f2f4f4",
+                        "on-surface": "#2d3435",
+                        "secondary-container": "#dae5db",
+                        "on-secondary-fixed-variant": "#545e56",
+                        "on-tertiary-container": "#634c2d",
+                        "on-secondary": "#f1fcf1",
+                        "outline": "#757c7d",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#6e5536",
+                        "outline-variant": "#adb3b4",
+                        "secondary-fixed-dim": "#ccd7cd",
+                        "on-tertiary-fixed": "#4f391d",
+                        "tertiary-dim": "#674f30",
+                        "error-dim": "#4e0309",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "on-secondary-fixed": "#38423a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Serif', serif;
+        }
+        /* Custom hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-tertiary-container">
+<!-- TopNavBar (Distraction Free Variant - No standard links) -->
+<header class="bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-md docked full-width top-0 z-50 transition-colors duration-300">
+<div class="flex justify-between items-center w-full px-8 md:px-12 py-8 max-w-none">
+<div class="flex-1 flex items-center">
+<a class="group flex items-center gap-2 text-primary-dim hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">arrow_back</span>
+<span class="font-['Inter'] text-xs tracking-widest uppercase">Back to Collection</span>
+</a>
+</div>
+<div class="flex-1 flex justify-center">
+<span class="text-2xl font-bold tracking-[0.2em] text-[#2d3435] dark:text-[#f9f9f9] uppercase">ANTIGRAVITY</span>
+</div>
+<div class="flex-1 flex justify-end">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary-dim" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-['Inter'] text-xs tracking-widest uppercase opacity-60">Secure Checkout</span>
+</div>
+</div>
+</div>
+</header>
+<main class="min-h-screen pt-32 pb-24 px-8 md:px-12">
+<div class="max-w-[1440px] mx-auto">
+<!-- Checkout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 xl:gap-24">
+<!-- Left Column: Checkout Forms -->
+<div class="lg:col-span-7 space-y-16">
+<!-- Section: Shipping Information -->
+<section>
+<div class="flex items-baseline justify-between mb-10">
+<h2 class="text-3xl font-light tracking-tight">Shipping details</h2>
+<span class="text-xs uppercase tracking-widest opacity-40">Step 01 / 02</span>
+</div>
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">First Name</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="Julian" type="text"/>
+</div>
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">Last Name</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="Vandervort" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">Delivery Address</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="1242 Rue de l'Avenue" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="relative md:col-span-1">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">Postal Code</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="75001" type="text"/>
+</div>
+<div class="relative md:col-span-2">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">City</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="Paris" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">Country</label>
+<select class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors">
+<option>France</option>
+<option>United Kingdom</option>
+<option>United States</option>
+<option>Japan</option>
+</select>
+</div>
+</form>
+</section>
+<!-- Section: Payment Method -->
+<section>
+<div class="flex items-baseline justify-between mb-10">
+<h2 class="text-3xl font-light tracking-tight">Payment method</h2>
+<span class="text-xs uppercase tracking-widest opacity-40">Step 02 / 02</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+<button class="group flex flex-col items-center justify-center p-6 border border-tertiary bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-2xl text-tertiary mb-2">credit_card</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Credit Card</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-6 border border-outline/20 hover:border-tertiary/50 bg-white transition-all">
+<span class="material-symbols-outlined text-2xl text-primary-dim mb-2">account_balance_wallet</span>
+<span class="text-[10px] font-bold uppercase tracking-widest opacity-60">Apple Pay</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-6 border border-outline/20 hover:border-tertiary/50 bg-white transition-all">
+<span class="material-symbols-outlined text-2xl text-primary-dim mb-2">payments</span>
+<span class="text-[10px] font-bold uppercase tracking-widest opacity-60">PayPal</span>
+</button>
+</div>
+<form class="space-y-8">
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">Card Number</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="0000 0000 0000 0000" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">Expiry Date</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="MM / YY" type="text"/>
+</div>
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-2">CVV</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline/30 focus:border-tertiary focus:ring-0 px-0 py-3 transition-colors placeholder:text-surface-variant" placeholder="***" type="password"/>
+</div>
+</div>
+</form>
+</section>
+</div>
+<!-- Right Column: Order Summary (Sidebar) -->
+<aside class="lg:col-span-5">
+<div class="sticky top-40 bg-surface-container-low p-8 md:p-12 space-y-10">
+<h3 class="text-2xl font-light tracking-tight mb-8">Order Summary</h3>
+<!-- Cart Items List -->
+<div class="space-y-8 max-h-[400px] overflow-y-auto no-scrollbar">
+<div class="flex gap-6 group">
+<div class="w-24 h-32 flex-shrink-0 bg-surface-container overflow-hidden">
+<img alt="Silk Blouse" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Close-up of a high-end minimalist silk blouse in cream color hanging against a neutral gray wall, editorial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCViMTasekpnqII606XV2VkmBjGgcCIY6lpAo54Rai-DvlnuHo80ONPOPOt933-yrpJqRYTfigdHjBIEgIUgbsgmKZeNtyRu6rskgqNbwIHb3_7Eg38pqxwtEI9ceRglgzVnKSGmF7NJsPSUCPeCRbQE3Mh9XNZrCXQl90AKDrBYES2_0MhVv2D1j13NX7p6JHsRJM2k_oiaJGdv_X5L1VWocyUO6GgXyrcLCxv0VmmpY4kKRtc0NJdPT4vDZfI-E8kq7c4_wHrlfw"/>
+</div>
+<div class="flex flex-col justify-between py-1">
+<div>
+<h4 class="text-sm font-medium tracking-tight text-on-surface">Heavyweight Silk Blouse</h4>
+<p class="text-[10px] uppercase tracking-widest text-outline mt-1">Color: Bone / Size: S</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-[10px] uppercase tracking-widest opacity-60">Qty: 1</span>
+<span class="text-sm font-medium">$420.00</span>
+</div>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="w-24 h-32 flex-shrink-0 bg-surface-container overflow-hidden">
+<img alt="Wool Trousers" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Editorial shot of tailored charcoal wool trousers styled with luxury accessories, high-fashion aesthetic, soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0nJAAl0dH9Mb2prklx5Koi208jw_KSJxUQUg_iJ1eYCxX7CcxlMxHelklyoFoETBehnM8nUqU1lnRS95K8PCs0cqzbZnWqE9pX0G362jMvt9rkOO9Ww9nEpaajFCWVlZh-gZT92tZaPeojByCKeeVxVt23q9GRgDhgfQ-ungKyQ2K5G7OY71iPlHDidumxJWsrXFE_tvx8t6r03IfIxNNI-2kF3rDFMQZyZL8B5w9OcibYppJSuYpOoMhBNPqQDys-lcbat_k5oE"/>
+</div>
+<div class="flex flex-col justify-between py-1">
+<div>
+<h4 class="text-sm font-medium tracking-tight text-on-surface">Architectural Wool Trousers</h4>
+<p class="text-[10px] uppercase tracking-widest text-outline mt-1">Color: Charcoal / Size: 38</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-[10px] uppercase tracking-widest opacity-60">Qty: 1</span>
+<span class="text-sm font-medium">$580.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Price Breakdown -->
+<div class="pt-10 border-t border-outline/10 space-y-4">
+<div class="flex justify-between text-[11px] uppercase tracking-[0.2em]">
+<span class="opacity-50">Subtotal</span>
+<span>$1,000.00</span>
+</div>
+<div class="flex justify-between text-[11px] uppercase tracking-[0.2em]">
+<span class="opacity-50">Shipping</span>
+<span>Calculated next</span>
+</div>
+<div class="flex justify-between text-[11px] uppercase tracking-[0.2em]">
+<span class="opacity-50">Taxes</span>
+<span>$80.00</span>
+</div>
+<div class="flex justify-between items-baseline pt-6">
+<span class="text-xs uppercase tracking-[0.3em] font-bold">Total</span>
+<span class="text-3xl font-light tracking-tighter text-tertiary">$1,080.00</span>
+</div>
+</div>
+<!-- Final Action Button -->
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary py-6 px-10 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-primary-dim transition-colors flex items-center justify-center gap-3">
+                                Complete Purchase
+                                <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+</button>
+<p class="text-center text-[10px] mt-6 opacity-40 uppercase tracking-widest">
+                                By clicking, you agree to our <a class="underline" href="#">Terms of Service</a>
+</p>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Footer (Distraction Free) -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1a1c1d] full-width py-20 mt-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-none">
+<div class="col-span-1 md:col-span-2">
+<p class="text-lg font-bold text-[#2d3435] dark:text-[#f9f9f9] mb-4">ANTIGRAVITY</p>
+<p class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] dark:text-[#adb3b4] max-w-sm leading-relaxed">
+                    © 2024 ANTIGRAVITY. ALL RIGHTS RESERVED. Crafted for the modern curator.
+                </p>
+</div>
+<div>
+<ul class="space-y-4">
+<li><a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<ul class="space-y-4">
+<li><a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

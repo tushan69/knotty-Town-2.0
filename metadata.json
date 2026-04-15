@@ -1,0 +1,9 @@
+
+{
+  "name": "KNOTTY TOWN - Oversized Streetwear",
+  "description": "Premium oversized printed t-shirts and custom design studio for India's youth.",
+  "requestFramePermissions": [
+    "camera",
+    "identity-credentials-get"
+  ]
+}

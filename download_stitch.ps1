@@ -1,0 +1,32 @@
+$outDir = "c:\knotty\knotty-town---oversized-streetwear (5)\stitch_screens"
+New-Item -ItemType Directory -Force -Path $outDir
+
+Write-Host "Downloading Homepage..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0uiUYTyFVIN9inPzKcvuUfnRc75pb1jhluxp0EWVOm6Ryuqmx7KvsimkVkoDdnLZ2GmRHF1DT57P4oQkjozoHC_dL1va0k0SJU5Lmx6Gy3BNZvTknkFxQoA4vZ4M0Y4gT24OGP_el2ffP1Du5wsW5309WzVlkSiWWWxYXLqGEQLgZJt7aeg_ZPxXWLXW2HSAnO2_2mdb19F9a7MbCoQNQd6Ihq_nh6GjNZ1rG2NQx04lxrGtrtLvSM50SPA" -OutFile "$outDir\Homepage.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2EyM2IzMmJkZjA5MzRlOGFhODI4NTE1OTA5MWRlNDIwEgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Homepage.html"
+
+Write-Host "Downloading Product Catalog..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0uj_SLNmRiAn4gMOkKHpgnMo2Ge36ks9haFPKftQCwflhJNq-OH0PyiFtBhORRinxE7KDcFnooFDJ1DB9-sWXQBHdHrxrJNTccK1-k3dVBAlxh62FWFhMAaHvWJ3aBUs8J1VdLwKnlie2dILyM3dm0OkZMwXUT-Da_4Xlby0rAWlTNivDY1SjR-yjRI8AhFStN2gcQcAtmn9oKfUWSoq_gzVVl-bOliWZJ3ilZIamxFt4tej0upI2ZiYoQ" -OutFile "$outDir\Product_Catalog.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzk3ZmExZTRhNTRiMzRlNDhhNDBhY2JlY2FjMDBjMTMwEgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Product_Catalog.html"
+
+Write-Host "Downloading Product Detail Page..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0ui8mqZI8705zhrm6_g5w-n_LvpeqFgR--Cx0sb5w-vbVvjUJzBPwuUAwcEaE08y571pOkhFxngLcx4dmSpY2VOeGMevRqEymdvHshectV4hpbLMg9XnRWEs9u0NWX26_CQDODiJP5z0BQuxvzme4a7G1eEwRQiPzozKTjQXfBs-Jey2prT0XlmuLDfqAp6ZnPv06Bv7dlJRLqAwz_P8yXfJ1gKkD2jhKtSz9Otymi6iR7ahheilESvCiVQ" -OutFile "$outDir\Product_Detail_Page.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzZjODRlNWU2MDNlNTRmN2JhZTNmMjYyY2E0ZmZlNWUwEgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Product_Detail_Page.html"
+
+Write-Host "Downloading Checkout..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0ujXiG3wuRAbvHGq9FaMbtSRmWs89xOsWPI3d5WwIH_04sskdI1_CAoqfRftzEH-td5zeuOtDEuN6UYmrm3XHYhzBO4iroBe6KsCAoJrRQpY9mtrD7E0ZYgP4BOal4yx3923SPACOusPldUAVqgB6JgG_PZYKxLfG-EtimZzQUGUsQAat5rGxeQJADyiNL0bPJJvVlnr2bHDd1F4NedNOjP3D7PvvVeyqg-UhMvC6txQOwn8EmWkW9dTzA" -OutFile "$outDir\Checkout.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2NiN2Q4YTIwMWJmZjQ5YzA5ZTQxY2YxNzFlZTFjOGM2EgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Checkout.html"
+
+Write-Host "Downloading Premium Homepage Concept..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0uhuH_w5lICoZ-eibnxCZ9blPfmA52Q3ZxtWqRoMGBRSODRghzB65AT4ZHBz-qsr6HRKvGnnx0VMtTLTJsV-Ucjg4sMYFurqmtW9ZNc0L6zYfOYHDXwfNlmKZ3E-DhXK7uQ3YxBfilNHhha786acgt2avgmcgwUl99SsxqqsQEj5b_zTEHrkuG6OLG8IYlH-G2RpY1r6o2OW-pdyUQJ-6g9_Z-SXq6VCt-QpwOf4pd5tqSSuOMxOI3RxDA" -OutFile "$outDir\Premium_Homepage_Concept.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzgyMmU2ODVmMGQ5ODQ3ZmNhNWMyMGMxNjM3ZTFjYTNlEgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Premium_Homepage_Concept.html"
+
+Write-Host "Downloading Men's Collection..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0uhSNr1yTyL5iRqDDRckSCbBiPVLtfWdOkRBf7g10JkIAiW_icESkXNSM074eyEzi9vmpCjvQVl-xy9j0GfGtZZsNPkl3o6qeBSZRxcjmnEi2ONx80dJc1eBlWU24epXYRFWEdZXN5Z73ZR25sGRzAN2I3rPMu9kObcSEOmkZz5mwVInJrUopOJdAen_hIdukzTvowzvp8aCPZEkVNYeuTia4OTxbhC-c9Op9zeuwcECplaIRK9S7R1lQPY" -OutFile "$outDir\Mens_Collection.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzAyODg2M2ZhOWRkNDQ5YzE5YWUzNmZlOTZhNWZiYTEyEgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Mens_Collection.html"
+
+Write-Host "Downloading Women's Collection..."
+Invoke-WebRequest -Uri "https://lh3.googleusercontent.com/aida/ADBb0ugSXnhxiWQ92ZX5avnSo5af6SrUjMFv53doBlyi3I3qu5HTWbVV3qLNrYvPLanRunMuHAe2VFD4x1VezJ3Pv4rymDif3IdYKWEoqUdk9tzssvVxrkzS_IFiWbBpsMY0I3kThLhvjcAsASOIrAvFHpkzlemYFQd5CK5iY4_AEbMX-10IBePOPP9A9j1xTNNllHBEo-EwsSSogbnqU6WvpjSgtFhKHfbObihmERFcwSIRCd_g2-4QTXGYKUM" -OutFile "$outDir\Womens_Collection.jpg"
+Invoke-WebRequest -Uri "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzE0NDVjZmUyMDhjMzQ3MzBhM2E4YzJjNjdhOThmZjlmEgsSBxDEmLvp4wwYAZIBIwoKcHJvamVjdF9pZBIVQhMyNzM1NDExNzUwNjY1MzMxMjMx&filename=&opi=89354086" -OutFile "$outDir\Womens_Collection.html"
+
+Write-Host "Done!"

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&amp;family=Inter:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d4dbdd",
+                    "inverse-surface": "#0c0f0f",
+                    "error": "#9f403d",
+                    "tertiary-fixed": "#fddab2",
+                    "surface-container-high": "#e4e9ea",
+                    "surface-bright": "#f9f9f9",
+                    "surface-tint": "#5f5e5e",
+                    "tertiary-fixed-dim": "#eecca5",
+                    "on-primary-fixed": "#403f3f",
+                    "secondary-fixed": "#dae5db",
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-background": "#2d3435",
+                    "surface-container": "#ebeeef",
+                    "on-surface-variant": "#5a6061",
+                    "surface-variant": "#dde4e5",
+                    "on-tertiary": "#fff7f3",
+                    "background": "#f9f9f9",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "tertiary-container": "#fddab2",
+                    "inverse-primary": "#ffffff",
+                    "on-error": "#fff7f6",
+                    "primary-dim": "#535252",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "on-error-container": "#752121",
+                    "secondary": "#2C362F",
+                    "tertiary": "#745b3b",
+                    "primary-container": "#e5e2e1",
+                    "error-container": "#fe8983",
+                    "surface-container-highest": "#dde4e5",
+                    "secondary-dim": "#232b26",
+                    "on-primary": "#faf7f6",
+                    "on-secondary-container": "#4a544c",
+                    "primary": "#2C362F",
+                    "on-primary-container": "#525151",
+                    "surface-container-low": "#f2f4f4",
+                    "on-surface": "#2d3435",
+                    "secondary-container": "#dae5db",
+                    "on-secondary-fixed-variant": "#545e56",
+                    "on-tertiary-container": "#634c2d",
+                    "on-secondary": "#f1fcf1",
+                    "outline": "#757c7d",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-fixed-variant": "#6e5536",
+                    "outline-variant": "#adb3b4",
+                    "secondary-fixed-dim": "#ccd7cd",
+                    "on-tertiary-fixed": "#4f391d",
+                    "tertiary-dim": "#674f30",
+                    "error-dim": "#4e0309",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f9f9f9",
+                    "on-secondary-fixed": "#38423a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: 'Noto Serif', serif; font-weight: 300; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary/10 selection:text-secondary">
+<!-- TopNavBar -->
+<nav class="bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-md text-[#5f5e5e] dark:text-[#e5e2e1] font-['Noto_Serif'] tracking-tight docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-12 py-6 max-w-none">
+<div class="flex items-center gap-12">
+<div class="text-2xl font-bold tracking-[0.2em] text-[#2d3435] dark:text-[#f9f9f9] uppercase">ANTIGRAVITY</div>
+<div class="hidden md:flex gap-10 items-center">
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300 text-xs uppercase tracking-widest" href="#">Collections</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300 text-xs uppercase tracking-widest" href="#">Lookbook</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300 text-xs uppercase tracking-widest" href="#">Story</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300 text-xs uppercase tracking-widest" href="#">Journal</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined">search</span></button>
+<button class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined">shopping_bag</span></button>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative h-[95vh] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="cinematic portrait of a fashion model in architectural minimalist clothing standing against a brutalist concrete wall in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZYOz4vJaeNGysbDKpS0aMXhijUbw4s_Z51lZQPYI9cqv3gs7F8vJRa_SUDAgkglJGY6UhubQyJBDRzFiNbe6aj5u_uk6FZ0tQjjrggHNc-qdQNdFRsMSxhPWyiJdlCD6kQ-5EGMew2DPsPRoPMKPWsvpn2BuBhuIEAcm2NXvqWWIAl55NZ9rKu0i6IUXtSDSXR_nDbJy3eGznMjNI2rrD5EzbdfgrGLfE3bm69x2fZIWznx1lUOIDFbTFPLx_2MpSuFuBIUZoOXw"/>
+<div class="absolute inset-0 bg-secondary/20 mix-blend-multiply"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+</div>
+<div class="relative z-10 px-12 w-full max-w-none mx-auto container">
+<div class="max-w-4xl">
+<span class="text-white/80 font-label text-[10px] tracking-[0.5em] uppercase mb-6 block">New Collection 2024</span>
+<h1 class="text-7xl md:text-[7rem] leading-[0.9] text-white font-headline tracking-tighter mb-10 italic">
+                    The Architecture <br/>of Presence.
+                </h1>
+<p class="text-white/90 font-body text-xl max-w-lg mb-12 font-light leading-relaxed">
+                    A cinematic study in texture, form, and quiet luxury. Curated silhouettes for the modern observer.
+                </p>
+<div class="flex gap-6 items-center">
+<button class="px-12 py-5 bg-white text-secondary font-label text-[10px] tracking-[0.3em] uppercase transition-all duration-500 hover:bg-transparent hover:text-white border border-white">
+                        Explore Collection
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust & Craftsmanship -->
+<section class="py-16 border-b border-surface-container-high bg-white">
+<div class="max-w-none mx-auto px-12 grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-3xl mb-6 text-secondary opacity-60">eco</span>
+<h3 class="text-xs tracking-[0.2em] uppercase font-bold mb-3">Ethical Sourcing</h3>
+<p class="text-sm text-on-surface-variant font-light max-w-[240px]">Traceable fibers from family-owned mills in Japan and Italy.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-3xl mb-6 text-secondary opacity-60">architecture</span>
+<h3 class="text-xs tracking-[0.2em] uppercase font-bold mb-3">Master Tailoring</h3>
+<p class="text-sm text-on-surface-variant font-light max-w-[240px]">Each piece is handcrafted in our Aoyama studio with structural integrity.</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-3xl mb-6 text-secondary opacity-60">public</span>
+<h3 class="text-xs tracking-[0.2em] uppercase font-bold mb-3">Global Shipping</h3>
+<p class="text-sm text-on-surface-variant font-light max-w-[240px]">Complimentary worldwide logistics for our inner circle members.</p>
+</div>
+</div>
+</section>
+<!-- New Arrivals Section -->
+<section class="py-32 px-12 bg-background">
+<div class="max-w-none mx-auto">
+<div class="flex justify-between items-end mb-16">
+<div>
+<span class="text-tertiary font-label text-[10px] tracking-[0.4em] uppercase mb-4 block">Recent Arrivals</span>
+<h2 class="text-5xl font-headline italic">New Silhouettes</h2>
+</div>
+<a class="text-on-surface font-label text-[10px] tracking-[0.3em] border-b border-outline pb-3 hover:text-secondary transition-all uppercase" href="#">View Shop</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Product Card 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="The Sculpted Overcoat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJGQqqhoMvmSc1NCQpQnLMThClaGaJ0A2gK5GmeQWjSiWdrWHKFedOmNodnuTJHr6CE_8_fUqXrn-LTF0P9kljnP3MA5eDH65ipYdrPBQ4pvZaKO1jNX8JyBLT4tXQ9KwjGILqXU99ZFVXv4FEx9iO-X0DT6zWL336isXrbz_BQ8S-RlwBcJTkS_LcRUk122rSwoYhK2AudbDaC_vDeSID259yrsL2XLl3r60t6ntp8M1Wz5mMhggl-5e23TTtVfpCORAjPtZzK1Q"/>
+<div class="absolute bottom-4 left-4">
+<span class="text-[8px] tracking-[0.2em] font-label uppercase px-2 py-1 bg-white/90">Signature</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline">The Sculpted Overcoat</h3>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">100% Virgin Wool</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$890</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Monolith Blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1gQCb1BEngdzmhvCakpW_AoE6yhYg_0_YPecsA8Po7EIM0AGT-cMvdnTktre_p3lNtQPwssL3lUNYwIqB7Z-VrIui72Y9tI2_qfZv6CmqS70-anQf1qXHMsfqi5uIstjaZ9aj-rWnkwhyfiN_augyPWYmcN8XMByy8SVoGjdLHUz8cvDafZAnw3_WV8uXJV-okaTVQiu0leBwgepd78u1CY0K44xI8Ujhz77_sc3DUg27csX1JTTVh0Fh44QyQhJtBGbV5UYM26k"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline">Monolith Blazer</h3>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">Structured Crepe</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$640</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="The Linear Dress" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr4NQIaqGjGNOf4qcpDYlM6rjcgbLOziDsJR6E0Y3SOjAB4R31bEfU9hVLXuFoWnndE0ji2zu6xJ-rlJsc3TXQwhZRr9yrJ3WNRj7OJRE45m2gNGrCjSq25-k7sSjN3rCfS8v5hakieK13xMGnhP6FbGQgm5e-yjr-BIAhnCRNtzRmiZCe3OrnhTLDo9yyVv1tkh4KC4Jlxcb5v_D-pKZcOq4leoV53JD-rK8nK-Tjb6HggIoljHUE9Sj5f4mjXTcVAx_xTioDLm0"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline">The Linear Dress</h3>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">Italian Silk</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$590</p>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Knit Construct 01" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnvHTIxqsxKgTLMQGTIBr55Kr8XznfyMkCBui_cYNKRfd2kEIogAVJvfdhSyPwm_HoCKEPgUfE-DSolIs_rbz4MZXKb8gYVT2UH2u4Dx2KGvKJsWp4JPoV1aiXm1A25zICj-51CkCM8p7FE091NHPtPmNNzAzd7_sEq2Mu1hPiC9m5vbmDb3fwwkuSr-du1ipU-psCrJBBQC154DkaNvqSIzXDxaljYomCVoTiIlgY8B2sP-Ocgn1FW6slOOVvXMNVyf8pG8sAhjc"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline">Knit Construct 01</h3>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">Organic Cotton Blend</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$280</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Shop by Category -->
+<section class="py-32 px-12 border-t border-surface-container-high bg-white">
+<div class="max-w-none mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<a class="relative aspect-[3/4] group overflow-hidden bg-surface-container" href="#">
+<img class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 grayscale hover:grayscale-0" data-alt="Men's category" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5_dsJexknLZLzMd_7n3cTddOb6FHcOkMZRmY1-6I9kfehHsALSY8IDCUNVRrpHyqiFN38Mo5zK94sn3ngbpzw3Ntqn7P8N9ELfrpl5keVClOt8mxoAoqX1YoXxZEJTNM0bsOs41ZU08LeINKo_RyR3D6H4Pwxch_qwu-JSdE3i9B4eUntzCs6PvqlMzKp3LS07sK5ZrWclJgYBXG9-AXa2TCsU3NIWweb0AA9GLSmDPFANgN6Mjz49WWsOAYT7xS1uyuOVKRgUG8"/>
+<div class="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/30"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+<span class="text-[10px] tracking-[0.5em] uppercase mb-4 font-label">The Anthology</span>
+<h3 class="text-4xl font-headline italic">Men</h3>
+</div>
+</a>
+<a class="relative aspect-[3/4] group overflow-hidden bg-surface-container" href="#">
+<img class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 grayscale hover:grayscale-0" data-alt="Women's category" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZYOz4vJaeNGysbDKpS0aMXhijUbw4s_Z51lZQPYI9cqv3gs7F8vJRa_SUDAgkglJGY6UhubQyJBDRzFiNbe6aj5u_uk6FZ0tQjjrggHNc-qdQNdFRsMSxhPWyiJdlCD6kQ-5EGMew2DPsPRoPMKPWsvpn2BuBhuIEAcm2NXvqWWIAl55NZ9rKu0i6IUXtSDSXR_nDbJy3eGznMjNI2rrD5EzbdfgrGLfE3bm69x2fZIWznx1lUOIDFbTFPLx_2MpSuFuBIUZoOXw"/>
+<div class="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/30"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+<span class="text-[10px] tracking-[0.5em] uppercase mb-4 font-label">The Anthology</span>
+<h3 class="text-4xl font-headline italic">Women</h3>
+</div>
+</a>
+<a class="relative aspect-[3/4] group overflow-hidden bg-surface-container" href="#">
+<img class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 grayscale hover:grayscale-0" data-alt="Accessories category" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzfemR9XsbqhyvaTB45SoiC9SpXpR3eLq9RsFw-FWjugW5qgdlXloa_0kE195W82d3KWjbnWphH0mjq38YMJ6_FWFTgbaVRAvKm0j6vohJsIWknW1SoVviE6kGUhhAb2pe7BEVnuBkeSrhWcDjOGcCrObVfKNulvM6JrFEg8TvLdoi4fBs03vpA1knN_CjgNsl76IdD83tqrc9jfafn5tAJNd204NZzfIGXyLNaAO-ZS5j52SftrkEMV5EFePip81jz3_WJbeKEMs"/>
+<div class="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/30"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+<span class="text-[10px] tracking-[0.5em] uppercase mb-4 font-label">The Anthology</span>
+<h3 class="text-4xl font-headline italic">Accessories</h3>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- Core Essentials Carousel-style Grid -->
+<section class="py-32 bg-background overflow-hidden">
+<div class="px-12 mb-16">
+<span class="text-tertiary font-label text-[10px] tracking-[0.4em] uppercase mb-4 block">Foundations</span>
+<h2 class="text-5xl font-headline italic mb-4">Core Essentials</h2>
+<p class="text-on-surface-variant font-light text-sm max-w-xl">A permanent collection of essential forms, refined through seasons of continuous iteration.</p>
+</div>
+<div class="flex gap-8 overflow-x-auto pb-12 px-12 snap-x snap-mandatory no-scrollbar">
+<!-- Essential 1 -->
+<div class="min-w-[70vw] md:min-w-[22vw] snap-start group cursor-pointer">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Tapered Column Trouser" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaYirEJlog3J-MDmUu6AUU5SHFAirPkYbmUa07TLWDfAU1_FK7MivXMxKA3adXFbyRT9zn9soh89UTmxz9eKFbv-QPKFOMg2bR031N0-sSHuwIPGB6vZRVGLzrtsu82cPH8Y8nGoHVyxjl05imAd33WbTNGpp1nIfwQPXZ9M2i_tFMz1pNjjg2GErnc0099ymcV2rslTZTOckGR7NjBQ8B_U_keogTdxYka4B26h94_auGjGG6eCq7XWbV4JkoucensQvYok2vR3w"/>
+</div>
+<h3 class="text-lg font-headline">Tapered Column Trouser</h3>
+<p class="text-sm font-medium text-tertiary mt-1">$320</p>
+</div>
+<!-- Essential 2 -->
+<div class="min-w-[70vw] md:min-w-[22vw] snap-start group cursor-pointer">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Geometric Scarf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzfemR9XsbqhyvaTB45SoiC9SpXpR3eLq9RsFw-FWjugW5qgdlXloa_0kE195W82d3KWjbnWphH0mjq38YMJ6_FWFTgbaVRAvKm0j6vohJsIWknW1SoVviE6kGUhhAb2pe7BEVnuBkeSrhWcDjOGcCrObVfKNulvM6JrFEg8TvLdoi4fBs03vpA1knN_CjgNsl76IdD83tqrc9jfafn5tAJNd204NZzfIGXyLNaAO-ZS5j52SftrkEMV5EFePip81jz3_WJbeKEMs"/>
+</div>
+<h3 class="text-lg font-headline">Geometric Scarf</h3>
+<p class="text-sm font-medium text-tertiary mt-1">$180</p>
+</div>
+<!-- Essential 3 -->
+<div class="min-w-[70vw] md:min-w-[22vw] snap-start group cursor-pointer">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Raw Knit Series" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWvpnOW5j5DOUD4-3_i_sLotUU3o0iyBFv_AQSbXg6zw6Kmfhm7uxQIZDUQkgRTYy-7xrTjNYuNulOnsHZe3kkhxpCUDM-LZMhomsQdX8yLlkiSmNLpJGtzJsim-K10yXHf7c62vLlOdfVwan7fcIJRUi1FRFRgxSDxGvCfhezHJx110q65vpEIN0a7E8To29_f6s3LayKpA6NeCiFk8aXHYyuQOt-cvaw_GbafcDMjSavRa0_3Vk81usKlsp-cu0mkJaHyRuXumk"/>
+</div>
+<h3 class="text-lg font-headline">Raw Knit Series</h3>
+<p class="text-sm font-medium text-tertiary mt-1">$320</p>
+</div>
+<!-- Essential 4 -->
+<div class="min-w-[70vw] md:min-w-[22vw] snap-start group cursor-pointer">
+<div class="aspect-[2/3] bg-surface-container-low mb-6 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Essential Trousers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5_dsJexknLZLzMd_7n3cTddOb6FHcOkMZRmY1-6I9kfehHsALSY8IDCUNVRrpHyqiFN38Mo5zK94sn3ngbpzw3Ntqn7P8N9ELfrpl5keVClOt8mxoAoqX1YoXxZEJTNM0bsOs41ZU08LeINKo_RyR3D6H4Pwxch_qwu-JSdE3i9B4eUntzCs6PvqlMzKp3LS07sK5ZrWclJgYBXG9-AXa2TCsU3NIWweb0AA9GLSmDPFANgN6Mjz49WWsOAYT7xS1uyuOVKRgUG8"/>
+</div>
+<h3 class="text-lg font-headline">Essential Trousers</h3>
+<p class="text-sm font-medium text-tertiary mt-1">$260</p>
+</div>
+</div>
+</section>
+<!-- Brand Philosophy -->
+<section class="py-48 bg-secondary text-white relative overflow-hidden">
+<div class="max-w-5xl mx-auto px-12 relative z-10 text-center">
+<span class="text-white/40 font-label text-[10px] tracking-[0.5em] uppercase mb-16 block">Brand Manifesto</span>
+<h2 class="text-5xl md:text-7xl font-headline leading-[1.1] mb-16 italic font-light">
+                "Clothing is the first architecture we inhabit. It should provide both sanctuary and statement."
+            </h2>
+<div class="w-20 h-px bg-white/20 mx-auto mb-16"></div>
+<p class="text-white/60 font-body text-xl max-w-3xl mx-auto leading-relaxed mb-20 font-light italic">
+                Antigravity strips away the noise of fast fashion to reveal the essential core of premium craft. Every garment is a dialogue between traditional atelier methods and contemporary silhouette.
+            </p>
+<button class="px-16 py-6 border border-white/30 text-white font-label text-[10px] tracking-[0.4em] uppercase hover:bg-white hover:text-secondary transition-all duration-700">
+                Read Our Story
+            </button>
+</div>
+<div class="absolute -bottom-32 -right-32 text-[30rem] font-headline text-white/[0.03] select-none pointer-events-none uppercase">
+            AG
+        </div>
+</section>
+<!-- The Journal -->
+<section class="py-32 bg-background">
+<div class="px-12 mb-16 flex justify-between items-end">
+<div>
+<span class="text-tertiary font-label text-[10px] tracking-[0.4em] uppercase mb-4 block">Editorial</span>
+<h2 class="text-5xl font-headline">The Journal</h2>
+</div>
+<a class="text-on-surface font-label text-[10px] tracking-[0.3em] border-b border-outline pb-3 hover:text-secondary transition-all uppercase" href="#">Explore Issues</a>
+</div>
+<div class="flex gap-16 overflow-x-auto pb-12 px-12 snap-x snap-mandatory no-scrollbar">
+<div class="min-w-[80vw] md:min-w-[45vw] snap-center group cursor-pointer">
+<div class="aspect-[16/10] bg-surface-container mb-10 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105" data-alt="Issue 04" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3BkzHnYtfQtqKTH5yEUuViFLkFuU8MmE7AF6CdVAQknJp-_S_D7NnP6nEB6aX1UTEIUBVVAEAliOnzsX8FarR_bVt3ykE-9WyQukd7eDsc1Y-lP2lJfIKE3ob-AlqTmZ368NEHEYo5b7zujV8Ld9J1BoRGPUgb9c000smw_yoww0b4wM87HI5JmfBClxygEiJ9p0uIO0TuHwjMVIqQT1T4jrIA2Yo5dJbx3hgXCNCFLXQQ3H4cozs9Zbw0wCDIF2n3Dz04rmiQdc"/>
+</div>
+<span class="text-tertiary text-[10px] font-label uppercase tracking-[0.3em]">Issue 04 / Material Integrity</span>
+<h4 class="text-3xl mt-4 font-headline group-hover:italic transition-all duration-500">The Wool of Hokkaido: A Study</h4>
+</div>
+<div class="min-w-[80vw] md:min-w-[45vw] snap-center group cursor-pointer">
+<div class="aspect-[16/10] bg-surface-container mb-10 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105" data-alt="Issue 03" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ4XoRpoWbOuvyMmpfHuNmDSVm0lBO5Q5VmXgrcTgaHMASiIc5xj5SdDyJW6zVanpvuKz9xvfRlf9P-NlTcid6nsuDIndO4FlDogAjWvUeLzjJalT5QKzfgL2ah4difs2kt-7DIlTORaFQRiDvcCln7F7df-pkM1Te-mGsh0OpBmTkDN1A50eoH-IjYEmTMsusUR5gV26Ig7Kl0ssQKfzJPSEIIEDaJn48m6Az3TwtNYe-cnpAqIBrKfDps5f0XfQRXuXYiD1wtf8"/>
+</div>
+<span class="text-tertiary text-[10px] font-label uppercase tracking-[0.3em]">Issue 03 / Space and Form</span>
+<h4 class="text-3xl mt-4 font-headline group-hover:italic transition-all duration-500">Curating the Modern Urban Sanctuary</h4>
+</div>
+</div>
+</section>
+<!-- Newsletter / Trust -->
+<section class="py-32 px-12 border-t border-surface-container-high bg-white">
+<div class="max-w-4xl mx-auto flex flex-col items-center text-center">
+<h2 class="text-4xl md:text-6xl font-headline mb-10 italic">Join the inner circle.</h2>
+<p class="text-on-surface-variant font-body text-lg mb-12 max-w-xl font-light leading-relaxed italic">Receive early access to seasonal lookbooks and curated narratives from our Aoyama studio.</p>
+<form class="w-full max-w-lg flex flex-col md:flex-row gap-4 mb-20">
+<input class="flex-1 bg-transparent border-b border-secondary/20 py-5 px-2 focus:border-secondary focus:ring-0 outline-none text-[10px] tracking-[0.3em] font-label transition-colors uppercase" placeholder="EMAIL ADDRESS" type="email"/>
+<button class="bg-secondary text-white px-12 py-5 font-label text-[10px] tracking-[0.3em] uppercase hover:bg-secondary-dim transition-all duration-500" type="submit">Subscribe</button>
+</form>
+<!-- Security Badges -->
+<div class="flex flex-wrap justify-center gap-10 opacity-40 grayscale">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+<span class="text-[9px] tracking-[0.2em] uppercase font-bold">Secure Checkout</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">workspace_premium</span>
+<span class="text-[9px] tracking-[0.2em] uppercase font-bold">Authorized Retailer</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">local_shipping</span>
+<span class="text-[9px] tracking-[0.2em] uppercase font-bold">Insured Global Delivery</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1a1c1d] text-[#57625a] dark:text-[#adb3b4] font-['Inter'] text-xs tracking-widest uppercase full-width py-24 grid grid-cols-1 md:grid-cols-4 gap-16 px-12 max-w-none border-t border-surface-container-high">
+<div class="space-y-8">
+<div class="text-xl font-bold text-[#2d3435] dark:text-[#f9f9f9] tracking-[0.2em]">ANTIGRAVITY</div>
+<p class="normal-case leading-relaxed opacity-70 font-light text-sm max-w-xs">Redefining luxury through minimalist architecture and supreme craft. From Aoyama to the world.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-xl opacity-60 hover:opacity-100 cursor-pointer transition-opacity">public</span>
+<span class="material-symbols-outlined text-xl opacity-60 hover:opacity-100 cursor-pointer transition-opacity">share</span>
+</div>
+</div>
+<div>
+<h4 class="text-[#2d3435] dark:text-[#f9f9f9] font-bold mb-10 tracking-[0.2em] text-[10px]">Collections</h4>
+<ul class="flex flex-col gap-5 text-[10px] opacity-80">
+<li><a class="hover:text-secondary transition-colors" href="#">Spring / Summer</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Autumn / Winter</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Essentials</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Accessories</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[#2d3435] dark:text-[#f9f9f9] font-bold mb-10 tracking-[0.2em] text-[10px]">Support</h4>
+<ul class="flex flex-col gap-5 text-[10px] opacity-80">
+<li><a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[#2d3435] dark:text-[#f9f9f9] font-bold mb-10 tracking-[0.2em] text-[10px]">Location</h4>
+<div class="space-y-6 opacity-80 text-[10px]">
+<div>
+<p class="font-bold mb-1">Tokyo Studio / Aoyama</p>
+<p class="normal-case font-light">3-12-1 Minami-Aoyama, Minato-ku</p>
+</div>
+<div>
+<p class="font-bold mb-1">New York / Soho</p>
+<p class="normal-case font-light">42 Greene Street, Manhattan</p>
+</div>
+</div>
+</div>
+<div class="col-span-full pt-16 border-t border-secondary/5 text-center opacity-40 text-[9px]">
+        © 2024 ANTIGRAVITY. ALL RIGHTS RESERVED. SILHOUETTES CRAFTED FOR PERSISTENCE.
+    </div>
+</footer>
+</body></html>

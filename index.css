@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #2C362F;
+    --accent: #745b3b;
+    --background: #f9f9f9;
+    --surface: #ffffff;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-body bg-background text-primary;
+    cursor: default;
+  }
+
+  ::selection {
+    @apply bg-accent text-white;
+  }
+}
+
+@layer components {
+  .cinematic-border {
+    @apply border border-primary/5 transition-colors duration-1000 hover:border-accent/20;
+  }
+
+  .editorial-italic {
+    @apply font-headline italic font-light tracking-tighter;
+  }
+
+  .glass-surface {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+}
+
+/* Cinematic Thin Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/10 rounded-full transition-colors duration-500 hover:bg-accent/40;
+}
+
+/* Animations */
+@keyframes cinematicFadeIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.animate-cinematic {
+  animation: cinematicFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Cursor Utilities */
+.cursor-none {
+  cursor: none !important;
+}
+
+.cursor-hover:hover {
+  cursor: none !important;
+}
+
+/* Smooth Transitions for all elements */
+* {
+  @apply transition-colors duration-700 ease-out;
+}
+
+input, button, a {
+  @apply outline-none transition-all duration-700;
+}

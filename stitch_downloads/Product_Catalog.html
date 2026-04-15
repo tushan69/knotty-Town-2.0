@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ANTIGRAVITY | Product Catalog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d4dbdd",
+                    "inverse-surface": "#0c0f0f",
+                    "error": "#9f403d",
+                    "tertiary-fixed": "#fddab2",
+                    "surface-container-high": "#e4e9ea",
+                    "surface-bright": "#f9f9f9",
+                    "surface-tint": "#5f5e5e",
+                    "tertiary-fixed-dim": "#eecca5",
+                    "on-primary-fixed": "#403f3f",
+                    "secondary-fixed": "#dae5db",
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-background": "#2d3435",
+                    "surface-container": "#ebeeef",
+                    "on-surface-variant": "#5a6061",
+                    "surface-variant": "#dde4e5",
+                    "on-tertiary": "#fff7f3",
+                    "background": "#f9f9f9",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "tertiary-container": "#fddab2",
+                    "inverse-primary": "#ffffff",
+                    "on-error": "#fff7f6",
+                    "primary-dim": "#535252",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "on-error-container": "#752121",
+                    "secondary": "#57625a",
+                    "tertiary": "#745b3b",
+                    "primary-container": "#e5e2e1",
+                    "error-container": "#fe8983",
+                    "surface-container-highest": "#dde4e5",
+                    "secondary-dim": "#4b564e",
+                    "on-primary": "#faf7f6",
+                    "on-secondary-container": "#4a544c",
+                    "primary": "#5f5e5e",
+                    "on-primary-container": "#525151",
+                    "surface-container-low": "#f2f4f4",
+                    "on-surface": "#2d3435",
+                    "secondary-container": "#dae5db",
+                    "on-secondary-fixed-variant": "#545e56",
+                    "on-tertiary-container": "#634c2d",
+                    "on-secondary": "#f1fcf1",
+                    "outline": "#757c7d",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-fixed-variant": "#6e5536",
+                    "outline-variant": "#adb3b4",
+                    "secondary-fixed-dim": "#ccd7cd",
+                    "on-tertiary-fixed": "#4f391d",
+                    "tertiary-dim": "#674f30",
+                    "error-dim": "#4e0309",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f9f9f9",
+                    "on-secondary-fixed": "#38423a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+            color: #2d3435;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Serif', serif;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f2f4f4;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #adb3b4;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen selection:bg-tertiary/20">
+<!-- TopNavBar -->
+<nav class="bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-md text-[#5f5e5e] dark:text-[#e5e2e1] font-['Noto_Serif'] tracking-tight docked full-width top-0 z-50 flex justify-between items-center w-full px-12 py-6 max-w-none fixed">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-[0.2em] text-[#2d3435] dark:text-[#f9f9f9] uppercase">ANTIGRAVITY</span>
+<div class="hidden md:flex gap-8">
+<a class="text-[#745b3b] dark:text-[#745b3b] font-medium border-b border-[#745b3b] transition-colors duration-300" href="#">Collections</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Lookbook</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Story</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Journal</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="hover:opacity-70 transition-opacity relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute -top-1 -right-1 text-[8px] bg-tertiary text-white w-3 h-3 flex items-center justify-center rounded-full">2</span>
+</button>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<!-- Editorial Header -->
+<header class="px-12 mb-20 editorial-grid items-end">
+<div class="col-span-12 md:col-span-7">
+<p class="text-secondary uppercase tracking-[0.3em] text-xs mb-4 font-medium">Autumn / Winter 2024</p>
+<h1 class="text-6xl md:text-8xl font-bold leading-tight -ml-1 text-on-background">
+                    The Modern <br/> <span class="italic text-tertiary">Architectural</span> Series
+                </h1>
+</div>
+<div class="col-span-12 md:col-span-4 md:col-start-9 mt-8 md:mt-0">
+<p class="text-on-surface-variant font-light leading-relaxed body-md">
+                    A curated exploration of form and silhouette. This collection prioritizes structural integrity and high-performance textiles, designed for the discerning individual who values quiet luxury and precision.
+                </p>
+</div>
+</header>
+<!-- Catalog Layout -->
+<section class="px-12 editorial-grid gap-y-12">
+<!-- Refined Filter Sidebar (Top for Mobile, Left for Desktop) -->
+<aside class="col-span-12 md:col-span-2 space-y-10 md:sticky md:top-40 h-fit">
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-background mb-6">Filter by Type</h3>
+<ul class="space-y-4 text-sm">
+<li><a class="text-tertiary font-medium" href="#">All Collections</a></li>
+<li><a class="text-on-surface-variant hover:text-tertiary transition-colors" href="#">Outerwear</a></li>
+<li><a class="text-on-surface-variant hover:text-tertiary transition-colors" href="#">Structured Knitwear</a></li>
+<li><a class="text-on-surface-variant hover:text-tertiary transition-colors" href="#">Tailored Trousers</a></li>
+<li><a class="text-on-surface-variant hover:text-tertiary transition-colors" href="#">Essentials</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-background mb-6">Sort</h3>
+<div class="relative group border-b border-outline-variant/30 pb-2">
+<select class="appearance-none bg-transparent w-full text-sm font-light focus:ring-0 border-none p-0 cursor-pointer text-on-surface">
+<option>New Arrivals</option>
+<option>Price: High to Low</option>
+<option>Price: Low to High</option>
+<option>Alphabetical</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-0 text-sm pointer-events-none">expand_more</span>
+</div>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-background mb-6">Tonal Palette</h3>
+<div class="flex flex-wrap gap-3">
+<button class="w-6 h-6 bg-[#f9f9f9] border border-outline-variant/40 hover:scale-110 transition-transform" title="Alabaster"></button>
+<button class="w-6 h-6 bg-[#2d3435] hover:scale-110 transition-transform" title="Charcoal"></button>
+<button class="w-6 h-6 bg-[#57625a] hover:scale-110 transition-transform" title="Forest"></button>
+<button class="w-6 h-6 bg-[#745b3b] hover:scale-110 transition-transform" title="Bronze"></button>
+<button class="w-6 h-6 bg-[#e5e2e1] hover:scale-110 transition-transform" title="Mist"></button>
+</div>
+</div>
+</aside>
+<!-- Product Grid -->
+<div class="col-span-12 md:col-span-10">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+<!-- Product 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[2/3] overflow-hidden bg-surface-container-low mb-6 relative">
+<img alt="The Sculpted Overcoat" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" data-alt="high-fashion portrait of a woman in a structured minimalist camel coat against a concrete wall background with soft editorial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJGQqqhoMvmSc1NCQpQnLMThClaGaJ0A2gK5GmeQWjSiWdrWHKFedOmNodnuTJHr6CE_8_fUqXrn-LTF0P9kljnP3MA5eDH65ipYdrPBQ4pvZaKO1jNX8JyBLT4tXQ9KwjGILqXU99ZFVXv4FEx9iO-X0DT6zWL336isXrbz_BQ8S-RlwBcJTkS_LcRUk122rSwoYhK2AudbDaC_vDeSID259yrsL2XLl3r60t6ntp8M1Wz5mMhggl-5e23TTtVfpCORAjPtZzK1Q"/>
+<div class="absolute bottom-0 left-0 w-full p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-white/40 backdrop-blur-sm">
+<p class="text-[10px] tracking-widest uppercase font-bold text-on-background">Quick View</p>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-on-background leading-tight">The Sculpted Overcoat</h3>
+<p class="text-xs text-on-surface-variant font-light tracking-wide mt-1">100% Virgin Wool</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$890</p>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[2/3] overflow-hidden bg-surface-container-low mb-6 relative">
+<img alt="Monolith Blazer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" data-alt="high-end editorial shot of a male model wearing an oversized black structured blazer with clean architectural lines in a minimalist studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1gQCb1BEngdzmhvCakpW_AoE6yhYg_0_YPecsA8Po7EIM0AGT-cMvdnTktre_p3lNtQPwssL3lUNYwIqB7Z-VrIui72Y9tI2_qfZv6CmqS70-anQf1qXHMsfqi5uIstjaZ9aj-rWnkwhyfiN_augyPWYmcN8XMByy8SVoGjdLHUz8cvDafZAnw3_WV8uXJV-okaTVQiu0leBwgepd78u1CY0K44xI8Ujhz77_sc3DUg27csX1JTTVh0Fh44QyQhJtBGbV5UYM26k"/>
+<div class="absolute inset-0 border-[12px] border-transparent group-hover:border-white/10 transition-all duration-500"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-on-background leading-tight">Monolith Blazer</h3>
+<p class="text-xs text-on-surface-variant font-light tracking-wide mt-1">Structured Crepe</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$640</p>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="group cursor-pointer lg:mt-12">
+<div class="aspect-[2/3] overflow-hidden bg-surface-container-low mb-6 relative">
+<img alt="Tapered Column Trouser" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" data-alt="minimalist fashion detail shot of high-waisted charcoal wool trousers with sharp pleats on a light grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaYirEJlog3J-MDmUu6AUU5SHFAirPkYbmUa07TLWDfAU1_FK7MivXMxKA3adXFbyRT9zn9soh89UTmxz9eKFbv-QPKFOMg2bR031N0-sSHuwIPGB6vZRVGLzrtsu82cPH8Y8nGoHVyxjl05imAd33WbTNGpp1nIfwQPXZ9M2i_tFMz1pNjjg2GErnc0099ymcV2rslTZTOckGR7NjBQ8B_U_keogTdxYka4B26h94_auGjGG6eCq7XWbV4JkoucensQvYok2vR3w"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-on-background leading-tight">Tapered Column Trouser</h3>
+<p class="text-xs text-on-surface-variant font-light tracking-wide mt-1">Charcoal Wool</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$320</p>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[2/3] overflow-hidden bg-surface-container-low mb-6 relative">
+<img alt="Knit Construct 01" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" data-alt="editorial fashion shot of a cream-colored heavyweight organic cotton sweater featuring a unique asymmetrical knit pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnvHTIxqsxKgTLMQGTIBr55Kr8XznfyMkCBui_cYNKRfd2kEIogAVJvfdhSyPwm_HoCKEPgUfE-DSolIs_rbz4MZXKb8gYVT2UH2u4Dx2KGvKJsWp4JPoV1aiXm1A25zICj-51CkCM8p7FE091NHPtPmNNzAzd7_sEq2Mu1hPiC9m5vbmDb3fwwkuSr-du1ipU-psCrJBBQC154DkaNvqSIzXDxaljYomCVoTiIlgY8B2sP-Ocgn1FW6slOOVvXMNVyf8pG8sAhjc"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-on-background leading-tight">Knit Construct 01</h3>
+<p class="text-xs text-on-surface-variant font-light tracking-wide mt-1">Organic Cotton Blend</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$280</p>
+</div>
+</div>
+<!-- Product 5 -->
+<div class="group cursor-pointer lg:-mt-12">
+<div class="aspect-[2/3] overflow-hidden bg-surface-container-low mb-6 relative">
+<img alt="The Linear Dress" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" data-alt="full length editorial shot of a woman in a sleek minimalist black silk dress with clean architectural draping" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr4NQIaqGjGNOf4qcpDYlM6rjcgbLOziDsJR6E0Y3SOjAB4R31bEfU9hVLXuFoWnndE0ji2zu6xJ-rlJsc3TXQwhZRr9yrJ3WNRj7OJRE45m2gNGrCjSq25-k7sSjN3rCfS8v5hakieK13xMGnhP6FbGQgm5e-yjr-BIAhnCRNtzRmiZCe3OrnhTLDo9yyVv1tkh4KC4Jlxcb5v_D-pKZcOq4leoV53JD-rK8nK-Tjb6HggIoljHUE9Sj5f4mjXTcVAx_xTioDLm0"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-on-background leading-tight">The Linear Dress</h3>
+<p class="text-xs text-on-surface-variant font-light tracking-wide mt-1">Italian Silk</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$590</p>
+</div>
+</div>
+<!-- Product 6 -->
+<div class="group cursor-pointer">
+<div class="aspect-[2/3] overflow-hidden bg-surface-container-low mb-6 relative">
+<img alt="Geometric Scarf" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" data-alt="close up of a high-quality forest green cashmere scarf with fine texture and sharp edges against a white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzfemR9XsbqhyvaTB45SoiC9SpXpR3eLq9RsFw-FWjugW5qgdlXloa_0kE195W82d3KWjbnWphH0mjq38YMJ6_FWFTgbaVRAvKm0j6vohJsIWknW1SoVviE6kGUhhAb2pe7BEVnuBkeSrhWcDjOGcCrObVfKNulvM6JrFEg8TvLdoi4fBs03vpA1knN_CjgNsl76IdD83tqrc9jfafn5tAJNd204NZzfIGXyLNaAO-ZS5j52SftrkEMV5EFePip81jz3_WJbeKEMs"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-on-background leading-tight">Geometric Scarf</h3>
+<p class="text-xs text-on-surface-variant font-light tracking-wide mt-1">Cashmere &amp; Silk</p>
+</div>
+<p class="text-sm font-medium text-tertiary">$180</p>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-24 flex justify-center border-t border-outline-variant/10 pt-12">
+<button class="bg-primary text-on-primary px-12 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:bg-primary-dim transition-all duration-300">
+                        Load More Designs
+                    </button>
+</div>
+</div>
+</section>
+<!-- Editorial Spotlight Section -->
+<section class="mt-40 bg-surface-container-low py-32 px-12 editorial-grid items-center gap-12">
+<div class="col-span-12 md:col-span-5 order-2 md:order-1">
+<p class="text-tertiary uppercase tracking-widest text-xs mb-4 font-bold">The Process</p>
+<h2 class="text-5xl font-bold mb-8 leading-tight">Ethics in Every <br/> Silhouette</h2>
+<p class="text-on-surface-variant leading-relaxed font-light mb-8 max-w-md">
+                    Sustainability isn't a feature; it's the foundation. Every piece in our architectural collection is traced from source to stitch, ensuring a footprint as minimal as our aesthetic.
+                </p>
+<a class="inline-block border-b-2 border-tertiary pb-2 text-xs font-bold tracking-widest uppercase text-on-background hover:opacity-60 transition-opacity" href="#">Discover Our Story</a>
+</div>
+<div class="col-span-12 md:col-span-7 order-1 md:order-2">
+<div class="aspect-[16/9] bg-surface-variant">
+<img alt="Production Process" class="w-full h-full object-cover" data-alt="artistic macro shot of high-quality fabric textures being handled by an artisan in a bright minimalist design studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHTiDmVMc6XLP0tW3hcBHiHJrVY4BN1q6E4uK1cEkJct_k6RBjOJx_y_G4Tzy5OifZVb1hU_-_6LtcNaAxkIGUZ73N1UBn5S4mimxw5TkrIHMmV-2WXGPVbHDMm0SCvB-aNlVW06HQiLU4WyF0DF4QsJ7QIDO837Xv7kKF6ks7M0WELCnk45oHi8w2e8pPOLkvNMOMvKDsckbS4AKX5sa54Dl7OuhJl56X3dodo4TZYEo2g2saYHMXGEGgYLDd-8x7BBO-sg6MUoE"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1a1c1d] full-width py-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-none">
+<div class="space-y-6">
+<span class="text-lg font-bold text-[#2d3435] dark:text-[#f9f9f9]">ANTIGRAVITY</span>
+<p class="font-['Inter'] text-xs tracking-widest leading-relaxed text-[#57625a] dark:text-[#adb3b4]">Defining the intersection of architectural form and everyday utility since 2018.</p>
+</div>
+<div>
+<h4 class="font-['Inter'] text-xs font-bold tracking-widest uppercase mb-6">Explore</h4>
+<ul class="space-y-4 font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] dark:text-[#adb3b4]">
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Collections</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Lookbook</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Sustainablity</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Journal</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-['Inter'] text-xs font-bold tracking-widest uppercase mb-6">Client Service</h4>
+<ul class="space-y-4 font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] dark:text-[#adb3b4]">
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-['Inter'] text-xs font-bold tracking-widest uppercase mb-6">Newsletter</h4>
+<div class="flex flex-col space-y-4">
+<p class="font-['Inter'] text-[10px] tracking-widest uppercase text-[#57625a] dark:text-[#adb3b4]">Join the curation. New arrivals and editorial insights.</p>
+<div class="relative">
+<input class="bg-transparent border-b border-outline-variant w-full py-2 text-xs focus:ring-0 focus:border-tertiary transition-colors uppercase tracking-widest" placeholder="YOUR EMAIL" type="email"/>
+<button class="absolute right-0 top-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="px-12 mt-20 pt-12 border-t border-outline-variant/10">
+<p class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] dark:text-[#adb3b4]">© 2024 ANTIGRAVITY. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</body></html>

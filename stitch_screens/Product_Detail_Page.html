@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#d4dbdd",
+                      "inverse-surface": "#0c0f0f",
+                      "error": "#9f403d",
+                      "tertiary-fixed": "#fddab2",
+                      "surface-container-high": "#e4e9ea",
+                      "surface-bright": "#f9f9f9",
+                      "surface-tint": "#5f5e5e",
+                      "tertiary-fixed-dim": "#eecca5",
+                      "on-primary-fixed": "#403f3f",
+                      "secondary-fixed": "#dae5db",
+                      "inverse-on-surface": "#9c9d9d",
+                      "on-background": "#2d3435",
+                      "surface-container": "#ebeeef",
+                      "on-surface-variant": "#5a6061",
+                      "surface-variant": "#dde4e5",
+                      "on-tertiary": "#fff7f3",
+                      "background": "#f9f9f9",
+                      "on-primary-fixed-variant": "#5c5b5b",
+                      "tertiary-container": "#fddab2",
+                      "inverse-primary": "#ffffff",
+                      "on-error": "#fff7f6",
+                      "primary-dim": "#535252",
+                      "primary-fixed-dim": "#d6d4d3",
+                      "on-error-container": "#752121",
+                      "secondary": "#57625a",
+                      "tertiary": "#745b3b",
+                      "primary-container": "#e5e2e1",
+                      "error-container": "#fe8983",
+                      "surface-container-highest": "#dde4e5",
+                      "secondary-dim": "#4b564e",
+                      "on-primary": "#faf7f6",
+                      "on-secondary-container": "#4a544c",
+                      "primary": "#5f5e5e",
+                      "on-primary-container": "#525151",
+                      "surface-container-low": "#f2f4f4",
+                      "on-surface": "#2d3435",
+                      "secondary-container": "#dae5db",
+                      "on-secondary-fixed-variant": "#545e56",
+                      "on-tertiary-container": "#634c2d",
+                      "on-secondary": "#f1fcf1",
+                      "outline": "#757c7d",
+                      "primary-fixed": "#e5e2e1",
+                      "on-tertiary-fixed-variant": "#6e5536",
+                      "outline-variant": "#adb3b4",
+                      "secondary-fixed-dim": "#ccd7cd",
+                      "on-tertiary-fixed": "#4f391d",
+                      "tertiary-dim": "#674f30",
+                      "error-dim": "#4e0309",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#f9f9f9",
+                      "on-secondary-fixed": "#38423a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.0rem",
+                      "lg": "0.0rem",
+                      "xl": "0.0rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Noto Serif"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .serif-text { font-family: 'Noto Serif', serif; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #adb3b4; }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-tertiary-container selection:text-on-tertiary-container">
+<!-- TopNavBar -->
+<nav class="bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-md font-['Noto_Serif'] tracking-tight fixed docked full-width top-0 z-50 flex justify-between items-center w-full px-12 py-6 max-w-none">
+<div class="text-2xl font-bold tracking-[0.2em] text-[#2d3435] dark:text-[#f9f9f9] uppercase">ANTIGRAVITY</div>
+<div class="hidden md:flex items-center space-x-12">
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Collections</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Lookbook</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Story</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Journal</a>
+</div>
+<div class="flex items-center space-x-8 text-[#5f5e5e] dark:text-[#e5e2e1]">
+<button class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined">search</span></button>
+<button class="hover:opacity-70 transition-opacity relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute -top-1 -right-1 text-[8px] bg-tertiary text-on-tertiary w-3 h-3 flex items-center justify-center">1</span>
+</button>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<div class="container mx-auto px-6 md:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Vertical Gallery (Asymmetric Layout) -->
+<div class="lg:col-span-1 order-2 lg:order-1">
+<div class="flex lg:flex-col space-x-4 lg:space-x-0 lg:space-y-6 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0">
+<div class="w-20 h-28 flex-shrink-0 bg-surface-container-low border border-outline-variant/20 cursor-pointer opacity-100 transition-opacity">
+<img alt="Detail view" class="w-full h-full object-cover" data-alt="Close-up detail of high-end wool texture and stitching on a charcoal grey minimalist overcoat with dramatic soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-XOTrIClooKAeXxnzfu1slEnEtZMJuvq9FEUgAFWoaxS7r06iJybaTYCKnz98kqOq7Qfz0AC4hPlx-QNuv37CsObHVNPIqZpkpn4ZtxXF_h6lbpp-CzsHsxSXoujXcp-HAdbtp5hCo4dIqe85c7fEvx3aTYZx8nO9qCNZrhx8BFFFWJfrX6dncRhE7aBuWUuvRZwY0hOlXdZUuFQ69yMPJb8AAQ16UefxDB5XA50eQ5AKzgTubK3PxTy5m55pyUn2mX23B6DHTxA"/>
+</div>
+<div class="w-20 h-28 flex-shrink-0 bg-surface-container-low border border-outline-variant/5 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+<img alt="Back view" class="w-full h-full object-cover" data-alt="Model standing with back to camera wearing a structural charcoal wool coat, minimalist urban architecture in background, soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu6X2h-B-u6PMfPY5aqV0anPNSODZcJ_MWJtWqKjgNKe1ZSkXcYxYkpLT_aj2ZBWyu-En1TNcJIZ2bysyKgJ3ns0Ko0AXaCcAbEj07-aE7AVUZKepCVn8uolLLwf_OVCIt-b1ihBpxfa1OqH81nTzNX1XUCtK6A2mwumcoe2KVvTEx1zburI-gED9UHahDBZcWg_rdQHEiIhkS98IUV79ndu6iw6TAc4x12wOV7-MZp6Y5Q3NfdfUvwmedsdHcQbshEjQYeKHIKDk"/>
+</div>
+<div class="w-20 h-28 flex-shrink-0 bg-surface-container-low border border-outline-variant/5 cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+<img alt="Full look" class="w-full h-full object-cover" data-alt="Wide shot of a fashion model in a full avant-garde outfit featuring a structural grey coat, minimalist composition with negative space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAgN9_yfUvaw3NIupMpw_g2JL6jtxD5WTvfhR5UMBdi73P5k-oOij8vBLQJvBxogEOT0YG1PS_8vc-mcy7IwoNmANt5K7hABl1bgRgwvGtDfFrIDtoVlptR1UP6GwmPekw3cHEAA8LTzEFkDcpKGDeZTXzq1mciEM_6kPfEqlniAmhPrO3KjZQ8n7e2Ni5ynSVTTe_R3PrCtryRu4lOCQ02cq8vj91X3wcmA4d_cOW-sFIimvkHleDU4VwiPLEcwPGrXMsb2WBUsk"/>
+</div>
+</div>
+</div>
+<!-- Main Hero Image -->
+<div class="lg:col-span-7 order-1 lg:order-2">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden">
+<img alt="Main Product" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="Front view of a minimalist, high-collared charcoal wool coat worn by a male model, high-fashion editorial style, neutral grey background, dramatic studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA1mCVCu1LSefekswgJ8fPnBW18h2NnzQEus4nFeNlcxEYejC17fp_wxhMIwWfbSCPCRt8Zqzl9TbuSpBv_cpwL-pE8YEKFsi_PvCEO4ASPYJWSXKxjiGaKXcihorUr5qDjcrIvfjkS3X0jtG4tH7Mt3EPP2H57wcYz4MyFLjDcVqAsvLLh23uDMCANFcD1hlnrv-41yvOBYkhk-mYlZKIYWT_C9JG1zmkyEwQukGtHMr1euo3OXTheZ0sNgYT3zUTEuVOMuwn7CA"/>
+</div>
+</div>
+<!-- Product Detail Sidebar -->
+<div class="lg:col-span-4 order-3 lg:sticky lg:top-32 h-fit">
+<header class="mb-10">
+<p class="font-body text-xs tracking-widest text-secondary uppercase mb-4">Core Collection — FW24</p>
+<h1 class="serif-text text-4xl md:text-5xl font-normal leading-tight text-on-background mb-4">Architectural Wool Overcoat</h1>
+<p class="font-body text-xl text-on-surface-variant font-light">$1,240.00</p>
+</header>
+<div class="space-y-10">
+<!-- Color Selection -->
+<div>
+<span class="block font-body text-[10px] tracking-[0.2em] uppercase text-outline mb-4">Select Color: Charcoal</span>
+<div class="flex space-x-3">
+<button class="w-8 h-8 bg-[#2d3435] border border-on-background ring-1 ring-offset-2 ring-on-background"></button>
+<button class="w-8 h-8 bg-[#57625a] hover:ring-1 ring-offset-2 ring-outline-variant transition-all"></button>
+<button class="w-8 h-8 bg-[#f2f4f4] hover:ring-1 ring-offset-2 ring-outline-variant transition-all"></button>
+</div>
+</div>
+<!-- Size Selection -->
+<div>
+<div class="flex justify-between items-end mb-4">
+<span class="block font-body text-[10px] tracking-[0.2em] uppercase text-outline">Select Size</span>
+<button class="text-[10px] uppercase tracking-widest text-secondary hover:text-tertiary underline transition-colors">Size Guide</button>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-3 border border-outline-variant/30 text-xs font-medium hover:border-on-background transition-colors">44</button>
+<button class="py-3 border border-outline-variant/30 text-xs font-medium hover:border-on-background transition-colors">46</button>
+<button class="py-3 border border-on-background text-xs font-semibold bg-surface-container-low">48</button>
+<button class="py-3 border border-outline-variant/30 text-xs font-medium hover:border-on-background transition-colors">50</button>
+</div>
+</div>
+<!-- CTA -->
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary py-5 text-xs font-bold tracking-[0.2em] uppercase hover:bg-primary-dim transition-colors mb-4 flex justify-between items-center px-8">
+                                Add to Bag
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="w-full border border-outline-variant/30 py-5 text-xs font-bold tracking-[0.2em] uppercase hover:bg-surface-container-low transition-colors">
+                                Add to Wishlist
+                            </button>
+</div>
+<!-- Sophisticated Description -->
+<div class="pt-8 space-y-6">
+<p class="serif-text text-lg leading-relaxed text-on-surface">
+                                Crafted from heavy-weight Italian virgin wool, the Architectural Overcoat features a unique hidden placket and structural shoulders that define its modern silhouette. 
+                            </p>
+<ul class="font-body text-xs leading-loose text-on-surface-variant uppercase tracking-wider">
+<li>• 100% Virgin Wool</li>
+<li>• Cupro lining for smooth layering</li>
+<li>• Internal tailored pockets</li>
+<li>• Made in Italy</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Curated Section -->
+<section class="mt-32 bg-surface-container-low py-32 overflow-hidden">
+<div class="container mx-auto px-6 md:px-12">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
+<h2 class="serif-text text-3xl md:text-4xl text-on-background">Style With</h2>
+<a class="font-body text-[10px] tracking-[0.2em] uppercase text-tertiary font-bold hover:opacity-70 transition-opacity" href="#">Discover The Collection —</a>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+<!-- Item 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[2/3] bg-surface-container-lowest mb-6 overflow-hidden">
+<img alt="Pleated Trousers" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Slim fit black pleated trousers displayed in a minimalist setting, high-end studio photography, soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF6tdoRj4h9BHuAlgiscUpFm9PzDEBXVv-eI20Hgr6l1qaxbbXyEqrzhAuIV2e3_66hcP3QVoucUs2wsS42-8SxUDIf3AYBiyeq5PgRzhqXzkOgXSgUZlT8Lru8s0EcH6o2kHYtEsaWdgXkwP1200lCEEi_KE7NSXYBG17GuzT2opdai83D-DxYr9Sd0e73nKXaf078ooJCsu6rL_0patp94MoSijtr62FTLNOD7TZ37JYOMPbGLT-oLeYc-6e-iW7c1UmXG6cD4I"/>
+</div>
+<h3 class="font-body text-[11px] tracking-widest uppercase text-on-background mb-1">Pleated Wool Trousers</h3>
+<p class="font-body text-xs text-on-surface-variant">$480.00</p>
+</div>
+<!-- Item 2 -->
+<div class="group cursor-pointer translate-y-12">
+<div class="aspect-[2/3] bg-surface-container-lowest mb-6 overflow-hidden">
+<img alt="Leather Boot" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Italian black calfskin Chelsea boots on a clean white surface with sharp shadows, luxury footwear editorial" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAud5aEKLo8ZaqfvuK3Dd3Oe5hCNA2KSatGrS1GUVHM2mvQGGKWmadm7v9-3pgp4mfBed46HwakxHsuFDQwDd8PF014dscCS_IdrTN_vgxFye9gH5XHItGZUrANJJlssO-OYTHVCzdTC-iolPuQjFy37GWUaV88jJeEm_EgjTVuKSRLnl4q6uDF5T2eZtFEHPJtru8DWuxZi__AGvOJAbSao57N0956hbQx4YjhwKJM9aPeKiCxNoFsl5qjwTxMwGmd8_hwu20j60A"/>
+</div>
+<h3 class="font-body text-[11px] tracking-widest uppercase text-on-background mb-1">Chelsea Boot — Nero</h3>
+<p class="font-body text-xs text-on-surface-variant">$620.00</p>
+</div>
+<!-- Item 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[2/3] bg-surface-container-lowest mb-6 overflow-hidden">
+<img alt="Silk Shirt" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Lightweight cream silk shirt with a refined texture, softly draped in a minimalist studio environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvTWlDNlhwGwIXB_JhQk0syzS33Ao7xUbHqCwFjCvBHnZPyVusyW74ik-Oq2ofeqBCHwEp9bU9pG0q-hTi9EZMXKlKP8lOMw45UXHgv4VaeWAPd9JRdGfuG71VRwMdrAh5hCY9NFJ7x2D1uPqaM744pRWYxrmt3VRR90lAuARVaTOAwYJwFGipR9_t3w_pUcg3X_ivf7wQgbtBThu4jecSd0X3j2xXqvKba_EjD6sUjTiNxbAA4bO-STjy7KO7o9WsM-Y1DwCkZVU"/>
+</div>
+<h3 class="font-body text-[11px] tracking-widest uppercase text-on-background mb-1">Raw Silk Shirt</h3>
+<p class="font-body text-xs text-on-surface-variant">$350.00</p>
+</div>
+<!-- Item 4 -->
+<div class="group cursor-pointer translate-y-12">
+<div class="aspect-[2/3] bg-surface-container-lowest mb-6 overflow-hidden">
+<img alt="Leather Belt" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Close-up of a minimalist leather belt with a matte silver buckle, curated aesthetic with dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxiN0OePMRXrzKA9_7mhRWM7JXiWATLdjTsQ0dddNrxcTd0mYN8B-xLhk4GiYzHb7l0xe4QGyoItAuY55dlmK5965Jq0B1qgo1DLIDVFHCxtRdzUx6aFnNRr2MBKNeZVDfEqADcbRMMSppmijNNMW_9rnMaIGrdCP-Yokep8Ekr0u_dzxaGtkpiwEMKHVyuMfamImmngSGj_LX3BmLQRO0zlPTHaTOFvgrlAT9sf3LRdO1yy-xnfG3DkyJyk6XlwTy1TdVS-KMrms"/>
+</div>
+<h3 class="font-body text-[11px] tracking-widest uppercase text-on-background mb-1">Stitched Leather Belt</h3>
+<p class="font-body text-xs text-on-surface-variant">$220.00</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1a1c1d] full-width py-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-none">
+<div class="space-y-8">
+<div class="text-lg font-bold text-[#2d3435] dark:text-[#f9f9f9]">ANTIGRAVITY</div>
+<p class="font-['Inter'] text-xs tracking-widest text-[#57625a] dark:text-[#adb3b4] leading-loose">
+                    Curating the intersection of architectural form and wearable performance.
+                </p>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="text-[10px] tracking-[0.2em] font-bold text-[#2d3435] dark:text-[#f9f9f9] uppercase mb-2">Shop</span>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Collections</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Bespoke</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Archives</a>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="text-[10px] tracking-[0.2em] font-bold text-[#2d3435] dark:text-[#f9f9f9] uppercase mb-2">Support</span>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Shipping &amp; Returns</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Contact</a>
+<a class="font-['Inter'] text-xs tracking-widest uppercase text-[#57625a] hover:text-[#745b3b] transition-colors" href="#">Privacy Policy</a>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="text-[10px] tracking-[0.2em] font-bold text-[#2d3435] dark:text-[#f9f9f9] uppercase mb-2">Newsletter</span>
+<div class="border-b border-[#adb3b4]/30 pb-2 flex justify-between items-center">
+<input class="bg-transparent text-[10px] tracking-widest uppercase outline-none w-full placeholder:text-[#adb3b4]" placeholder="Email Address" type="email"/>
+<button class="material-symbols-outlined text-sm text-[#2d3435]">east</button>
+</div>
+<p class="font-['Inter'] text-[9px] tracking-widest text-[#57625a] dark:text-[#adb3b4] uppercase">Subscribe for early access.</p>
+</div>
+</div>
+<div class="px-12 mt-20 pt-8 border-t border-outline-variant/10">
+<p class="font-['Inter'] text-[10px] tracking-[0.3em] uppercase text-[#57625a] dark:text-[#adb3b4] text-center">
+                © 2024 ANTIGRAVITY. ALL RIGHTS RESERVED.
+            </p>
+</div>
+</footer>
+</body></html>

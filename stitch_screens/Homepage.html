@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Inter:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#d4dbdd",
+                    "inverse-surface": "#0c0f0f",
+                    "error": "#9f403d",
+                    "tertiary-fixed": "#fddab2",
+                    "surface-container-high": "#e4e9ea",
+                    "surface-bright": "#f9f9f9",
+                    "surface-tint": "#5f5e5e",
+                    "tertiary-fixed-dim": "#eecca5",
+                    "on-primary-fixed": "#403f3f",
+                    "secondary-fixed": "#dae5db",
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-background": "#2d3435",
+                    "surface-container": "#ebeeef",
+                    "on-surface-variant": "#5a6061",
+                    "surface-variant": "#dde4e5",
+                    "on-tertiary": "#fff7f3",
+                    "background": "#f9f9f9",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "tertiary-container": "#fddab2",
+                    "inverse-primary": "#ffffff",
+                    "on-error": "#fff7f6",
+                    "primary-dim": "#535252",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "on-error-container": "#752121",
+                    "secondary": "#57625a",
+                    "tertiary": "#745b3b",
+                    "primary-container": "#e5e2e1",
+                    "error-container": "#fe8983",
+                    "surface-container-highest": "#dde4e5",
+                    "secondary-dim": "#4b564e",
+                    "on-primary": "#faf7f6",
+                    "on-secondary-container": "#4a544c",
+                    "primary": "#5f5e5e",
+                    "on-primary-container": "#525151",
+                    "surface-container-low": "#f2f4f4",
+                    "on-surface": "#2d3435",
+                    "secondary-container": "#dae5db",
+                    "on-secondary-fixed-variant": "#545e56",
+                    "on-tertiary-container": "#634c2d",
+                    "on-secondary": "#f1fcf1",
+                    "outline": "#757c7d",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-fixed-variant": "#6e5536",
+                    "outline-variant": "#adb3b4",
+                    "secondary-fixed-dim": "#ccd7cd",
+                    "on-tertiary-fixed": "#4f391d",
+                    "tertiary-dim": "#674f30",
+                    "error-dim": "#4e0309",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f9f9f9",
+                    "on-secondary-fixed": "#38423a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-tertiary-container selection:text-on-tertiary-container">
+<!-- TopNavBar -->
+<nav class="bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-md text-[#5f5e5e] dark:text-[#e5e2e1] font-['Noto_Serif'] tracking-tight docked full-width top-0 z-50 flex justify-between items-center w-full px-12 py-6 max-w-none fixed">
+<div class="flex items-center gap-12">
+<div class="text-2xl font-bold tracking-[0.2em] text-[#2d3435] dark:text-[#f9f9f9] uppercase">ANTIGRAVITY</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Collections</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Lookbook</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Story</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] hover:text-[#745b3b] transition-colors duration-300" href="#">Journal</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined">search</span></button>
+<button class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined">shopping_bag</span></button>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="cinematic portrait of a fashion model in architectural minimalist clothing standing against a brutalist concrete wall in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZYOz4vJaeNGysbDKpS0aMXhijUbw4s_Z51lZQPYI9cqv3gs7F8vJRa_SUDAgkglJGY6UhubQyJBDRzFiNbe6aj5u_uk6FZ0tQjjrggHNc-qdQNdFRsMSxhPWyiJdlCD6kQ-5EGMew2DPsPRoPMKPWsvpn2BuBhuIEAcm2NXvqWWIAl55NZ9rKu0i6IUXtSDSXR_nDbJy3eGznMjNI2rrD5EzbdfgrGLfE3bm69x2fZIWznx1lUOIDFbTFPLx_2MpSuFuBIUZoOXw"/>
+<div class="absolute inset-0 bg-on-background/10"></div>
+</div>
+<div class="relative z-10 px-12 w-full max-w-7xl mx-auto grid grid-cols-12 gap-6">
+<div class="col-span-12 md:col-span-7">
+<h1 class="text-6xl md:text-[5rem] leading-none text-surface-container-lowest font-bold tracking-tight mb-8">
+                        The Architecture <br/>of Presence.
+                    </h1>
+<p class="text-surface-container-lowest font-body text-lg max-w-md mb-12 opacity-90 leading-relaxed">
+                        Curated silhouettes designed for the modern observer. A study in texture, form, and quiet luxury.
+                    </p>
+<div class="flex gap-4">
+<button class="px-10 py-5 bg-primary text-on-primary font-label text-sm tracking-[0.2em] uppercase transition-all duration-300 hover:bg-primary-dim">
+                            Explore Collection
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Collections - Asymmetric Grid -->
+<section class="py-32 px-12 bg-background">
+<div class="max-w-none mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+<div class="max-w-xl">
+<span class="text-tertiary font-label text-xs tracking-[0.3em] uppercase mb-4 block">New Arrivals</span>
+<h2 class="text-4xl md:text-6xl leading-tight font-headline">Selected pieces for the <br/>winter transition.</h2>
+</div>
+<a class="text-on-surface font-label text-sm tracking-widest border-b border-outline pb-2 hover:text-tertiary hover:border-tertiary transition-colors" href="#">VIEW ALL COLLECTIONS</a>
+</div>
+<!-- Bento-inspired Editorial Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+<!-- Large Card -->
+<div class="md:col-span-7 group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container-low relative mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="editorial shot of minimalist wool overcoat in charcoal grey hanging in a sun-drenched white studio space with long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfigqqy4gZti61Sraat4uU3RqQ2v0veyb4fKxMi7NpUV06lYR7CLc7FOXcEmN2HVAOMbVNamLgbcBOy5nza7z-4VM4INC_uHoy0x_4jQwOHYeYy0Z4o0T9dZfM1QRTj1mR71lJOarO-QfWP4f29WElZRIvx_ckkXNQ60CsQ80eFQafHqwzqq9JI102qf1IBe6rWt1imgzU2aZ_mUzJ9Eqlnqc4VvANnkd2_lLdAf0-JjzhXi-wRgKBrq62sbYUOyQ9M-u8lXxErYc"/>
+<div class="absolute top-6 right-6 px-4 py-2 bg-background/80 backdrop-blur-sm">
+<span class="text-[10px] tracking-[0.2em] font-label uppercase">Signature Piece</span>
+</div>
+</div>
+<h3 class="text-2xl mb-2 font-headline">The Structure Coat</h3>
+<p class="text-on-surface-variant font-body text-sm tracking-wide">Heavyweight Japanese Wool — $840</p>
+</div>
+<!-- Side Stack -->
+<div class="md:col-span-5 flex flex-col gap-12">
+<div class="group cursor-pointer">
+<div class="aspect-square overflow-hidden bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="close up detail of high quality textured knit sweater in oatmeal color showing intricate weave patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWvpnOW5j5DOUD4-3_i_sLotUU3o0iyBFv_AQSbXg6zw6Kmfhm7uxQIZDUQkgRTYy-7xrTjNYuNulOnsHZe3kkhxpCUDM-LZMhomsQdX8yLlkiSmNLpJGtzJsim-K10yXHf7c62vLlOdfVwan7fcIJRUi1FRFRgxSDxGvCfhezHJx110q65vpEIN0a7E8To29_f6s3LayKpA6NeCiFk8aXHYyuQOt-cvaw_GbafcDMjSavRa0_3Vk81usKlsp-cu0mkJaHyRuXumk"/>
+</div>
+<h3 class="text-2xl mb-2 font-headline">Raw Knit Series</h3>
+<p class="text-on-surface-variant font-body text-sm tracking-wide">Sustainably Sourced Cashmere — $320</p>
+</div>
+<div class="group cursor-pointer md:pl-24">
+<div class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="man in tailored minimalist trousers and clean white t-shirt walking through a modern art gallery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5_dsJexknLZLzMd_7n3cTddOb6FHcOkMZRmY1-6I9kfehHsALSY8IDCUNVRrpHyqiFN38Mo5zK94sn3ngbpzw3Ntqn7P8N9ELfrpl5keVClOt8mxoAoqX1YoXxZEJTNM0bsOs41ZU08LeINKo_RyR3D6H4Pwxch_qwu-JSdE3i9B4eUntzCs6PvqlMzKp3LS07sK5ZrWclJgYBXG9-AXa2TCsU3NIWweb0AA9GLSmDPFANgN6Mjz49WWsOAYT7xS1uyuOVKRgUG8"/>
+</div>
+<h3 class="text-2xl mb-2 font-headline">Essential Trousers</h3>
+<p class="text-on-surface-variant font-body text-sm tracking-wide">Structured Cotton Twill — $260</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Brand Story Section -->
+<section class="py-40 bg-surface-container-low relative overflow-hidden">
+<div class="max-w-5xl mx-auto px-12 relative z-10 text-center">
+<span class="text-tertiary font-label text-xs tracking-[0.4em] uppercase mb-12 block">Our Philosophy</span>
+<h2 class="text-4xl md:text-6xl font-headline leading-tight mb-12">
+                    "We believe clothing is the first architecture we inhabit. It should provide both sanctuary and statement."
+                </h2>
+<div class="w-24 h-px bg-outline-variant mx-auto mb-12"></div>
+<p class="text-on-surface-variant font-body text-lg max-w-2xl mx-auto leading-relaxed mb-16">
+                    Founded in the pursuit of the "un-designed" aesthetic, Antigravity strips away the noise of fast fashion to reveal the essential core of premium craft. Every garment is a dialogue between traditional atelier methods and contemporary silhouette.
+                </p>
+<button class="px-12 py-5 border border-primary text-primary font-label text-xs tracking-[0.2em] uppercase hover:bg-primary hover:text-on-primary transition-all duration-300">
+                    Read Our Story
+                </button>
+</div>
+<!-- Decorative Large Typography as Background -->
+<div class="absolute -bottom-20 -right-20 text-[20rem] font-headline text-surface-container-high/40 select-none pointer-events-none">
+                AG
+            </div>
+</section>
+<!-- Featured Lookbook -->
+<section class="py-32 bg-background overflow-hidden">
+<div class="px-12 mb-20">
+<h2 class="text-4xl font-headline">The Journal</h2>
+</div>
+<div class="flex gap-12 overflow-x-auto pb-12 px-12 snap-x snap-mandatory no-scrollbar">
+<div class="min-w-[70vw] md:min-w-[40vw] snap-center">
+<div class="aspect-[16/9] bg-surface-container mb-8 overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="atmospheric photo of high-end garments hanging on a minimal rack in a room with dramatic natural light from a large window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3BkzHnYtfQtqKTH5yEUuViFLkFuU8MmE7AF6CdVAQknJp-_S_D7NnP6nEB6aX1UTEIUBVVAEAliOnzsX8FarR_bVt3ykE-9WyQukd7eDsc1Y-lP2lJfIKE3ob-AlqTmZ368NEHEYo5b7zujV8Ld9J1BoRGPUgb9c000smw_yoww0b4wM87HI5JmfBClxygEiJ9p0uIO0TuHwjMVIqQT1T4jrIA2Yo5dJbx3hgXCNCFLXQQ3H4cozs9Zbw0wCDIF2n3Dz04rmiQdc"/>
+</div>
+<span class="text-tertiary text-xs font-label uppercase tracking-widest">Issue 04</span>
+<h4 class="text-2xl mt-2 font-headline">Material Integrity: The Wool of Hokkaido</h4>
+</div>
+<div class="min-w-[70vw] md:min-w-[40vw] snap-center">
+<div class="aspect-[16/9] bg-surface-container mb-8 overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="overhead flat lay of minimalist clothing and accessories arranged neatly on a grey linen surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ4XoRpoWbOuvyMmpfHuNmDSVm0lBO5Q5VmXgrcTgaHMASiIc5xj5SdDyJW6zVanpvuKz9xvfRlf9P-NlTcid6nsuDIndO4FlDogAjWvUeLzjJalT5QKzfgL2ah4difs2kt-7DIlTORaFQRiDvcCln7F7df-pkM1Te-mGsh0OpBmTkDN1A50eoH-IjYEmTMsusUR5gV26Ig7Kl0ssQKfzJPSEIIEDaJn48m6Az3TwtNYe-cnpAqIBrKfDps5f0XfQRXuXYiD1wtf8"/>
+</div>
+<span class="text-tertiary text-xs font-label uppercase tracking-widest">Issue 03</span>
+<h4 class="text-2xl mt-2 font-headline">Space and Form in Urban Environments</h4>
+</div>
+<div class="min-w-[70vw] md:min-w-[40vw] snap-center">
+<div class="aspect-[16/9] bg-surface-container mb-8 overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="close up of a professional fashion photographer's contact sheet with multiple small black and white images" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD14MaS16xzKN1w0ciFrO6Cgcx8bEnpDWaecWXN0Ke9ugnH7ktAObKFvGLHdmJCVzKDMThnEdelV_ap4dx8SLCvI59UkXsvGWuvj1VNcq-2yTB3SqYOXMo34AeQhfeZUEYc4Bd4alAvq8pRjh-basZ4fnHZVhQ7F5EJQPKzV8JDQF6v04Y824nL989XJyLPaQos0QqDDSRK064fWrERI1KtWHN6QFpPaCHAcRTVEEgp9RXKntdAmIHwZ0DH7LjIDFASxxktL02ooPQ"/>
+</div>
+<span class="text-tertiary text-xs font-label uppercase tracking-widest">Issue 02</span>
+<h4 class="text-2xl mt-2 font-headline">Behind the Lens: Winter Editorial</h4>
+</div>
+</div>
+</section>
+<!-- Newsletter / CTA -->
+<section class="py-32 px-12 border-t border-surface-container">
+<div class="max-w-4xl mx-auto flex flex-col items-center text-center">
+<h2 class="text-3xl md:text-5xl font-headline mb-8">Join the inner circle.</h2>
+<p class="text-on-surface-variant font-body mb-12 max-w-md">Receive early access to seasonal lookbooks and curated narratives from our designers.</p>
+<form class="w-full max-w-lg flex flex-col md:flex-row gap-4">
+<input class="flex-1 bg-transparent border-b border-outline py-4 px-2 focus:border-tertiary focus:ring-0 outline-none text-sm tracking-widest font-label transition-colors" placeholder="YOUR EMAIL ADDRESS" type="email"/>
+<button class="bg-tertiary text-on-primary px-8 py-4 font-label text-xs tracking-widest uppercase hover:bg-tertiary-dim transition-colors" type="submit">Subscribe</button>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1a1c1d] text-[#57625a] dark:text-[#adb3b4] font-['Inter'] text-xs tracking-widest uppercase full-width py-20 grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-none">
+<div>
+<div class="text-lg font-bold text-[#2d3435] dark:text-[#f9f9f9] mb-8">ANTIGRAVITY</div>
+<p class="normal-case leading-relaxed opacity-80 mb-6">Redefining luxury through minimalist architecture and supreme craft.</p>
+</div>
+<div>
+<h4 class="text-[#2d3435] dark:text-[#f9f9f9] font-bold mb-6">Collections</h4>
+<ul class="flex flex-col gap-4">
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Spring / Summer</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Autumn / Winter</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Essentials</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Accessories</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[#2d3435] dark:text-[#f9f9f9] font-bold mb-6">Support</h4>
+<ul class="flex flex-col gap-4">
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-[#745b3b] transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[#2d3435] dark:text-[#f9f9f9] font-bold mb-6">Location</h4>
+<p class="normal-case mb-4">Tokyo Studio / Aoyama</p>
+<p class="normal-case">New York / Soho</p>
+<div class="mt-8 flex gap-4">
+<span class="material-symbols-outlined text-lg">public</span>
+<span class="material-symbols-outlined text-lg">share</span>
+</div>
+</div>
+<div class="col-span-full pt-20 border-t border-outline-variant/10 text-center opacity-60">
+            © 2024 ANTIGRAVITY. ALL RIGHTS RESERVED.
+        </div>
+</footer>
+</body></html>

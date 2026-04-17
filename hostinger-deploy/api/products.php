@@ -30,10 +30,19 @@ if ($method == 'GET') {
             echo json_encode(['error' => 'Product not found']);
         }
     } else {
-        // Fetch all products (Lite version)
-        // We select all columns but will strip heavy fields in PHP to ensure compatibility
-        // Ideally we would select only specific columns, but sticking to * ensures we don't miss new columns
-        $stmt = $conn->prepare("SELECT * FROM products");
+        // Fetch products with Pagination to prevent crashes
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 1000; // Large default for legacy support, but allows limiting
+        $offset = ($page - 1) * $limit;
+        
+        // Count total for pagination info
+        $count_stmt = $conn->query("SELECT COUNT(*) FROM products");
+        $total_items = (int)$count_stmt->fetchColumn();
+        $total_pages = ceil($total_items / $limit);
+
+        // Fetch limited set
+        // Note: Using string concatenation for LIMIT as PDO doesn't always support named params for LIMIT well in all drivers
+        $stmt = $conn->prepare("SELECT * FROM products ORDER BY is_featured DESC, id ASC LIMIT $limit OFFSET $offset");
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
@@ -43,7 +52,7 @@ if ($method == 'GET') {
             $p['reviewCount'] = is_array($reviews) ? count($reviews) : 0;
             unset($p['reviews']); // Remove heavy reviews payload
             
-            $p['features'] = json_decode($p['features'] ?? '[]'); // Keep for now, usually small
+            $p['features'] = json_decode($p['features'] ?? '[]'); 
             $p['availableSizes'] = json_decode($p['available_sizes'] ?? '["S","M","L","XL","XXL"]');
             $p['image'] = $p['image'] ?? '';
             $p['backImage'] = $p['back_image'] ?? null;
@@ -54,7 +63,16 @@ if ($method == 'GET') {
             $p['isSoldOut'] = (bool)($p['is_sold_out'] ?? false);
             $p['isFeatured'] = (bool)($p['is_featured'] ?? false);
         }
-        echo json_encode($products);
+        
+        echo json_encode([
+            'products' => $products,
+            'pagination' => [
+                'currentPage' => $page,
+                'totalPages' => $total_pages,
+                'totalItems' => $total_items,
+                'limit' => $limit
+            ]
+        ]);
     }
 }
 

@@ -35,10 +35,25 @@ $generated_signature = hash_hmac('sha256', $razorpay_order_id . "|" . $razorpay_
 if ($generated_signature === $razorpay_signature) {
     // Payment is genuine
     try {
-        $stmt = $pdo->prepare("UPDATE orders SET payment_status = 'PAID', payment_id = ? WHERE id = ?");
-        $stmt->execute([$razorpay_payment_id, $order_id]);
-        
-        echo json_encode(['status' => 'success', 'message' => 'Payment verified and order updated']);
+        // Check if order exists first
+        $checkStmt = $pdo->prepare("SELECT id FROM orders WHERE id = ?");
+        $checkStmt->execute([$order_id]);
+        $exists = $checkStmt->fetch();
+
+        if ($exists) {
+            $stmt = $pdo->prepare("UPDATE orders SET payment_status = 'PAID', payment_id = ? WHERE id = ?");
+            $stmt->execute([$razorpay_payment_id, $order_id]);
+            
+            // Trigger WhatsApp Notification only if order exists
+            require_once 'whatsapp_service.php';
+            sendWhatsAppNotification($order_id, $pdo);
+            
+            echo json_encode(['status' => 'success', 'message' => 'Payment verified and order updated']);
+        } else {
+            // Order doesn't exist yet (this is normal if frontend saves order AFTER verification)
+            // Just return success so frontend can proceed to save the order
+            echo json_encode(['status' => 'success', 'message' => 'Payment verified. Proceeding to save order.', 'verified_only' => true]);
+        }
     } catch (PDOException $e) {
         echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
     }

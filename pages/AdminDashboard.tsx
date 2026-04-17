@@ -4,7 +4,7 @@ import {
   Trash2, Eye, LogOut, Package, ExternalLink, User, Mail, Phone, MapPin,
   CreditCard, Tag, List, TrendingUp, BarChart3, Box, Activity, ChevronRight,
   ImageIcon, RefreshCw, Copy, FileText, Printer, Check, Download, ArrowLeft,
-  Home as HomeIcon, Star, Crown, Percent, Sparkles, BrainCircuit, Barcode, ShieldCheck, Lock, Plus
+  Home as HomeIcon, Star, Crown, Percent, Sparkles, BrainCircuit, Barcode, ShieldCheck, Lock, Plus, Cloud, Server
 } from 'lucide-react';
 import { Order, Product, Category } from '../types';
 import { getProducts, addProduct, deleteProduct, clearProductCache } from '../services/productService';
@@ -46,7 +46,13 @@ const StatCard: React.FC<{ icon: any, label: string, value: string, color: strin
 );
 
 const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'metals' | 'orders' | 'users' | 'settings' | 'recovery' | 'coupons'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'metals' | 'orders' | 'users' | 'settings' | 'recovery' | 'coupons' | 'cloud'>('stats');
+  const [hostingerToken, setHostingerToken] = useState('');
+  const [hostingerAccounts, setHostingerAccounts] = useState<any[]>([]);
+  const [hostingerDomains, setHostingerDomains] = useState<any[]>([]);
+  const [isLoadingCloud, setIsLoadingCloud] = useState(false);
+  const [cloudReport, setCloudReport] = useState<string | null>(null);
+  const [isAnalyzingCloud, setIsAnalyzingCloud] = useState(false);
   const [abandonedCarts, setAbandonedCarts] = useState<any[]>([]);
   const [isSendingRecovery, setIsSendingRecovery] = useState<string | null>(null);
   const [toast, setToast] = useState<{message: string, type: 'success'|'error'} | null>(null);
@@ -165,7 +171,7 @@ const AdminDashboard: React.FC = () => {
       if (data.razorpay_secret) setRazorpaySecret(data.razorpay_secret);
       if (data.royal_lion_branding) setRoyalLionBranding(data.royal_lion_branding);
       if (data.custom_design_price) setCustomPrice(data.custom_design_price);
-      if (data.vault_passkey) setVaultPasskey(data.vault_passkey);
+      if (data.hostinger_api_token) setHostingerToken(data.hostinger_api_token);
       if (data.vault_message) setVaultMessage(data.vault_message);
       if (data.whatsapp_api_url) setWhatsappApiUrl(data.whatsapp_api_url);
       if (data.whatsapp_token) setWhatsappToken(data.whatsapp_token);
@@ -501,6 +507,41 @@ Total: ₹${order.total}
     }
   };
 
+  const loadCloudData = async () => {
+    setIsLoadingCloud(true);
+    try {
+      const { hostingerService } = await import('../services/hostingerService');
+      const accounts = await hostingerService.getAccounts();
+      const domains = await hostingerService.getDomains();
+      setHostingerAccounts(accounts || []);
+      setHostingerDomains(domains || []);
+    } catch (err: any) {
+      showToast(err.message || "Failed to load cloud intel.", "error");
+    } finally {
+      setIsLoadingCloud(false);
+    }
+  };
+
+  const handleAnalyzeCloud = async () => {
+    setIsAnalyzingCloud(true);
+    setCloudReport("DECRYPTING SERVER LOGS...");
+    try {
+      const { analyzeCloudStatus } = await import('../services/geminiService');
+      const report = await analyzeCloudStatus();
+      setCloudReport(report);
+    } catch (err) {
+      setCloudReport("SIGNAL LOST. RETRY ANALYSIS.");
+    } finally {
+      setIsAnalyzingCloud(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'cloud') {
+      loadCloudData();
+    }
+  }, [activeTab]);
+
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     const processedFeatures = featuresInput.split(',').map(f => f.trim()).filter(f => f !== '');
@@ -589,7 +630,8 @@ Total: ₹${order.total}
             { id: 'recovery', label: 'Cart Recovery', icon: Zap },
             { id: 'settings', label: 'Studio Config', icon: Settings },
             { id: 'coupons', label: 'Coupons Control', icon: Tag },
-            { id: 'vault', label: 'Secret Archives', icon: Lock }
+            { id: 'vault', label: 'Secret Archives', icon: Lock },
+            { id: 'cloud', label: 'Cloud Command', icon: Server }
           ].map(tab => (
             <button
               key={tab.id}
@@ -1419,7 +1461,20 @@ Total: ₹${order.total}
                       <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">GLOBAL SHIPPING (₹)</label>
                       <input type="number" value={localShippingPrice} onChange={e => setLocalShippingPrice(Number(e.target.value))} className="w-full border border-gray-200 p-6 font-black text-2xl" />
                     </div>
-                    <button onClick={saveSettings} disabled={isSavingSettings} className="w-full bg-black text-white p-8 font-black uppercase text-sm shadow-sm transition-all hover:bg-black text-white hover:bg-gray-800">{isSavingSettings ? 'CONFIGURING...' : 'SYNC ALL SYSTEMS'}</button>
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">HOSTINGER API TOKEN</label>
+                      <input type="password" value={hostingerToken} onChange={e => setHostingerToken(e.target.value)} placeholder="ENTER YOUR HOSTINGER TOKEN..." className="w-full border border-gray-200 p-6 font-black text-xs" />
+                    </div>
+                    <button onClick={() => 
+                      updateSettings({
+                        'qr_code_image': qrCodeImage,
+                        'shipping_price': localShippingPrice,
+                        'hostinger_api_token': hostingerToken,
+                        'custom_design_price': customPrice,
+                        'vault_passkey': vaultPasskey,
+                        'vault_message': vaultMessage
+                      })
+                    } disabled={isSavingSettings} className="w-full bg-black text-white p-8 font-black uppercase text-sm shadow-sm transition-all hover:bg-black text-white hover:bg-gray-800">{isSavingSettings ? 'CONFIGURING...' : 'SYNC ALL SYSTEMS'}</button>
                   </div>
                 </div>
               </div>
@@ -1509,6 +1564,123 @@ Total: ₹${order.total}
             </div>
           )}
 
+          {activeTab === 'cloud' && (
+            <div className="space-y-16 animate-in fade-in duration-500">
+              <div className="flex justify-between items-end">
+                <div>
+                   <span className="text-accent font-body text-[11px] tracking-[0.5em] uppercase mb-4 block mix-blend-multiply opacity-60">Hostinger Pulse / Cloud Node</span>
+                   <h2 className="font-serif text-4xl uppercase">CLOUD <span className="text-black">COMMAND.</span></h2>
+                </div>
+                <button 
+                  onClick={handleAnalyzeCloud} 
+                  disabled={isAnalyzingCloud}
+                  className="flex items-center space-x-3 bg-black text-white px-8 py-4 border border-zinc-700 shadow-xl hover:bg-zinc-900 transition-all font-black text-[10px] uppercase tracking-widest"
+                >
+                  {isAnalyzingCloud ? <RefreshCw className="w-4 h-4 animate-spin" /> : <BrainCircuit className="w-4 h-4" />}
+                  <span>{isAnalyzingCloud ? 'ANALYZING...' : 'AI INFRA REPORT'}</span>
+                </button>
+              </div>
+
+              {cloudReport && (
+                <div className="bg-white border-4 border-black p-10 shadow-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-8 opacity-5">
+                    <Cloud className="w-32 h-32" />
+                  </div>
+                  <div className="relative z-10 space-y-8">
+                     <div className="flex justify-between items-center border-b border-gray-100 pb-6">
+                        <h3 className="font-serif text-2xl uppercase italic">CLOUD ARCHITECT REPORT.</h3>
+                        <button onClick={() => setCloudReport(null)} className="text-zinc-300 hover:text-black transition-colors"><X className="w-6 h-6" /></button>
+                     </div>
+                     <div className="text-zinc-600 font-body text-[11px] uppercase tracking-[0.15em] leading-[2.2] whitespace-pre-line border-l-2 border-black pl-8">
+                        {cloudReport}
+                     </div>
+                     <div className="pt-6 flex items-center space-x-3 text-[9px] font-black text-accent uppercase tracking-widest">
+                        <Sparkles className="w-4 h-4" />
+                        <span>Live Intelligence from the Future</span>
+                     </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="bg-white border border-gray-200 p-10 shadow-sm transition-all">
+                  <div className="flex justify-between items-center mb-10">
+                    <h3 className="font-serif text-3xl text-black uppercase italic">SERVER CLUSTER.</h3>
+                    <button onClick={loadCloudData} className={`p-4 bg-zinc-100 rounded-full hover:bg-black hover:text-white transition-all ${isLoadingCloud ? 'animate-spin' : ''}`}>
+                      <RefreshCw className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="space-y-6">
+                    {(hostingerAccounts?.length || 0) === 0 ? (
+                      <div className="p-20 border-4 border-dashed border-gray-100 text-center">
+                        <p className="text-zinc-300 font-black text-[10px] uppercase tracking-[0.3em]">{isLoadingCloud ? 'DECODING INFRASTRUCTURE...' : 'NO ACTIVE SERVERS DETECTED'}</p>
+                      </div>
+                    ) : (
+                      hostingerAccounts.map((acc: any) => (
+                        <div key={acc.id} className="p-6 border-2 border-zinc-100 group hover:border-black transition-all">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <span className="bg-green-100 text-green-700 text-[8px] font-black px-2 py-0.5 uppercase mb-2 inline-block">{acc.status}</span>
+                              <h4 className="font-serif text-xl uppercase">{acc.domain}</h4>
+                              <p className="text-[10px] font-bold text-zinc-400 mt-1">{acc.plan_name} • {acc.server_ip}</p>
+                            </div>
+                            <div className="p-3 bg-zinc-50 group-hover:bg-black group-hover:text-white transition-all">
+                              <Globe className="w-5 h-5" />
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                <div className="bg-white border border-gray-200 p-10 shadow-sm transition-all">
+                  <h3 className="font-serif text-3xl text-black uppercase italic mb-10">DOMAINS.</h3>
+                  <div className="space-y-6">
+                    {(hostingerDomains?.length || 0) === 0 ? (
+                      <div className="p-20 border-4 border-dashed border-gray-100 text-center">
+                        <p className="text-zinc-300 font-black text-[10px] uppercase tracking-[0.3em]">{isLoadingCloud ? 'SCANNING NAMESERVERS...' : 'NO DOMAINS FOUND'}</p>
+                      </div>
+                    ) : (
+                      hostingerDomains.map((dom: any) => (
+                        <div key={dom.domain} className="flex justify-between items-center p-6 bg-zinc-50 border-l-4 border-black">
+                          <div>
+                            <h4 className="font-black text-sm uppercase">{dom.domain}</h4>
+                            <p className="text-[9px] font-bold text-zinc-400 uppercase">EXPIRES: {dom.expires_at ? new Date(dom.expires_at).toLocaleDateString() : 'N/A'}</p>
+                          </div>
+                          <span className={`text-[8px] font-black uppercase px-3 py-1 ${dom.status === 'active' ? 'bg-black text-white' : 'bg-red-100 text-red-700'}`}>
+                            {dom.status}
+                          </span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-black text-white p-12 relative overflow-hidden group">
+                <div className="absolute -right-20 -bottom-20 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                  <Cloud className="w-96 h-96" />
+                </div>
+                <div className="relative z-10 max-w-2xl">
+                  <h3 className="font-serif text-4xl mb-6 italic uppercase">Cloud Intelligence.</h3>
+                  <p className="text-zinc-400 font-body text-xs uppercase tracking-[0.2em] leading-loose mb-10">
+                    Your infrastructure is currently optimized for traffic spikes.
+                    The Atelier engine is connected to Hostinger's edge nodes for 99.9% uptime.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <div className="px-6 py-3 border border-zinc-700 text-[10px] font-black uppercase tracking-widest bg-zinc-900 group-hover:border-accent transition-colors">
+                      API SYNC: {(hostingerAccounts?.length || 0) > 0 ? 'SUCCESSFUL' : 'PENDING'}
+                    </div>
+                    <div className="px-6 py-3 border border-zinc-700 text-[10px] font-black uppercase tracking-widest bg-zinc-900 group-hover:border-accent transition-colors">
+                      NETWORK: STABLE
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
 
@@ -1702,16 +1874,51 @@ Total: ₹${order.total}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-8">
                   <div className="space-y-6">
-                    <label className="text-[10px] font-black uppercase">AVAILABILITY MATRIX (eg. S-5, M-6)</label>
-                    <input 
-                      type="text" 
-                      value={selectedSizes.join(', ')} 
-                      onChange={e => setSelectedSizes(e.target.value.split(',').map(v => v.trim()).filter(v => v))} 
-                      className="w-full border border-gray-200 p-5 font-black text-xl outline-none focus:bg-gray-50 uppercase" 
-                      placeholder="S-5, M-6, L-10, XL-2" 
-                    />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">SIZE & STOCK INVENTORY</label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {ALL_SIZES.map(size => {
+                        const sizeStockStr = selectedSizes.find(s => s === size || s.startsWith(size + '-')) || '';
+                        const stock = sizeStockStr.includes('-') ? sizeStockStr.split('-')[1] : (selectedSizes.includes(size) ? '10' : '0');
+                        const isSelected = selectedSizes.some(s => s === size || s.startsWith(size + '-'));
+
+                        return (
+                          <div key={size} className={`p-4 border-2 transition-all ${isSelected ? 'border-black bg-white' : 'border-gray-100 bg-gray-50 opacity-60'}`}>
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="font-serif text-xl">{size}</span>
+                              <input 
+                                type="checkbox" 
+                                checked={isSelected}
+                                onChange={() => {
+                                  if (isSelected) {
+                                    setSelectedSizes(selectedSizes.filter(s => !(s === size || s.startsWith(size + '-'))));
+                                  } else {
+                                    setSelectedSizes([...selectedSizes, `${size}-10`]);
+                                  }
+                                }}
+                                className="w-5 h-5 accent-black cursor-pointer"
+                              />
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-[8px] font-black text-gray-400 uppercase mb-1">Stock Count</label>
+                              <input 
+                                type="number"
+                                disabled={!isSelected}
+                                value={stock}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setSelectedSizes(selectedSizes.map(s => 
+                                    (s === size || s.startsWith(size + '-')) ? `${size}-${val}` : s
+                                  ));
+                                }}
+                                className="bg-transparent border-b border-gray-200 font-black text-lg outline-none focus:border-black transition-colors w-full disabled:opacity-30"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                   <div className="space-y-6">
                     <label className="text-[10px] font-black uppercase">GLOBAL STATUS</label>

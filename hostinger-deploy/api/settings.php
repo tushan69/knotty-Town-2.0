@@ -11,7 +11,8 @@ if ($method == 'GET') {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         echo json_encode(["value" => $result ? $result['setting_value'] : '']);
     } else {
-        // Return all settings as a key-value object
+        require_admin();
+        // Return all settings as a key-value object (admin only — includes payment secrets)
         $stmt = $conn->prepare("SELECT setting_key, setting_value FROM settings");
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -29,32 +29,72 @@ if ($method == 'POST') {
             ':payment_status' => $data['payment_status'] ?? 'Pending'
         ]);
 
-        // Save Order Items
+        // Save Order Items and Manage Inventory
         foreach ($data['items'] as $item) {
             $stmt_item = $conn->prepare("INSERT INTO order_items (order_id, product_id, name, quantity, price, selected_size, custom_design) VALUES (:oid, :pid, :name, :qty, :price, :size, :design)");
             
-            // For custom items, the 'image' field contains the base64 design
             $custom_design = null;
             if (isset($item['isCustom']) && $item['isCustom'] === true) {
                 $custom_design = $item['image'];
             }
 
+            $selectedSize = $item['selectedSize'] ?? 'L';
             $stmt_item->execute([
                 ':oid' => $data['id'],
                 ':pid' => $item['id'],
                 ':name' => $item['name'],
                 ':qty' => $item['quantity'],
                 ':price' => $item['price'],
-                ':size' => $item['selectedSize'] ?? 'L',
+                ':size' => $selectedSize,
                 ':design' => $custom_design
             ]);
+
+            // INVENTORY MANAGEMENT: Decrement stock
+            $p_stmt = $conn->prepare("SELECT available_sizes, stock_quantity FROM products WHERE id = :id");
+            $p_stmt->execute([':id' => $item['id']]);
+            $product = $p_stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($product) {
+                $sizes = json_decode($product['available_sizes'], true);
+                if (is_array($sizes)) {
+                    $updated = false;
+                    foreach ($sizes as &$sizeStr) {
+                        // Check for new format: "S-5"
+                        if (strpos($sizeStr, '-') !== false) {
+                            list($s, $q) = explode('-', $sizeStr);
+                            if ($s === $selectedSize) {
+                                $newQ = max(0, (int)$q - (int)$item['quantity']);
+                                $sizeStr = "$s-$newQ";
+                                $updated = true;
+                                break;
+                            }
+                        } else if ($sizeStr === $selectedSize) {
+                            // Old format: just "S". We don't have per-size count here.
+                            $updated = true;
+                            break;
+                        }
+                    }
+                    
+                    if ($updated) {
+                        $new_total_stock = max(0, (int)$product['stock_quantity'] - (int)$item['quantity']);
+                        $is_sold_out = ($new_total_stock <= 0) ? 1 : 0;
+                        
+                        $upd_stmt = $conn->prepare("UPDATE products SET available_sizes = :sizes, stock_quantity = :stock, is_sold_out = :sold WHERE id = :id");
+                        $upd_stmt->execute([
+                            ':sizes' => json_encode($sizes),
+                            ':stock' => $new_total_stock,
+                            ':sold' => $is_sold_out,
+                            ':id' => $item['id']
+                        ]);
+                    }
+                }
+            }
         }
 
         // Mark coupon as used if provided
         if (!empty($data['couponCode'])) {
             $stmt_coupon = $conn->prepare("UPDATE coupons SET is_used = 1, used_at = NOW() WHERE code = :code AND is_used = 0");
             $stmt_coupon->execute([':code' => $data['couponCode']]);
-            // Failure is ignored here. If verification passed and payment taken, we MUST save the order.
         }
 
         $conn->commit();

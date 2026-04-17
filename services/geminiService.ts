@@ -166,3 +166,31 @@ export const analyzeTextSearch = async (query: string, inventoryContext: string)
     return null;
   }
 };
+
+export const analyzeCloudStatus = async () => {
+  const genAI = getGenAI();
+  if (!genAI) return "CLOUD INTEL UNAVAILABLE.";
+  try {
+    const { hostingerService } = await import('./hostingerService');
+    const accounts = await hostingerService.getAccounts();
+    const domains = await hostingerService.getDomains();
+    
+    const context = `
+      SERVERS: ${JSON.stringify(accounts)}
+      DOMAINS: ${JSON.stringify(domains)}
+    `;
+
+    const model = genAI.getGenerativeModel({
+      model: CHAT_MODEL,
+      systemInstruction: "You are the KNOTTY TOWN Cloud Architect. Analyze the provided Hostinger infrastructure data. Report on uptime, expiration risks, and server health. Keep it executive, high-tech, and futuristic. Use bold headers and emojis."
+    });
+
+    const result = await model.generateContent(`Analyze this infrastructure:\n${context}`);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error("Cloud Analysis Error:", error);
+    return "SIGNAL LOST. SERVER CLUSTER UNREACHABLE.";
+  }
+};
+

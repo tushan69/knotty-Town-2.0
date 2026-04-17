@@ -49,11 +49,15 @@ if ($method == 'POST') {
         else if ($mode === 'admin_login') {
             $username = $data['username'] ?? '';
             $password = $data['password'] ?? '';
-            
-            // Hardcoded for now consistent with frontend, but on backend for session control
-            if (strtoupper($username) === 'KK' && $password === '382094808321') {
+
+            $envUser = getenv('ADMIN_USER');
+            $envPass = getenv('ADMIN_PASS');
+            $expectedUser = ($envUser !== false && $envUser !== '') ? $envUser : 'KK';
+            $expectedPass = ($envPass !== false && $envPass !== '') ? $envPass : '382094808321';
+
+            if (strtoupper(trim($username)) === strtoupper(trim($expectedUser)) && trim($password) === $expectedPass) {
                 $_SESSION['is_admin'] = true;
-                echo json_encode(["status" => "success", "user" => "ADMIN", "token" => "KNOTTY_ADMIN_SECRET_2026"]);
+                echo json_encode(["status" => "success", "user" => "ADMIN", "token" => knotty_expected_admin_token()]);
             } else {
                 http_response_code(401);
                 echo json_encode(["error" => "Invalid admin credentials"]);

@@ -4,7 +4,6 @@ import { Heart } from 'lucide-react';
 import { getProductById, getRelatedProducts } from '../services/productService';
 import { Product, Category } from '../types';
 import { useCart } from '../context/CartContext';
-import { useWishlist } from '../context/WishlistContext';
 import { Ruler, Play, Camera, Star, ArrowRight, ShieldCheck, Mail, MapPin } from 'lucide-react';
 import SEO from '../components/SEO';
 import ProductCard from '../components/ProductCard';
@@ -16,7 +15,6 @@ const ProductDetail: React.FC = () => {
   const [related, setRelated] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { addToCart, addRecentlyViewed } = useCart();
-  const { isWishlisted, toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
   const [showBackView, setShowBackView] = useState(false);
@@ -286,18 +284,8 @@ const ProductDetail: React.FC = () => {
                   <span className="text-sm font-body text-secondary/40 line-through tracking-wider">₹{product.originalPrice?.toFixed(0)}</span>
                 )}
               </div>
-              <button
-                type="button"
-                onClick={() => toggleWishlist(product)}
-                aria-label={isWishlisted(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
-                className="p-4 border border-primary/10 hover:border-accent/40 transition-colors shrink-0"
-              >
-                <Heart
-                  className={`w-5 h-5 ${isWishlisted(product.id) ? 'fill-accent text-accent' : 'text-primary'}`}
-                  strokeWidth={1}
-                />
-              </button>
             </div>
+
 
             <div className="mb-16">
                <h4 className="font-body text-[10px] uppercase tracking-[0.4em] text-accent mb-6">Material Dialogue</h4>
@@ -335,7 +323,7 @@ const ProductDetail: React.FC = () => {
                         onClick={() => setSelectedSize(size)}
                         className={`py-5 text-[10px] font-body tracking-[0.4em] uppercase transition-all duration-500 relative ${
                           selectedSize === size
-                            ? 'bg-primary text-white'
+                            ? 'bg-primary text-white shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)]'
                             : isAvailable
                             ? 'border border-primary/10 text-primary hover:border-primary'
                             : 'opacity-20 cursor-not-allowed border border-transparent'
@@ -351,6 +339,40 @@ const ProductDetail: React.FC = () => {
                     );
                   })}
                 </div>
+
+                {/* Selected Size Detail / Stock Status */}
+                {selectedSize && (
+                  <div className="mt-6 flex items-center justify-between border-t border-primary/5 pt-6 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex flex-col">
+                      <span className="font-body text-[9px] uppercase tracking-[0.2em] text-secondary opacity-40">Selected Profile</span>
+                      <span className="font-serif text-xl italic font-light">Size {selectedSize}</span>
+                    </div>
+                    <div className="text-right">
+                      {(() => {
+                        const sizeEntry = product.availableSizes?.find(s => s === selectedSize || s.startsWith(selectedSize + '-'));
+                        if (sizeEntry && sizeEntry.includes('-')) {
+                          const stock = parseInt(sizeEntry.split('-')[1]);
+                          if (stock > 0) {
+                            return (
+                              <div className="flex flex-col">
+                                <span className="font-body text-[9px] uppercase tracking-[0.2em] text-secondary opacity-40">Availability status</span>
+                                <span className={`font-body text-[10px] uppercase tracking-[0.2em] ${stock < 10 ? 'text-red-600 font-black' : 'text-primary'}`}>
+                                  {stock} Silhouette{stock > 1 ? 's' : ''} remaining
+                                </span>
+                              </div>
+                            );
+                          }
+                        }
+                        return (
+                          <div className="flex flex-col">
+                            <span className="font-body text-[9px] uppercase tracking-[0.2em] text-secondary opacity-40">Availability status</span>
+                            <span className="font-body text-[10px] uppercase tracking-[0.2em] text-primary italic">In Boutique Inventory</span>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -374,7 +396,15 @@ const ProductDetail: React.FC = () => {
                       </button>
                       <span className="w-12 text-center text-sm font-body font-light text-primary">{quantity}</span>
                       <button onClick={() => {
-                        const maxAllowed = product.stock_quantity !== undefined && product.stock_quantity > 0 ? product.stock_quantity : 10;
+                        let maxAllowed = product.stock_quantity !== undefined && product.stock_quantity > 0 ? product.stock_quantity : 10;
+                        
+                        // Check if size specific stock is lower
+                        const sizeEntry = product.availableSizes?.find(s => s === selectedSize || s.startsWith(selectedSize + '-'));
+                        if (sizeEntry && sizeEntry.includes('-')) {
+                          const sizeStock = parseInt(sizeEntry.split('-')[1]);
+                          if (!isNaN(sizeStock)) maxAllowed = sizeStock;
+                        }
+                        
                         setQuantity(Math.min(maxAllowed, quantity + 1));
                       }} className="p-4 text-primary/40 hover:text-primary transition-colors">
                          <span className="material-symbols-outlined text-lg font-light">add</span>

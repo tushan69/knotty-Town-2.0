@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { Product } from '../types';
-import { useWishlist } from '../context/WishlistContext';
+import { Product } from '../types';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { isWishlisted, toggleWishlist } = useWishlist();
-  const saved = isWishlisted(product.id);
+
   const [imgSrc, setImgSrc] = useState(product.image);
   const [hasError, setHasError] = useState(false);
 
@@ -49,18 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             />
           )}
 
-          <button
-            type="button"
-            aria-label={saved ? 'Remove from wishlist' : 'Add to wishlist'}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleWishlist(product);
-            }}
-            className="absolute top-6 right-6 z-20 p-2.5 bg-white/85 backdrop-blur-md text-primary hover:bg-white transition-all border border-primary/5 shadow-sm"
-          >
-            <Heart className={`w-4 h-4 ${saved ? 'fill-accent text-accent' : ''}`} strokeWidth={1.25} />
-          </button>
+
 
           {/* Sold Out / Archived Overlay */}
           {isActuallySoldOut && (

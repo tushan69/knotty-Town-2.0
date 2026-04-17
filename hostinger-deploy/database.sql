@@ -32,6 +32,14 @@ CREATE TABLE IF NOT EXISTS `user_carts` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- User wishlists (product id list JSON array)
+CREATE TABLE IF NOT EXISTS `user_wishlists` (
+  `user_id` int(11) NOT NULL,
+  `wishlist_data` longtext NOT NULL,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Products Table
 CREATE TABLE IF NOT EXISTS `products` (
   `id` varchar(50) NOT NULL,
@@ -94,5 +102,11 @@ INSERT IGNORE INTO `settings` (`setting_key`, `setting_value`) VALUES
 ('custom_design_price', '1499'),
 ('razorpay_key', ''),
 ('razorpay_secret', '');
+
+-- Add indices for performance
+CREATE INDEX IF NOT EXISTS idx_product_category ON products(category);
+CREATE INDEX IF NOT EXISTS idx_product_featured ON products(is_featured);
+CREATE INDEX IF NOT EXISTS idx_order_date ON orders(date);
+CREATE INDEX IF NOT EXISTS idx_item_order ON order_items(order_id);
 
 COMMIT;

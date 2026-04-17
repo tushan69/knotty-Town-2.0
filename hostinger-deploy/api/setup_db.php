@@ -86,6 +86,18 @@ try {
       `selected_size` varchar(10) DEFAULT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    CREATE TABLE IF NOT EXISTS `abandoned_carts` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `phone` varchar(20) NOT NULL,
+      `name` varchar(255),
+      `cart_data` longtext NOT NULL,
+      `status` varchar(20) DEFAULT 'abandoned',
+      `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+      `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `unique_phone` (`phone`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ";
 
     $conn->exec($sql);

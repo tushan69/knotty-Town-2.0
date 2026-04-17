@@ -79,19 +79,36 @@ try {
     $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
     // --- AUTO-MIGRATION SYSTEM ---
-    // Wrap in its own try-catch to avoid crashing entire app if tables aren't ready
     try {
-        $result = $conn->query("SHOW TABLES LIKE 'orders'");
-        if ($result->rowCount() > 0) {
+        // Create settings table if it doesn't exist
+        $conn->exec("CREATE TABLE IF NOT EXISTS settings (
+            setting_key VARCHAR(100) PRIMARY KEY,
+            setting_value TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )");
+
+        // Sync Products Columns
+        $res = $conn->query("SHOW TABLES LIKE 'products'");
+        if ($res->rowCount() > 0) {
+            $p_cols = $conn->query("SHOW COLUMNS FROM products")->fetchAll(PDO::FETCH_COLUMN);
+            if (!in_array('available_sizes', $p_cols)) {
+                $conn->exec("ALTER TABLE products ADD COLUMN available_sizes TEXT DEFAULT NULL AFTER features");
+            }
+            if (!in_array('stock_quantity', $p_cols)) {
+                $conn->exec("ALTER TABLE products ADD COLUMN stock_quantity INT DEFAULT 100 AFTER available_sizes");
+            }
+        }
+        
+        // Sync Orders Columns
+        $res = $conn->query("SHOW TABLES LIKE 'orders'");
+        if ($res->rowCount() > 0) {
             $columns = $conn->query("SHOW COLUMNS FROM orders")->fetchAll(PDO::FETCH_COLUMN);
-            
             $required_columns = [
                 'shipping_price' => "ALTER TABLE orders ADD COLUMN shipping_price DECIMAL(10,2) DEFAULT '0.00' AFTER total",
                 'payment_screenshot' => "ALTER TABLE orders ADD COLUMN payment_screenshot LONGTEXT AFTER payment_method",
                 'payment_id' => "ALTER TABLE orders ADD COLUMN payment_id VARCHAR(100) DEFAULT NULL AFTER payment_screenshot",
                 'payment_status' => "ALTER TABLE orders ADD COLUMN payment_status VARCHAR(50) DEFAULT 'Pending' AFTER payment_id"
             ];
-
             foreach ($required_columns as $col => $sql) {
                 if (!in_array($col, $columns)) {
                     $conn->exec($sql);
@@ -99,7 +116,7 @@ try {
             }
         }
     } catch(Exception $migrationError) {
-        error_log("Auto-migration skipped: " . $migrationError->getMessage());
+        error_log("Auto-migration Error: " . $migrationError->getMessage());
     }
     // ----------------------------
 } catch(PDOException $e) {

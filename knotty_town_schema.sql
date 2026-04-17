@@ -133,4 +133,5 @@ INSERT IGNORE INTO `products` (`id`, `name`, `price`, `original_price`, `categor
 ('m1', 'The Geometric Monolith', 3500.00, NULL, 'Metal Posters', 'Brushed aluminum panel featuring architectural geometric studies.', 'https://images.unsplash.com/photo-1618609516629-3b6038148b59?auto=format&fit=crop&q=80&w=1000', NULL, 4.9, '[]', '["Brushed Aluminum","Hidden Mount"]', '[]', 100, 0, 1),
 ('m2', 'Desert Mirage Panel', 3800.00, NULL, 'Metal Posters', 'Subtle metallic print capturing light anomalies in high desert.', 'https://images.unsplash.com/photo-1518005020410-09880ef2016f?auto=format&fit=crop&q=80&w=1000', NULL, 4.8, '[]', '["Matte Finish","Gallery Box"]', '[]', 100, 0, 1);
 
+INSERT IGNORE INTO `settings` (`setting_key`, `setting_value`) VALUES ('hostinger_api_token', '');
 COMMIT;

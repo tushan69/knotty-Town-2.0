@@ -4,7 +4,6 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { CartProvider } from './context/CartContext';
-import { WishlistProvider } from './context/WishlistContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -21,7 +20,6 @@ const Contact = React.lazy(() => import('./pages/Contact'));
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 const AdminLogin = React.lazy(() => import('./pages/AdminLogin'));
 const TrackOrder = React.lazy(() => import('./pages/TrackOrder'));
-const Wishlist = React.lazy(() => import('./pages/Wishlist'));
 const Login = React.lazy(() => import('./pages/Login'));
 const SecretVault = React.lazy(() => import('./pages/SecretVault'));
 const MetalPosters = React.lazy(() => import('./pages/MetalPosters'));
@@ -29,18 +27,6 @@ const ShopTheLook = React.lazy(() => import('./pages/ShopTheLook'));
 
 // --- Premium Components ---
 
-const AnnouncementBar = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  if (!isVisible) return null;
-  return (
-    <div className="bg-primary text-white py-3 px-6 text-[9px] uppercase tracking-[0.4em] font-body text-center relative z-[60] flex items-center justify-center">
-      <span className="opacity-80">Complimentary Global Insured Shipping on all Silhouettes</span>
-      <button onClick={() => setIsVisible(false)} className="absolute right-6 opacity-40 hover:opacity-100 transition-opacity">
-        <span className="material-symbols-outlined text-xs">close</span>
-      </button>
-    </div>
-  );
-};
 
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -84,14 +70,13 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <AdminAuthProvider>
-        <WishlistProvider>
         <CartProvider>
           <Router>
             <FloatingAIChat />
             <CustomCursor />
             <ScrollToTop />
             <div className="flex flex-col min-h-screen bg-background selection:bg-accent selection:text-white lg:cursor-none">
-              <AnnouncementBar />
+
               <Navbar />
               <main className="flex-grow">
                 <Suspense fallback={<LoadingFallback />}>
@@ -109,7 +94,6 @@ const App: React.FC = () => {
                     } />
                     <Route path="/admin/login" element={<AdminLogin />} />
                     <Route path="/track" element={<TrackOrder />} />
-                    <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/vault" element={<SecretVault />} />
                     <Route path="/metal-posters" element={<MetalPosters />} />
@@ -121,7 +105,6 @@ const App: React.FC = () => {
             </div>
           </Router>
         </CartProvider>
-        </WishlistProvider>
       </AdminAuthProvider>
     </AuthProvider>
   );

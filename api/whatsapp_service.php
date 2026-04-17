@@ -79,6 +79,8 @@ function sendWhatsAppNotification($order_id, $pdo) {
         error_log("WhatsApp Exception: " . $e->getMessage());
         return false;
     }
+}
+
 function sendAbandonedCartRecovery($phone, $name, $pdo) {
     try {
         $clean_phone = preg_replace('/[^0-9]/', '', $phone);

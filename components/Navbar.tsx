@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { useWishlist } from '../context/WishlistContext';
 import SearchOverlay from './SearchOverlay';
 
 const Navbar: React.FC = () => {
@@ -10,7 +9,6 @@ const Navbar: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartCount } = useCart();
-  const { wishlistCount } = useWishlist();
   const { user, logout } = useAuth();
   const location = useLocation();
 
@@ -89,15 +87,11 @@ const Navbar: React.FC = () => {
           <span className="material-symbols-outlined text-2xl font-light">search</span>
         </button>
 
-        <Link
-          to="/wishlist"
-          className="relative text-primary hover:opacity-50 transition-opacity"
-          aria-label="Wishlist"
-        >
-          <span className="material-symbols-outlined text-2xl font-light">favorite</span>
-          {wishlistCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-accent text-white text-[8px] min-w-[1rem] h-4 px-0.5 flex items-center justify-center font-bold rounded-sm">
-              {wishlistCount > 9 ? '9+' : wishlistCount}
+        <Link to="/cart" className="relative text-primary hover:opacity-50 transition-opacity" aria-label="Shopping Bag">
+          <span className="material-symbols-outlined text-2xl font-light">shopping_bag</span>
+          {cartCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-accent text-white text-[8px] w-4 h-4 flex items-center justify-center font-bold">
+              {cartCount}
             </span>
           )}
         </Link>
@@ -130,14 +124,6 @@ const Navbar: React.FC = () => {
           )}
         </div>
 
-        <Link to="/cart" className="relative group flex items-center hover:opacity-50 transition-opacity">
-          <span className="material-symbols-outlined text-2xl font-light">shopping_bag</span>
-          {cartCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-accent text-white text-[8px] w-4 h-4 flex items-center justify-center font-bold">
-              {cartCount}
-            </span>
-          )}
-        </Link>
       </div>
 
       {/* Fullscreen Mobile Overlay */}
@@ -180,13 +166,6 @@ const Navbar: React.FC = () => {
           >
             Search
           </button>
-          <Link
-            to="/wishlist"
-            onClick={() => setIsOpen(false)}
-            className="text-sm font-body uppercase tracking-[0.35em] text-primary/70"
-          >
-            Wishlist ({wishlistCount})
-          </Link>
         </div>
       </div>
     </nav>

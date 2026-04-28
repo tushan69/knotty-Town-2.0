@@ -80,7 +80,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-body text-[10px] uppercase tracking-[0.3em] text-primary mb-3 opacity-40">Electronic Post</h4>
-                  <p className="text-primary font-body text-sm tracking-widest font-medium">CustomerService@knottytown.com</p>
+                  <p className="text-primary font-body text-sm tracking-widest font-medium">knottytown64@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-start group">
@@ -99,9 +99,15 @@ const Contact: React.FC = () => {
                 <div>
                   <h4 className="font-body text-[10px] uppercase tracking-[0.3em] text-primary mb-3 opacity-40">Heritage Boutique</h4>
                   <p className="text-primary font-body text-sm tracking-widest leading-relaxed font-medium">
-                    Kadri Market, First Floor<br />
-                    Mangalore, Karnataka 575002<br />
-                    Republic of India
+                    #3-21-1835/2 swastik,<br />
+                    Student lane Alveres road,<br />
+                    Near Kadri Market,<br />
+                    Kadri,<br />
+                    VTC: Mangalore,<br />
+                    PO: Kankanady,<br />
+                    District: Dakshina Kannada,<br />
+                    State: Karnataka,<br />
+                    PIN Code: 575002
                   </p>
                 </div>
               </div>

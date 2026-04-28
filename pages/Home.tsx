@@ -4,17 +4,9 @@ import { getProducts } from '../services/productService';
 import { Product } from '../types';
 import { HERO_SLIDES } from '../constants';
 import SEO from '../components/SEO';
+import LoadingScreen from '../components/LoadingScreen';
 
-const MOCK_PRODUCTS: Product[] = [
-  { id: '1', name: 'The Oversized Structure', price: 4200, originalPrice: 5500, image: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=1000', category: 'Essentials', isFeatured: true, description: 'Geometric oversized silhouette crafted from heavy gauge cotton.', rating: 4.8, features: ['300 GSM', 'Oversized Fit'], availableSizes: ['S', 'M', 'L', 'XL'] },
-  { id: '2', name: 'Monolith Trouser', price: 5800, originalPrice: 7200, image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&q=80&w=1000', category: 'Trousers', isFeatured: true, description: 'Architecture for the legs. Sculpted drape in wool blend.', rating: 4.9, features: ['Wool Blend', 'Elastic Waist'], availableSizes: ['30', '32', '34'] },
-  { id: 'm1', name: 'The Geometric Monolith', price: 3500, originalPrice: 4500, image: 'https://images.unsplash.com/photo-1618609516629-3b6038148b59?auto=format&fit=crop&q=80&w=1000', category: 'Metal Posters', isFeatured: true, description: 'Brushed aluminum panel featuring architectural geometric studies.', rating: 4.9, features: ['Brushed Aluminum', 'Hidden Mount'], availableSizes: ['12x18', '24x36'] },
-  { id: '3', name: 'Ghost Layer Shell', price: 7200, originalPrice: 8500, image: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&q=80&w=1000', category: 'Outerwear', isFeatured: true, description: 'A translucent study in technical silk. Minimalist weather protection.', rating: 4.7, features: ['Technical Silk', 'Water Resistant'], availableSizes: ['M', 'L'] },
-  { id: '4', name: 'Observer T-Shirt', price: 2900, originalPrice: 3500, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=1000', category: 'Essentials', isFeatured: true, description: 'The foundation of the modern wardrobe. 300gsm raw cotton.', rating: 4.8, features: ['Raw Cotton', 'Minimalist'], availableSizes: ['S', 'M', 'L', 'XL'] },
-  { id: 'm2', name: 'Desert Mirage Panel', price: 3800, originalPrice: 4800, image: 'https://images.unsplash.com/photo-1518005020410-09880ef2016f?auto=format&fit=crop&q=80&w=1000', category: 'Metal Posters', isFeatured: true, description: 'Subtle metallic print capturing light anomalies in high desert.', rating: 4.8, features: ['Matte Finish', 'Gallery Box'], availableSizes: ['16x24'] },
-  { id: '5', name: 'Raw Hem Cargo', price: 6500, originalPrice: 7900, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&q=80&w=1000', category: 'Trousers', isFeatured: true, description: 'Brutalist pocket construction on heavy twill canvas.', rating: 4.6, features: ['Heavy Twill', 'Raw Hem'], availableSizes: ['30', '32', '34'] },
-  { id: 'm3', name: 'Structural Void 01', price: 4200, originalPrice: 5200, image: 'https://images.unsplash.com/photo-1634017834532-603126f31626?auto=format&fit=crop&q=80&w=1000', category: 'Metal Posters', isFeatured: true, description: 'High-contrast negative space study on aluminum.', rating: 4.9, features: ['High Contrast', 'Aluminum'], availableSizes: ['18x24'] }
-];
+const MOCK_PRODUCTS: Product[] = [];
 
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -40,11 +32,11 @@ const Home: React.FC = () => {
             isFeatured: p.isFeatured || p.is_featured // handle both
           })));
         } else {
-          setProducts(MOCK_PRODUCTS);
+          setProducts([]);
         }
       } catch (error) {
-        console.error('Error fetching products, using archive fallback:', error);
-        setProducts(MOCK_PRODUCTS);
+        console.error('Error fetching products:', error);
+        setProducts([]);
       } finally {
         setIsLoading(false);
       }
@@ -56,6 +48,8 @@ const Home: React.FC = () => {
   const latestProducts = products.slice(0, 8);
   const coreEssentials = products.filter(p => p.category === 'Essentials' || p.category === 'Trousers').slice(0, 6);
   const metalPosters = products.filter(p => p.category === 'Metal Posters').slice(0, 6);
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <div className="bg-background min-h-screen">
@@ -75,7 +69,7 @@ const Home: React.FC = () => {
           >
             <div className="absolute inset-0">
               <img 
-                className="w-full h-full object-cover grayscale brightness-[0.7] transition-transform duration-[8000ms] ease-linear" 
+                className="w-full h-full object-cover transition-transform duration-[8000ms] ease-linear" 
                 src={slide.image} 
                 alt={slide.title} 
                 style={{ transform: index === currentSlide ? 'scale(1)' : 'scale(1.2)' }}
@@ -166,17 +160,12 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {isLoading ? (
-              Array(4).fill(0).map((_, i) => (
-                <div key={i} className="aspect-[3/4] bg-surface-container-low animate-pulse"></div>
-              ))
-            ) : (
-              latestProducts.map((product) => (
+            {latestProducts.map((product) => (
                 <div key={product.id} className="group cursor-pointer">
                   <Link to={`/product/${product.id}`}>
                     <div className="aspect-[3/4] overflow-hidden bg-surface-container-low mb-8 relative">
                       <img 
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale hover:grayscale-0" 
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                         src={product.image} 
                         alt={product.name} 
                       />
@@ -189,14 +178,14 @@ const Home: React.FC = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="text-xl font-headline text-primary group-hover:italic transition-all duration-500">{product.name}</h3>
-                        <p className="text-[10px] text-secondary/40 uppercase tracking-[0.2em] mt-2 font-body italic">{product.category}</p>
+                        <p className="text-[10px] text-primary uppercase tracking-[0.2em] mt-2 font-body font-bold italic">{product.category}</p>
                       </div>
                       <p className="text-sm font-body text-accent tracking-tighter">₹{product.price}</p>
                     </div>
                   </Link>
                 </div>
               ))
-            )}
+            }
           </div>
         </div>
       </section>
@@ -206,9 +195,9 @@ const Home: React.FC = () => {
         <div className="max-w-[1600px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
+              { title: 'Metal Posters', category: 'Metal Posters', label: 'The Anthology', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=1000' },
               { title: 'Men', category: 'Men', label: 'The Anthology', img: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?auto=format&fit=crop&q=80&w=1000' },
-              { title: 'Women', category: 'Women', label: 'The Anthology', img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1000' },
-              { title: 'Metal Posters', category: 'Metal Posters', label: 'The Anthology', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=1000' }
+              { title: 'Women', category: 'Women', label: 'The Anthology', img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1000' }
             ].map((cat, i) => (
               <Link 
                 key={i} 
@@ -216,7 +205,7 @@ const Home: React.FC = () => {
                 className="relative aspect-[3/4] group overflow-hidden bg-surface-container"
               >
                 <img 
-                  className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110 grayscale group-hover:grayscale-0" 
+                  className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" 
                   src={cat.img} 
                   alt={cat.title} 
                 />
@@ -242,12 +231,7 @@ const Home: React.FC = () => {
         </div>
         
         <div className="flex gap-12 overflow-x-auto pb-12 px-6 md:px-24 snap-x snap-mandatory no-scrollbar scroll-smooth">
-          {isLoading ? (
-            Array(4).fill(0).map((_, i) => (
-              <div key={i} className="min-w-[70vw] md:min-w-[25vw] aspect-[2/3] bg-surface-container animate-pulse"></div>
-            ))
-          ) : (
-            coreEssentials.map((product) => (
+          {coreEssentials.map((product) => (
               <div key={product.id} className="min-w-[75vw] md:min-w-[28vw] snap-start group cursor-pointer">
                 <Link to={`/product/${product.id}`}>
                   <div className="aspect-[2/3] bg-surface-container-low mb-8 overflow-hidden relative">
@@ -262,7 +246,7 @@ const Home: React.FC = () => {
                 </Link>
               </div>
             ))
-          )}
+          }
         </div>
       </section>
 
@@ -293,7 +277,7 @@ const Home: React.FC = () => {
             <div className="order-2 lg:order-1 relative group">
                <div className="aspect-[4/5] bg-surface-container overflow-hidden cinematic-border">
                  <img 
-                   className="w-full h-full object-cover grayscale transition-all duration-[2000ms] group-hover:grayscale-0 group-hover:scale-110" 
+                   className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-110" 
                    src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=1000" 
                    alt="Metal Poster Craftsmanship" 
                  />
@@ -321,7 +305,7 @@ const Home: React.FC = () => {
                       <div className="aspect-square bg-zinc-100 overflow-hidden relative border border-primary/5">
                         <img 
                           src={poster.image} 
-                          className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110" 
+                          className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110" 
                           alt={poster.name}
                         />
                         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 font-body text-[8px] tracking-widest uppercase">
@@ -378,7 +362,7 @@ const Home: React.FC = () => {
               <Link to={`/product/${product.id}`}>
                 <div className="aspect-[16/10] bg-surface-container mb-12 overflow-hidden relative">
                   <img 
-                    className="w-full h-full object-cover grayscale transition-transform duration-[2000ms] group-hover:scale-105 group-hover:grayscale-0" 
+                    className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
                     src={product.image} 
                     alt={product.name} 
                   />

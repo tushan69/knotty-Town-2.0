@@ -1,6 +1,6 @@
 
 import React, { Suspense, useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { CartProvider } from './context/CartContext';
@@ -56,15 +56,9 @@ const CustomCursor = () => {
   );
 };
 
-const LoadingFallback = () => (
-  <div className="flex h-screen items-center justify-center bg-background flex-col space-y-8 animate-cinematic">
-    <div className="relative w-24 h-24 flex items-center justify-center">
-      <div className="absolute inset-0 border border-primary/5 rounded-full"></div>
-      <div className="absolute inset-0 border-t border-accent rounded-full animate-spin"></div>
-    </div>
-    <span className="text-accent font-body text-[10px] tracking-[0.5em] uppercase italic opacity-40">Loading Archive</span>
-  </div>
-);
+import LoadingScreen from './components/LoadingScreen';
+
+const LoadingFallback = () => <LoadingScreen />;
 
 const App: React.FC = () => {
   return (

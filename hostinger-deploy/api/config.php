@@ -7,11 +7,16 @@ function knotty_is_localhost(): bool {
     $name = $_SERVER['SERVER_NAME'] ?? '';
     $addr = $_SERVER['SERVER_ADDR'] ?? '';
     $host = $_SERVER['HTTP_HOST'] ?? '';
-    return $name === 'localhost'
+    return ($name === 'localhost'
         || $addr === '127.0.0.1'
         || $addr === '::1'
         || (strpos($host, '127.0.0.1:') === 0)
-        || (strpos($host, 'localhost:') === 0);
+        || (strpos($host, 'localhost:') === 0));
+}
+
+// Ensure REQUEST_METHOD is set (avoids warnings in CLI/CRON)
+if (!isset($_SERVER['REQUEST_METHOD'])) {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
 }
 
 $is_localhost = knotty_is_localhost();
@@ -72,6 +77,10 @@ if ($is_localhost) {
     $username = 'u627175859_knotty2';
     $password = '&3;PF9so4T';
 }
+
+// Razorpay Credentials
+define('RAZORPAY_KEY_ID', 'rzp_live_SFDpDwe3qxYPFL');
+define('RAZORPAY_KEY_SECRET', 'uJGLr5bQgW6uMFPo2zdMg7Kw');
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $username, $password);

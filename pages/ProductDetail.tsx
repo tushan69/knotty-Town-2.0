@@ -8,6 +8,7 @@ import { Ruler, Play, Camera, Star, ArrowRight, ShieldCheck, Mail, MapPin } from
 import SEO from '../components/SEO';
 import ProductCard from '../components/ProductCard';
 import { apiUrl } from '../utils/apiUrl';
+import LoadingScreen from '../components/LoadingScreen';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams();
@@ -153,14 +154,7 @@ const ProductDetail: React.FC = () => {
     }
   };
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center pt-24">
-      <div className="w-12 h-12 bg-surface-container-low animate-pulse flex items-center justify-center">
-        <div className="w-2 h-full bg-primary/10 animate-spin"></div>
-      </div>
-      <p className="mt-12 text-[10px] uppercase tracking-[0.6em] text-primary/40 animate-pulse">Scanning Archive...</p>
-    </div>
-  );
+  if (isLoading) return <LoadingScreen />;
 
   if (!product) {
     return (
@@ -524,7 +518,7 @@ const ProductDetail: React.FC = () => {
                   <div key={review.id} className="group flex flex-col h-full">
                     {review.photoUrl && (
                       <div className="mb-8 w-full aspect-square bg-surface-container-low overflow-hidden border border-primary/5">
-                        <img src={review.photoUrl} className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700" alt="UGC" />
+                        <img src={review.photoUrl} className="w-full h-full object-cover filter transition-all duration-700" alt="UGC" />
                       </div>
                     )}
                     <div className="flex justify-between items-center mb-10 opacity-40">

@@ -32,38 +32,35 @@ if ($method == 'GET') {
     } else {
         // Fetch products with Pagination to prevent crashes
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 1000; // Large default for legacy support, but allows limiting
+        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 1000;
         $offset = ($page - 1) * $limit;
         
-        // Count total for pagination info
+        // Use a single query for count if possible, or skip if not needed
         $count_stmt = $conn->query("SELECT COUNT(*) FROM products");
         $total_items = (int)$count_stmt->fetchColumn();
         $total_pages = ceil($total_items / $limit);
 
-        // Fetch limited set
-        // Note: Using string concatenation for LIMIT as PDO doesn't always support named params for LIMIT well in all drivers
-        $stmt = $conn->prepare("SELECT * FROM products ORDER BY is_featured DESC, id ASC LIMIT $limit OFFSET $offset");
+        // Fetch limited set with optimized query
+        $stmt = $conn->prepare("SELECT id, name, price, original_price, category, image, back_image, rating, is_sold_out, is_featured, stock_quantity, features, reviews, available_sizes FROM products ORDER BY is_featured DESC, id ASC LIMIT $limit OFFSET $offset");
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         foreach ($products as &$p) {
-            // Processing for Lite View
-            $reviews = json_decode($p['reviews'] ?? '[]', true);
-            $p['reviewCount'] = is_array($reviews) ? count($reviews) : 0;
-            unset($p['reviews']); // Remove heavy reviews payload
+            // Processing for Lite View - Fast counting without full decode if possible
+            $reviews_str = $p['reviews'] ?? '[]';
+            // Simple heuristic to count items in JSON array without full decode
+            $p['reviewCount'] = substr_count($reviews_str, '{'); 
+            unset($p['reviews']); // Strip heavy reviews
             
             $p['features'] = json_decode($p['features'] ?? '[]'); 
             $p['availableSizes'] = json_decode($p['available_sizes'] ?? '["S","M","L","XL","XXL"]');
-            $p['image'] = $p['image'] ?? '';
-            $p['backImage'] = $p['back_image'] ?? null;
             $p['price'] = (float)$p['price'];
             $p['originalPrice'] = isset($p['original_price']) ? (float)$p['original_price'] : null;
-            $p['rating'] = (float)$p['rating'];
-            $p['stock_quantity'] = (int)($p['stock_quantity'] ?? 100);
             $p['isSoldOut'] = (bool)($p['is_sold_out'] ?? false);
             $p['isFeatured'] = (bool)($p['is_featured'] ?? false);
         }
         
+        header("Cache-Control: public, max-age=300"); // Cache for 5 minutes at browser level
         echo json_encode([
             'products' => $products,
             'pagination' => [

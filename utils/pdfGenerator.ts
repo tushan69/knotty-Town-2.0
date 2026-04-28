@@ -33,7 +33,7 @@ export const generateInvoice = (order: Order) => {
     doc.text("Alveres Road, Near Kadri Market", 195, 23, { align: 'right' });
     doc.text("Kadri, Mangalore - 575002", 195, 27, { align: 'right' });
     doc.text("Karnataka, India", 195, 31, { align: 'right' });
-    doc.text("support@knottytown.com", 195, 36, { align: 'right' });
+    doc.text("knottytown64@gmail.com", 195, 36, { align: 'right' });
 
     // --- Divider / Title ---
     doc.setTextColor(0, 0, 0);

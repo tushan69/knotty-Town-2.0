@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getProducts } from '../services/productService';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
+import LoadingScreen from '../components/LoadingScreen';
 
 const MetalPosters: React.FC = () => {
   const [posters, setPosters] = useState<Product[]>([]);
@@ -24,6 +25,8 @@ const MetalPosters: React.FC = () => {
     fetchPosters();
     window.scrollTo(0, 0);
   }, []);
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <div className="bg-black min-h-screen text-white/90 selection:bg-white selection:text-black">
@@ -99,14 +102,7 @@ const MetalPosters: React.FC = () => {
             </div>
           </div>
 
-          {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-48">
-              <div className="w-16 h-16 relative flex items-center justify-center border border-white/20 rounded-full">
-                <div className="absolute inset-0 border border-t-white rounded-full animate-spin"></div>
-              </div>
-              <p className="mt-12 text-[10px] uppercase tracking-[0.6em] text-white/40 animate-pulse">Accessing Server...</p>
-            </div>
-          ) : posters.length > 0 ? (
+          {posters.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-x-12 md:gap-y-32">
               {posters.map((poster) => (
                 <div key={poster.id} className="group flex flex-col">

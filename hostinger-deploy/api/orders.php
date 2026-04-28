@@ -9,6 +9,15 @@ if ($method == 'POST') {
     try {
         $conn->beginTransaction();
 
+        // Check if Order already exists (prevent double inventory decrement)
+        $stmt_check = $conn->prepare("SELECT id FROM orders WHERE id = :id");
+        $stmt_check->execute([':id' => $data['id']]);
+        if ($stmt_check->fetch()) {
+            $conn->commit();
+            echo json_encode(["status" => "success", "orderId" => $data['id'], "note" => "Order already exists"]);
+            exit;
+        }
+
         // Save Main Order
         $stmt = $conn->prepare("INSERT INTO orders (id, customer_name, customer_email, customer_phone, address, city, pincode, total, shipping_price, payment_method, payment_screenshot, status, payment_id, payment_status) VALUES (:id, :name, :email, :phone, :address, :city, :pincode, :total, :shipping, :method, :screenshot, :status, :payment_id, :payment_status)");
         
@@ -55,8 +64,17 @@ if ($method == 'POST') {
             $product = $p_stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($product) {
-                $sizes = json_decode($product['available_sizes'], true);
-                if (is_array($sizes)) {
+                $raw_sizes = $product['available_sizes'];
+                $sizes = [];
+                if (!empty($raw_sizes)) {
+                    $sizes = json_decode($raw_sizes, true);
+                    if (!is_array($sizes)) {
+                        // Fallback: if it's a comma-separated string, try to parse it
+                        $sizes = array_map('trim', explode(',', $raw_sizes));
+                    }
+                }
+
+                if (is_array($sizes) && count($sizes) > 0) {
                     $updated = false;
                     foreach ($sizes as &$sizeStr) {
                         // Check for new format: "S-5"
@@ -68,7 +86,7 @@ if ($method == 'POST') {
                                 $updated = true;
                                 break;
                             }
-                        } else if ($sizeStr === $selectedSize) {
+                        } else if (trim($sizeStr) === trim($selectedSize)) {
                             // Old format: just "S". We don't have per-size count here.
                             $updated = true;
                             break;
@@ -98,13 +116,16 @@ if ($method == 'POST') {
         }
 
         $conn->commit();
-        // Trigger WhatsApp Notification
-        try {
-            require_once 'whatsapp_service.php';
-            sendWhatsAppNotification($data['id'], $conn);
-        } catch (Exception $ext) {
-            // Don't fail the order if WhatsApp fails
-            error_log("WhatsApp Trigger Failed: " . $ext->getMessage());
+
+        // Trigger WhatsApp Notification ONLY for COD
+        // Razorpay notifications are triggered in verify_payment.php
+        if (trim($data['paymentMethod']) === 'Cash on Delivery') {
+            try {
+                require_once 'whatsapp_service.php';
+                sendWhatsAppNotification($data['id'], $conn);
+            } catch (Exception $ext) {
+                error_log("WhatsApp Trigger Failed: " . $ext->getMessage());
+            }
         }
 
         echo json_encode(["status" => "success", "orderId" => $data['id']]);

@@ -4,31 +4,19 @@ import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 import SEO from '../components/SEO';
+import LoadingScreen from '../components/LoadingScreen';
 
-const MOCK_LOOKS = [
-  {
-    id: 'l1',
-    name: 'The Midnight Stroll',
-    description: 'A curated ensemble for the city wanderer. Features the Observer T-Shirt and Monolith Trousers.',
-    image: 'https://images.unsplash.com/photo-1552374196-0eaaf22b3c20?auto=format&fit=crop&q=80&w=1200',
-    productIds: ['4', '2']
-  },
-  {
-    id: 'l2',
-    name: 'Architectural Layering',
-    description: 'Weather protection meets street luxury. Featuring the Ghost Layer Shell over The Oversized Structure.',
-    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200',
-    productIds: ['3', '1']
-  }
-];
+const MOCK_LOOKS: any[] = [];
 
 const ShopTheLook: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { addToCart } = useCart();
   const [isAdding, setIsAdding] = useState<string | null>(null);
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    setIsLoading(true);
+    getProducts().then(setProducts).finally(() => setIsLoading(false));
   }, []);
 
   const getLookProducts = (productIds: string[]) => {
@@ -52,6 +40,8 @@ const ShopTheLook: React.FC = () => {
       setIsAdding(null);
     }, 1000);
   };
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <div className="bg-background min-h-screen text-primary pt-32 pb-24">

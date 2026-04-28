@@ -4,6 +4,8 @@ import { apiUrl } from '../utils/apiUrl';
 import { getAdminApiToken } from '../utils/adminToken';
 
 const DYNAMIC_PRODUCTS_KEY = 'knotty_dynamic_products';
+const CATALOG_CACHE_KEY = 'knotty_catalog_cache';
+const CATALOG_CACHE_TIME_KEY = 'knotty_catalog_cache_time';
 
 const API_URL = apiUrl('products.php');
 
@@ -16,10 +18,33 @@ let cachedProducts: Product[] | null = null;
 let isFetching = false;
 
 export const getProducts = async (forceRefresh = false): Promise<Product[]> => {
+  // 1. Return memory cache if available and not forcing refresh
   if (cachedProducts && !forceRefresh) {
     return cachedProducts;
   }
 
+  // 2. Try to load from LocalStorage cache for "instant" load
+  const cachedCatalogJson = localStorage.getItem(CATALOG_CACHE_KEY);
+  const cacheTime = localStorage.getItem(CATALOG_CACHE_TIME_KEY);
+  const isCacheFresh = cacheTime && (Date.now() - parseInt(cacheTime) < 1000 * 60 * 60); // 1 hour
+
+  if (cachedCatalogJson && !forceRefresh) {
+    try {
+      const parsed = JSON.parse(cachedCatalogJson);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedProducts = parsed;
+        // If cache is fresh, we can return it immediately and skip fetching
+        if (isCacheFresh) {
+          return cachedProducts;
+        }
+        // If cache is stale, we return it but continue fetching in background
+      }
+    } catch (e) {
+      console.warn("Failed to parse catalog cache", e);
+    }
+  }
+
+  // 3. Handle concurrent fetching
   if (isFetching && !forceRefresh) {
     return new Promise((resolve) => {
       const checkInterval = setInterval(() => {
@@ -36,7 +61,7 @@ export const getProducts = async (forceRefresh = false): Promise<Product[]> => {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); 
+    const timeoutId = setTimeout(() => controller.abort(), 6000); // Shorter timeout for faster fallback
 
     const url = forceRefresh ? `${API_URL}?t=${Date.now()}` : API_URL;
     const response = await fetch(url, { signal: controller.signal });
@@ -46,12 +71,11 @@ export const getProducts = async (forceRefresh = false): Promise<Product[]> => {
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         const rawData = await response.json();
-        // Handle both simple array (legacy) and paginated object (new)
         apiProducts = Array.isArray(rawData) ? rawData : (rawData.products || []);
       }
     }
   } catch (e) {
-    console.warn("Database API unreachable or timed out. Using LocalStorage fallback.", e);
+    console.warn("Database API unreachable or timed out. Using cache fallback.", e);
   }
 
   const localProducts = getLocalProducts();
@@ -62,22 +86,35 @@ export const getProducts = async (forceRefresh = false): Promise<Product[]> => {
   localProducts.forEach(p => productMap.set(p.id, p));
   
   // Overlay API data (truth)
-  apiProducts.forEach(p => {
-    const productId = String(p.id);
-    const transformed: Product = {
-      ...p,
-      id: productId,
-      features: Array.isArray(p.features) ? p.features : JSON.parse(p.features as any || '[]'),
-      availableSizes: Array.isArray(p.availableSizes) ? p.availableSizes : JSON.parse(p.availableSizes as any || '[]'),
-      price: Number(p.price),
-      originalPrice: p.originalPrice ? Number(p.originalPrice) : undefined,
-      backImage: p.backImage || (p as any).back_image || undefined,
-      reviewCount: (p as any).reviewCount ?? (p.reviews ? (Array.isArray(p.reviews) ? p.reviews.length : JSON.parse(p.reviews).length) : 0)
-    };
-    productMap.set(productId, transformed);
-  });
+  if (apiProducts.length > 0) {
+    apiProducts.forEach(p => {
+      const productId = String(p.id);
+      const transformed: Product = {
+        ...p,
+        id: productId,
+        features: Array.isArray(p.features) ? p.features : JSON.parse(p.features as any || '[]'),
+        availableSizes: Array.isArray(p.availableSizes) ? p.availableSizes : JSON.parse(p.availableSizes as any || '[]'),
+        price: Number(p.price),
+        originalPrice: p.originalPrice ? Number(p.originalPrice) : undefined,
+        backImage: p.backImage || (p as any).back_image || undefined,
+        reviewCount: (p as any).reviewCount ?? (p.reviews ? (Array.isArray(p.reviews) ? p.reviews.length : JSON.parse(p.reviews).length) : 0)
+      };
+      productMap.set(productId, transformed);
+    });
 
-  cachedProducts = Array.from(productMap.values());
+    // Update Persistent Cache
+    const newCatalog = Array.from(productMap.values());
+    try {
+      localStorage.setItem(CATALOG_CACHE_KEY, JSON.stringify(newCatalog));
+      localStorage.setItem(CATALOG_CACHE_TIME_KEY, Date.now().toString());
+    } catch (e) {
+      console.warn("Catalog too large for localStorage cache");
+    }
+    cachedProducts = newCatalog;
+  } else if (!cachedProducts) {
+    cachedProducts = Array.from(productMap.values());
+  }
+
   isFetching = false;
   return cachedProducts;
 };

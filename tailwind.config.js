@@ -30,6 +30,27 @@ export default {
             spacing: {
                 '18': '4.5rem',
                 '22': '5.5rem',
+            },
+            animation: {
+                'loading-arc': 'loading-arc 2s ease-in-out infinite',
+                'loading-bar': 'loading-bar 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite',
+                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'fade-in-out': 'fade-in-out 2s ease-in-out infinite',
+            },
+            keyframes: {
+                'loading-arc': {
+                    '0%': { strokeDashoffset: '400' },
+                    '50%': { strokeDashoffset: '0' },
+                    '100%': { strokeDashoffset: '-400' },
+                },
+                'loading-bar': {
+                    '0%': { transform: 'translateX(-100%)' },
+                    '100%': { transform: 'translateX(300%)' },
+                },
+                'fade-in-out': {
+                    '0%, 100%': { opacity: '0.4' },
+                    '50%': { opacity: '1' },
+                }
             }
         },
     },

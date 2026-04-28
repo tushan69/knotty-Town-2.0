@@ -49,8 +49,8 @@ export const saveOrder = async (order: Order): Promise<{ success: boolean; error
     return { success: true };
   } catch (e: any) {
     console.error("API Error or Timeout", e);
-    // Keep offline support: return true if it's a network error (saved locally)
-    return { success: true };
+    // Don't pretend success on network errors for checkout as we need the order in DB before payment
+    return { success: false, error: "Network error. Please check your connection." };
   }
 };
 

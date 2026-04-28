@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { Product } from '../types';
-import { Product } from '../types';
 
 interface ProductCardProps {
   product: Product;
@@ -34,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 setHasError(true);
               }
             }}
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
+            className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000 ease-out"
             loading="lazy"
           />
           
@@ -43,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <img
               src={product.backImage}
               alt={`${product.name} - Alternate View`}
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0 group-hover:opacity-100 grayscale-0"
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0 group-hover:opacity-100"
               loading="lazy"
             />
           )}
@@ -85,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
           
           <div className="flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <span className="text-[10px] uppercase font-body tracking-[0.4em] text-secondary/60">
+            <span className="text-[10px] uppercase font-body tracking-[0.4em] text-primary font-bold">
               {product.category}
             </span>
             {product.originalPrice && product.originalPrice > product.price && (

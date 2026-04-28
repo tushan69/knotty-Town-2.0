@@ -21,17 +21,13 @@ if (!isset($input['amount'])) {
     exit;
 }
 
-// 1. Fetch Razorpay Credentials from DB
+// 1. Fetch Razorpay Credentials
 try {
-    $stmt = $conn->prepare("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('razorpay_key', 'razorpay_secret')");
-    $stmt->execute();
-    $settings = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-    
-    $key_id = $settings['razorpay_key'] ?? '';
-    $key_secret = $settings['razorpay_secret'] ?? '';
+    $key_id = RAZORPAY_KEY_ID;
+    $key_secret = RAZORPAY_KEY_SECRET;
 
     if (empty($key_id) || empty($key_secret)) {
-        throw new Exception("Razorpay keys not configured in settings.");
+        throw new Exception("Razorpay keys not configured.");
     }
 
 } catch (PDOException $e) {

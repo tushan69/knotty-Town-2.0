@@ -87,7 +87,38 @@ const SEO: React.FC<SEOProps> = ({ title, description, keywords, image, url, typ
       }
     }
 
-    schemaScript.textContent = JSON.stringify(schema);
+    let outputSchemas: any[] = [schema];
+
+    // BreadcrumbList Schema
+    if (type === 'product' && productData) {
+      const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://knottytown.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": productData.category.charAt(0).toUpperCase() + productData.category.slice(1),
+            "item": `https://knottytown.com/shop?category=${encodeURIComponent(productData.category)}`
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": title,
+            "item": url || window.location.href
+          }
+        ]
+      };
+      outputSchemas.push(breadcrumbSchema);
+    }
+
+    schemaScript.textContent = JSON.stringify(outputSchemas.length === 1 ? outputSchemas[0] : outputSchemas);
 
   }, [title, description, keywords, image, url, type, productData]);
 

@@ -5,18 +5,11 @@ import { getProducts } from '../services/productService';
 import ProductCard from '../components/ProductCard';
 import DripVision from '../components/DripVision';
 import SEO from '../components/SEO';
+import LoadingScreen from '../components/LoadingScreen';
 
 type SortOption = 'Newest' | 'Price: Low-High' | 'Price: High-Low' | 'Popularity' | 'Top Rated';
 
-const MOCK_PRODUCTS: Product[] = [
-  { id: '1', name: 'The Oversized Structure', price: 4200, image: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=1000', category: 'Oversized Tees', isFeatured: true, description: 'Geometric oversized silhouette crafted from heavy gauge cotton.', rating: 4.8, features: ['300 GSM', 'Oversized Fit'], availableSizes: ['S', 'M', 'L', 'XL'] },
-  { id: '2', name: 'Monolith Trouser', price: 5800, image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&q=80&w=1000', category: 'Minimalist', isFeatured: true, description: 'Architecture for the legs. Sculpted drape in wool blend.', rating: 4.9, features: ['Wool Blend', 'Elastic Waist'], availableSizes: ['30', '32', '34'] },
-  { id: '3', name: 'Ghost Layer Shell', price: 7200, image: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&q=80&w=1000', category: 'Graphic Collection', isFeatured: true, description: 'A translucent study in technical silk. Minimalist weather protection.', rating: 4.7, features: ['Technical Silk', 'Water Resistant'], availableSizes: ['M', 'L'] },
-  { id: '4', name: 'Observer T-Shirt', price: 2900, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=1000', category: 'Oversized Tees', isFeatured: true, description: 'The foundation of the modern wardrobe. 300gsm raw cotton.', rating: 4.8, features: ['Raw Cotton', 'Minimalist'], availableSizes: ['S', 'M', 'L', 'XL'] },
-  { id: '5', name: 'Atelier Tote', price: 3500, image: 'https://images.unsplash.com/photo-1544816153-12ad23e42eb3?auto=format&fit=crop&q=80&w=1000', category: 'Accessories', isFeatured: false, description: 'Heavy canvas tote for essential archival documents.', rating: 4.6, features: ['Heavy Canvas', 'Internal Pocket'], availableSizes: ['One Size'] },
-  { id: 'm1', name: 'The Geometric Monolith', price: 3500, image: 'https://images.unsplash.com/photo-1618609516629-3b6038148b59?auto=format&fit=crop&q=80&w=1000', category: 'Metal Posters', isFeatured: true, description: 'Brushed aluminum panel featuring architectural geometric studies.', rating: 4.9, features: ['Brushed Aluminum', 'Hidden Mount'], availableSizes: ['12x18', '24x36'] },
-  { id: 'm2', name: 'Desert Mirage Panel', price: 3800, image: 'https://images.unsplash.com/photo-1518005020410-09880ef2016f?auto=format&fit=crop&q=80&w=1000', category: 'Metal Posters', isFeatured: true, description: 'Subtle metallic print capturing light anomalies in high desert.', rating: 4.8, features: ['Matte Finish', 'Gallery Box'], availableSizes: ['16x24'] }
-];
+const MOCK_PRODUCTS: Product[] = [];
 
 const Shop: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,11 +41,11 @@ const Shop: React.FC = () => {
             isFeatured: p.isFeatured || p.is_featured
           })));
         } else {
-          setProducts(MOCK_PRODUCTS);
+          setProducts([]);
         }
       } catch (error) {
-        console.error('Error fetching products, using shop archive fallback:', error);
-        setProducts(MOCK_PRODUCTS);
+        console.error('Error fetching products:', error);
+        setProducts([]);
       } finally {
         setIsLoading(false);
       }
@@ -120,6 +113,8 @@ const Shop: React.FC = () => {
     return result;
   }, [activeCategory, searchTerm, products, sortBy]);
 
+  if (isLoading) return <LoadingScreen />;
+
   return (
     <div className="bg-background min-h-screen">
       <SEO 
@@ -176,8 +171,8 @@ const Shop: React.FC = () => {
                       onClick={() => setSearchParams(cat === 'All' ? {} : { category: cat })}
                       className={`text-left text-[11px] uppercase tracking-[0.3em] transition-all duration-500 hover:text-primary ${
                         activeCategory === cat
-                          ? 'text-primary font-bold italic'
-                          : 'text-secondary/50 font-light'
+                          ? 'text-primary font-bold italic underline decoration-accent/30 underline-offset-8'
+                          : 'text-primary font-semibold'
                       }`}
                     >
                       {cat}
@@ -272,8 +267,8 @@ const Shop: React.FC = () => {
                   onClick={() => setSearchParams(cat === 'All' ? {} : { category: cat })}
                   className={`whitespace-nowrap text-[10px] uppercase tracking-[0.3em] transition-all pb-4 snap-center ${
                     activeCategory === cat
-                      ? 'text-primary border-b-2 border-primary font-bold'
-                      : 'text-secondary/40'
+                      ? 'text-primary border-b-2 border-primary font-bold italic'
+                      : 'text-primary font-semibold'
                   }`}
                 >
                   {cat}
@@ -283,28 +278,23 @@ const Shop: React.FC = () => {
 
           {/* Product Grid Area */}
           <div className="lg:col-span-10">
-            {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-64">
-                <div className="w-12 h-12 bg-surface-container-low relative animate-pulse flex items-center justify-center">
-                  <div className="w-2 h-full bg-primary/10 animate-spin"></div>
-                </div>
-                <p className="mt-12 text-[10px] uppercase tracking-[0.6em] text-primary/40 animate-pulse">Scanning Archive...</p>
-              </div>
-            ) : filteredAndSortedProducts.length > 0 ? (
+            {filteredAndSortedProducts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-24">
                 {filteredAndSortedProducts.map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-64 text-center">
-                 <h2 className="text-4xl font-headline text-primary/40 italic mb-12">The archive remains silent.</h2>
-                 <button 
-                   onClick={() => { setSearchTerm(''); setSearchParams({}); }}
-                   className="px-12 py-5 border border-primary text-primary text-[10px] uppercase tracking-[0.4em] hover:bg-primary hover:text-white transition-all duration-500"
-                 >
-                   RESET PARAMETERS
-                 </button>
+              <div className="space-y-16">
+                <div className="flex items-center gap-4 py-8 border-b border-primary/5">
+                   <span className="material-symbols-outlined text-accent animate-pulse">info</span>
+                   <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-bold">No matches found for your current criteria. Showing the full archive instead.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-24">
+                  {products.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))}
+                </div>
               </div>
             )}
           </div>

@@ -4,7 +4,7 @@ import {
   Trash2, Eye, LogOut, Package, ExternalLink, User, Mail, Phone, MapPin,
   CreditCard, Tag, List, TrendingUp, BarChart3, Box, Activity, ChevronRight,
   ImageIcon, RefreshCw, Copy, FileText, Printer, Check, Download, ArrowLeft,
-  Home as HomeIcon, Star, Crown, Percent, Sparkles, BrainCircuit, Barcode, ShieldCheck, Lock, Plus, Cloud, Server
+  Home as HomeIcon, Star, Crown, Percent, Sparkles, BrainCircuit, Barcode, ShieldCheck, Lock, Plus, Cloud, Server, Globe
 } from 'lucide-react';
 import { Order, Product, Category } from '../types';
 import { getProducts, addProduct, deleteProduct, clearProductCache } from '../services/productService';
@@ -84,8 +84,6 @@ const AdminDashboard: React.FC = () => {
   const { shippingPrice, updateShippingPrice } = useCart();
   const [localShippingPrice, setLocalShippingPrice] = useState(shippingPrice);
   const [customQrImage, setCustomQrImage] = useState<string | null>(null);
-  const [razorpayKey, setRazorpayKey] = useState<string>('');
-  const [razorpaySecret, setRazorpaySecret] = useState<string>('');
   const [royalLionBranding, setRoyalLionBranding] = useState<string | null>(null);
   const [customPrice, setCustomPrice] = useState('1599'); // State for Custom Design Price
   const [vaultPasskey, setVaultPasskey] = useState('TOWNLEGEND');
@@ -167,8 +165,6 @@ const AdminDashboard: React.FC = () => {
       const data = await res.json();
       if (data.shipping_price) setLocalShippingPrice(Number(data.shipping_price));
       if (data.qr_code_image) setCustomQrImage(data.qr_code_image);
-      if (data.razorpay_key) setRazorpayKey(data.razorpay_key);
-      if (data.razorpay_secret) setRazorpaySecret(data.razorpay_secret);
       if (data.royal_lion_branding) setRoyalLionBranding(data.royal_lion_branding);
       if (data.custom_design_price) setCustomPrice(data.custom_design_price);
       if (data.hostinger_api_token) setHostingerToken(data.hostinger_api_token);
@@ -475,8 +471,11 @@ Total: ₹${order.total}
       await Promise.all([
         fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'qr_code_image', value: customQrImage }) }),
         fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'royal_lion_branding', value: royalLionBranding }) }),
-        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'razorpay_key', value: razorpayKey }) }),
-        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'razorpay_secret', value: razorpaySecret }) }),
+        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'shipping_price', value: String(localShippingPrice) }) }),
+        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'hostinger_api_token', value: hostingerToken }) }),
+        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'custom_design_price', value: customPrice }) }),
+        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'vault_passkey', value: vaultPasskey }) }),
+        fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'vault_message', value: vaultMessage }) }),
         fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'whatsapp_api_url', value: whatsappApiUrl }) }),
         fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'whatsapp_token', value: whatsappToken }) }),
         fetch(apiUrl('settings.php'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Token': adminToken }, body: JSON.stringify({ key: 'whatsapp_instance_id', value: whatsappInstanceId }) })
@@ -1056,7 +1055,7 @@ Total: ₹${order.total}
                       </div>
                     )}
                     <div className="relative aspect-[4/5] overflow-hidden mb-6 border border-gray-200">
-                      <img src={p.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                      <img src={p.image} className="w-full h-full object-cover transition-all duration-500" />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
                         <button onClick={() => startEditProduct(p)} className="p-4 bg-white text-black border border-gray-200"><Edit2 className="w-5 h-5" /></button>
                         <button onClick={async () => { if (confirm("ABORT DROP?")) { await deleteProduct(p.id); loadData(); } }} className="p-4 bg-white text-red-600 border border-gray-200"><Trash2 className="w-5 h-5" /></button>
@@ -1169,7 +1168,7 @@ Total: ₹${order.total}
                       products.filter(p => p.category === 'Secret Vault').map(p => (
                         <div key={p.id} className="bg-white border border-gray-200 p-4 flex items-center space-x-4 shadow-sm transition-all group hover:border-purple-600 transition-colors">
                           <div className="w-16 h-16 bg-zinc-100 border border-gray-200 flex-shrink-0">
-                            <img src={p.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0" />
+                            <img src={p.image} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-grow">
                             <h4 className="font-black text-sm uppercase">{p.name}</h4>
@@ -1234,7 +1233,7 @@ Total: ₹${order.total}
                               <div className="flex gap-4 pt-4">
                                 {items.map((i: any, kidx: any) => (
                                   <div key={kidx} className="relative w-12 h-16 border border-gray-100">
-                                    <img src={i.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" alt="" />
+                                    <img src={i.image} className="w-full h-full object-cover transition-all" alt={i.name || "Product"} />
                                     <span className="absolute -top-2 -right-2 bg-black text-white text-[8px] px-1 font-black">x{i.quantity}</span>
                                   </div>
                                 ))}
@@ -1340,30 +1339,6 @@ Total: ₹${order.total}
                   </div>
                 </div>
 
-                <div className="pt-6 border-t-2 border-dashed border-gray-200">
-                  <label className="block text-[10px] font-black uppercase tracking-widest mb-2">Razorpay Key ID</label>
-                  <input
-                    type="text"
-                    value={razorpayKey}
-                    onChange={(e) => setRazorpayKey(e.target.value)}
-                    placeholder="rzp_test_..."
-                    className="w-full p-4 border border-gray-200 font-black uppercase text-xs"
-                  />
-                  <p className="text-[8px] text-gray-500 mt-2 font-bold uppercase tracking-widest">Crucial for handling payments. Keep this secure.</p>
-                </div>
-
-                <div className="pt-6 border-t-2 border-dashed border-gray-200">
-                  <label className="block text-[10px] font-black uppercase tracking-widest mb-2">Razorpay Key Secret</label>
-                  <input
-                    type="password"
-                    value={razorpaySecret}
-                    onChange={(e) => setRazorpaySecret(e.target.value)}
-                    placeholder="••••••••••••••••"
-                    className="w-full p-4 border border-gray-200 font-black text-xs"
-                  />
-                  <p className="text-[8px] text-gray-500 mt-2 font-bold uppercase tracking-widest">Never share this. Used for secure payment verification.</p>
-                </div>
-
                 <div className="pt-10 mt-10 border-t-2 border-dashed border-gray-200">
                   <h3 className="font-serif text-2xl uppercase flex items-center mb-6">
                     <Phone className="w-5 h-5 mr-3" /> WhatsApp Notifications
@@ -1465,16 +1440,13 @@ Total: ₹${order.total}
                       <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">HOSTINGER API TOKEN</label>
                       <input type="password" value={hostingerToken} onChange={e => setHostingerToken(e.target.value)} placeholder="ENTER YOUR HOSTINGER TOKEN..." className="w-full border border-gray-200 p-6 font-black text-xs" />
                     </div>
-                    <button onClick={() => 
-                      updateSettings({
-                        'qr_code_image': qrCodeImage,
-                        'shipping_price': localShippingPrice,
-                        'hostinger_api_token': hostingerToken,
-                        'custom_design_price': customPrice,
-                        'vault_passkey': vaultPasskey,
-                        'vault_message': vaultMessage
-                      })
-                    } disabled={isSavingSettings} className="w-full bg-black text-white p-8 font-black uppercase text-sm shadow-sm transition-all hover:bg-black text-white hover:bg-gray-800">{isSavingSettings ? 'CONFIGURING...' : 'SYNC ALL SYSTEMS'}</button>
+                    <button 
+                      onClick={saveSettings} 
+                      disabled={isSavingSettings} 
+                      className="w-full bg-black text-white p-8 font-black uppercase text-sm shadow-sm transition-all hover:bg-black text-white hover:bg-gray-800"
+                    >
+                      {isSavingSettings ? 'CONFIGURING...' : 'SYNC ALL SYSTEMS'}
+                    </button>
                   </div>
                 </div>
               </div>

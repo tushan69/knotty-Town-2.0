@@ -17,11 +17,8 @@ $razorpay_order_id = $data['razorpay_order_id'];
 $razorpay_signature = $data['razorpay_signature'];
 $order_id = $data['order_id']; // Our internal Order ID
 
-// Fetch Razorpay Secret from settings
-$stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = 'razorpay_secret' LIMIT 1");
-$stmt->execute();
-$setting = $stmt->fetch(PDO::FETCH_ASSOC);
-$razorpay_secret = $setting ? $setting['setting_value'] : '';
+// Fetch Razorpay Secret
+$razorpay_secret = RAZORPAY_KEY_SECRET;
 
 if (!$razorpay_secret) {
     echo json_encode(['status' => 'error', 'message' => 'Payment configuration error (Secret missing)']);
@@ -50,9 +47,9 @@ if ($generated_signature === $razorpay_signature) {
             
             echo json_encode(['status' => 'success', 'message' => 'Payment verified and order updated']);
         } else {
-            // Order doesn't exist yet (this is normal if frontend saves order AFTER verification)
-            // Just return success so frontend can proceed to save the order
-            echo json_encode(['status' => 'success', 'message' => 'Payment verified. Proceeding to save order.', 'verified_only' => true]);
+            // This should not happen with the new workflow where order is saved first
+            error_log("CRITICAL: Payment verified but order $order_id not found in DB.");
+            echo json_encode(['status' => 'error', 'message' => 'Order record missing. Please contact support with Payment ID: ' . $razorpay_payment_id]);
         }
     } catch (PDOException $e) {
         echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);

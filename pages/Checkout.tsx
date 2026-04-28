@@ -15,7 +15,8 @@ const Checkout: React.FC = () => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('razorpay');
   const [orderId, setOrderId] = useState<string | null>(null);
-  const [rzpKey, setRzpKey] = useState<string>(import.meta.env.VITE_RAZORPAY_KEY_ID || '');
+  const [currentOrderId, setCurrentOrderId] = useState<string>('');
+  const [rzpKey, setRzpKey] = useState<string>('rzp_live_SFDpDwe3qxYPFL');
   
   const [couponInput, setCouponInput] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<{code: string, amount: number} | null>(null);
@@ -30,6 +31,13 @@ const Checkout: React.FC = () => {
     city: '',
     pincode: ''
   });
+
+  // Initialize order ID once per session/cart
+  useEffect(() => {
+    if (!currentOrderId) {
+      setCurrentOrderId('KT-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+    }
+  }, []);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -48,18 +56,7 @@ const Checkout: React.FC = () => {
     return error === '';
   };
 
-  useEffect(() => {
-    const fetchRzpKey = async () => {
-      try {
-        const res = await fetch(apiUrl('settings.php?key=razorpay_key'));
-        const data = await res.json();
-        if (data.value) setRzpKey(data.value);
-      } catch (e) {
-        console.log("Razorpay Key fetch failed");
-      }
-    };
-    fetchRzpKey();
-  }, []);
+
 
   if (cart.length === 0 && !submitted) {
     navigate('/cart');
@@ -174,7 +171,7 @@ const Checkout: React.FC = () => {
     }
   };
 
-  const handleRazorpayPayment = async () => {
+  const handleRazorpayPayment = async (internalOrderId: string) => {
     if (!rzpKey) {
       alert("Payment configuration missing. Contact Support.");
       setIsRedirecting(false);
@@ -187,7 +184,7 @@ const Checkout: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           amount: Math.round(finalTotal * 100),
-          receipt: 'KT_RCPT_' + Date.now()
+          receipt: internalOrderId
         })
       });
 
@@ -211,7 +208,6 @@ const Checkout: React.FC = () => {
         handler: async function (response: any) {
           setIsRedirecting(true);
           try {
-            const generatedOrderId = 'KT-' + Math.random().toString(36).substr(2, 9).toUpperCase();
             const verifyRes = await fetch(apiUrl('verify_payment.php'), {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -219,14 +215,29 @@ const Checkout: React.FC = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_signature: response.razorpay_signature,
-                order_id: generatedOrderId
+                order_id: internalOrderId
               })
             });
 
             const verifyData = await verifyRes.json();
 
             if (verifyData.status === 'success') {
-              await processOrderSubmission(`Razorpay [ID: ${response.razorpay_payment_id}]`, undefined, generatedOrderId, response.razorpay_payment_id, 'PAID');
+              // Successfully verified, now finalize UI
+              if (finalTotal >= 2000) {
+                try {
+                  const res = await fetch(apiUrl('settings.php?key=vault_passkey'));
+                  const data = await res.json();
+                  const passkey = data.value || 'TOWNLEGEND';
+                  localStorage.setItem('knotty_passkey', passkey);
+                } catch (e) {
+                  localStorage.setItem('knotty_passkey', 'TOWNLEGEND');
+                }
+              }
+
+              setIsRedirecting(false);
+              setOrderId(internalOrderId);
+              setSubmitted(true);
+              clearCart();
             } else {
               alert("Payment verification failed: " + verifyData.message);
             }
@@ -292,11 +303,45 @@ const Checkout: React.FC = () => {
       return;
     }
 
-    if (paymentMethod === 'razorpay') {
-      setIsRedirecting(true);
-      handleRazorpayPayment();
-    } else {
-      processOrderSubmission('Cash on Delivery');
+    setIsRedirecting(true);
+    const generatedOrderId = currentOrderId;
+    
+    // 1. Create the order object (Initially Pending)
+    const newOrder: Order = {
+      id: generatedOrderId,
+      date: new Date().toISOString(),
+      customer: formData,
+      items: [...cart],
+      total: finalTotal,
+      shipping_price: shippingPrice,
+      status: 'Pending',
+      paymentMethod: paymentMethod === 'razorpay' ? 'Razorpay' : 'Cash on Delivery',
+      payment_status: 'Pending',
+      couponCode: appliedCoupon?.code
+    };
+
+    // 2. Save Order to Database FIRST
+    try {
+      const result = await saveOrder(newOrder);
+      if (!result.success) {
+        throw new Error(result.error || "Failed to save order");
+      }
+
+      // 3. Proceed to Payment
+      if (paymentMethod === 'razorpay') {
+        handleRazorpayPayment(generatedOrderId);
+      } else {
+        // COD Success
+        setTimeout(() => {
+          setIsRedirecting(false);
+          setOrderId(generatedOrderId);
+          setSubmitted(true);
+          clearCart();
+        }, 1500);
+      }
+    } catch (err: any) {
+      setIsRedirecting(false);
+      alert(`ORDER FAILED: ${err.message}`);
     }
   };
 

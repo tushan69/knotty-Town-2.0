@@ -29,7 +29,7 @@ const CustomDesign: React.FC = () => {
   // Default fallback if no custom branding set
   const DEFAULT_LION = 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?dpr=1&auto=format&fit=crop&w=400&h=400&q=60';
 
-  const [selectedSize, setSelectedSize] = useState('L');
+  const [selectedSize, setSelectedSize] = useState('');
   const [basePrice, setBasePrice] = useState(1599);
   const SIZES = ['M', 'L', 'XL'];
 
@@ -187,7 +187,7 @@ const CustomDesign: React.FC = () => {
                 onDragOver={onDragOver}
                 onDrop={onDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`border border-gray-200 border-dashed p-10 md:p-16 text-center cursor-pointer transition-colors ${isDragging ? 'bg-black text-white hover:bg-gray-800/10 border-[#FF4500]' : 'hover:bg-black text-white hover:bg-gray-800/10'}`}
+                className={`border border-gray-200 border-dashed p-10 md:p-16 text-center cursor-pointer transition-colors ${isDragging ? 'bg-black text-white border-[#FF4500]' : 'bg-zinc-50 text-black hover:bg-black hover:text-white'}`}
               >
                 <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => processFile(e.target.files?.[0]!)} />
                 <Upload className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4" />
@@ -238,8 +238,8 @@ const CustomDesign: React.FC = () => {
               </div>
             </section>
 
-            <button disabled={!design} onClick={handleAddToCart} className={`w-full font-black py-6 md:py-10 flex items-center justify-center transition-all uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs md:text-sm border border-gray-200 ${design ? 'bg-black text-white hover:bg-black text-white hover:bg-gray-800' : 'bg-gray-100 text-gray-300'}`}>
-              <ShoppingBag className="w-5 h-5 md:w-6 md:h-6 mr-4 md:mr-6" /> COP THE ROYAL DROP - ₹{basePrice}
+            <button disabled={!design || !selectedSize} onClick={handleAddToCart} className={`w-full font-black py-6 md:py-10 flex items-center justify-center transition-all uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs md:text-sm border border-gray-200 ${design && selectedSize ? 'bg-black text-white hover:bg-black text-white hover:bg-gray-800' : 'bg-gray-100 text-gray-300'}`}>
+              <ShoppingBag className="w-5 h-5 md:w-6 md:h-6 mr-4 md:mr-6" /> {!selectedSize ? 'SELECT A SIZE' : `COP THE ROYAL DROP - ₹${basePrice}`}
             </button>
           </div>
         </div>

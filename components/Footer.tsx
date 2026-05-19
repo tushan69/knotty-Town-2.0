@@ -1,8 +1,14 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Footer: React.FC = () => {
+  const location = useLocation();
+
+  if (location.pathname === '/checkout') {
+    return null;
+  }
+
   return (
     <footer className="bg-primary text-white pt-48 pb-16">
       <div className="max-w-[1600px] mx-auto px-6 md:px-24">

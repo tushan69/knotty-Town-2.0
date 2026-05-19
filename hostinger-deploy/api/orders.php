@@ -126,6 +126,13 @@ if ($method == 'POST') {
             } catch (Exception $ext) {
                 error_log("WhatsApp Trigger Failed: " . $ext->getMessage());
             }
+            
+            try {
+                require_once 'email_service.php';
+                sendOrderEmailNotification($data['id'], $conn);
+            } catch (Exception $ext) {
+                error_log("Email Trigger Failed: " . $ext->getMessage());
+            }
         }
 
         echo json_encode(["status" => "success", "orderId" => $data['id']]);

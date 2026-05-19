@@ -49,8 +49,7 @@ const ProductDetail: React.FC = () => {
             const relatedProds = await getRelatedProducts(found.category, id);
             setRelated(relatedProds);
             addRecentlyViewed(found);
-            const available = found.availableSizes || [];
-            if (available.length > 0) setSelectedSize(available[0]);
+            // No longer selecting default size to force user to choose.
           }
         } catch (error) {
           console.error('Error fetching product:', error);
@@ -408,13 +407,14 @@ const ProductDetail: React.FC = () => {
                    <button
                       disabled={product.category !== Category.METAL_POSTERS && !selectedSize}
                       onClick={() => {
+                        if (product.category !== Category.METAL_POSTERS && !selectedSize) return;
                         const variantName = product.category === Category.METAL_POSTERS ? product.name : `${product.name} [${selectedSize}]`;
                         const variantId = product.category === Category.METAL_POSTERS ? product.id : `${product.id}-${selectedSize}`;
                         for(let i=0; i<quantity; i++) addToCart({ ...product, name: variantName, id: variantId });
                       }}
-                      className="flex-1 py-6 font-body text-[10px] uppercase tracking-[0.5em] bg-primary text-white hover:bg-black hover:tracking-[0.7em] transition-all duration-[1000ms]"
+                      className={`flex-1 py-6 font-body text-[10px] uppercase tracking-[0.5em] text-white transition-all duration-[1000ms] ${product.category !== Category.METAL_POSTERS && !selectedSize ? 'bg-primary/50 cursor-not-allowed' : 'bg-primary hover:bg-black hover:tracking-[0.7em]'}`}
                    >
-                      ADD TO ARCHIVE
+                      {product.category !== Category.METAL_POSTERS && !selectedSize ? 'SELECT A SIZE' : 'ADD TO ARCHIVE'}
                    </button>
                  </>
                ) : (

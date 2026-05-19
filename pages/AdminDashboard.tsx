@@ -7,7 +7,7 @@ import {
   Home as HomeIcon, Star, Crown, Percent, Sparkles, BrainCircuit, Barcode, ShieldCheck, Lock, Plus, Cloud, Server, Globe
 } from 'lucide-react';
 import { Order, Product, Category } from '../types';
-import { getProducts, addProduct, deleteProduct, clearProductCache } from '../services/productService';
+import { getProducts, getProductById, addProduct, deleteProduct, clearProductCache } from '../services/productService';
 import { getAllOrders, updateOrderStatus, deleteOrder as apiDeleteOrder, trackOrder } from '../services/orderService';
 // Fix: Removed 'getComplexReasoning' as it is not exported from geminiService and not used in this file.
 import { analyzeSalesData, generateDescription } from '../services/geminiService';
@@ -99,7 +99,7 @@ const AdminDashboard: React.FC = () => {
   const [isFeaturedToggle, setIsFeaturedToggle] = useState(false);
 
   const INITIAL_NEW_PRODUCT: Partial<Product> = {
-    name: '', price: 0, originalPrice: 0, category: Category.OVERSIZED, description: '', image: '', backImage: '', features: [], availableSizes: ALL_SIZES, isSoldOut: false, isFeatured: false
+    name: '', price: 0, originalPrice: 0, category: Category.OVERSIZED, description: '', image: '', backImage: '', features: [], availableSizes: ALL_SIZES, isSoldOut: false, isFeatured: false, stock_quantity: 100
   };
 
   const [newProduct, setNewProduct] = useState<Partial<Product>>(INITIAL_NEW_PRODUCT);
@@ -556,6 +556,7 @@ Total: ₹${order.total}
       backImage: (editingProduct?.backImage || newProduct.backImage) || '',
       features: processedFeatures,
       availableSizes: selectedSizes,
+      stock_quantity: Number(editingProduct ? editingProduct.stock_quantity : newProduct.stock_quantity) || 100,
       isSoldOut: isSoldOutToggle,
       isFeatured: isFeaturedToggle,
       rating: editingProduct?.rating ?? 5.0,
@@ -578,13 +579,14 @@ Total: ₹${order.total}
     setFeaturesInput('');
   };
 
-  const startEditProduct = (p: Product) => {
-    setEditingProduct(p);
-    setFeaturesInput(p.features ? p.features.join(', ') : '');
-    setSelectedSizes(p.availableSizes || ALL_SIZES);
-    setIsSoldOutToggle(p.isSoldOut || false);
-    setIsFeaturedToggle(p.isFeatured || false);
-    if (p.category === Category.METAL_POSTERS) {
+  const startEditProduct = async (p: Product) => {
+    const fullProduct = await getProductById(p.id) || p;
+    setEditingProduct(fullProduct);
+    setFeaturesInput(fullProduct.features ? fullProduct.features.join(', ') : '');
+    setSelectedSizes(fullProduct.availableSizes || ALL_SIZES);
+    setIsSoldOutToggle(fullProduct.isSoldOut || false);
+    setIsFeaturedToggle(fullProduct.isFeatured || false);
+    if (fullProduct.category === Category.METAL_POSTERS) {
       setShowAddPlate(true);
       setShowAddProduct(false);
     } else {
@@ -676,37 +678,78 @@ Total: ₹${order.total}
             </div>
           </header>
 
+          {/* Mobile Navigation */}
+          <div className="lg:hidden flex overflow-x-auto pb-4 mb-8 space-x-2 no-scrollbar print:hidden border-b border-gray-200">
+            {[
+              { id: 'orders', label: 'Orders' },
+              { id: 'products', label: 'Inventory' },
+              { id: 'plates', label: 'Metals' },
+              { id: 'recovery', label: 'Recovery' },
+              { id: 'settings', label: 'Settings' },
+              { id: 'coupons', label: 'Coupons' },
+              { id: 'vault', label: 'Vault' },
+              { id: 'cloud', label: 'Cloud' }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`whitespace-nowrap px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === tab.id ? 'bg-black text-white' : 'bg-white text-gray-500 border border-gray-200'}`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
           {activeTab === 'orders' && (
-            <div className="space-y-16 animate-in fade-in duration-500 print:hidden">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                <StatCard icon={BarChart3} label="Gross Revenue" value={`₹${orders.reduce((a, o) => a + (parseFloat(o.total) || 0), 0).toLocaleString()}`} color="bg-accent/10" />
-                <StatCard icon={ShoppingCart} label="Curated Hauls" value={orders.length.toString()} color="bg-primary/5" />
-                <StatCard icon={Box} label="Active Silhouette Drops" value={products.length.toString()} color="bg-primary/5" />
-                <StatCard icon={Activity} label="Engine Status" value={dbConnected ? "OPERATIONAL" : (dbError ? `OFFLINE: ${dbError}` : "OFFLINE")} color={dbConnected ? "bg-green-50" : "bg-red-50"} />
+            <div className="space-y-8 md:space-y-16 animate-in fade-in duration-500 print:hidden">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
+                <StatCard icon={BarChart3} label="Revenue" value={`₹${orders.reduce((a, o) => a + (parseFloat(o.total) || 0), 0).toLocaleString()}`} color="bg-accent/10" />
+                <StatCard icon={ShoppingCart} label="Hauls" value={orders.length.toString()} color="bg-primary/5" />
+                <StatCard icon={Box} label="Active Drops" value={products.length.toString()} color="bg-primary/5" />
+                <StatCard icon={Activity} label="Status" value={dbConnected ? "OK" : (dbError ? "ERR" : "OFF")} color={dbConnected ? "bg-green-50" : "bg-red-50"} />
               </div>
 
               {aiReport && (
-                <div className="bg-black border border-gray-200 p-10 shadow-sm transition-all relative overflow-hidden group">
+                <div className="bg-black border border-gray-200 p-6 md:p-10 shadow-sm transition-all relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform">
                     <Sparkles className="w-32 h-32 text-yellow-400" />
                   </div>
                   <div className="relative z-10 space-y-8">
                     <div className="flex justify-between items-center">
-                      <h3 className="font-serif text-3xl text-black uppercase italic">AI TREND REPORT.</h3>
+                      <h3 className="font-serif text-2xl md:text-3xl text-white uppercase italic">AI TREND REPORT.</h3>
                       <button onClick={() => setAiReport(null)} className="text-white/40 hover:text-white"><X className="w-6 h-6" /></button>
                     </div>
-                    <div className="text-white/80 font-body text-[11px] uppercase tracking-[0.2em] leading-loose whitespace-pre-line border-l border-accent/40 pl-12">
+                    <div className="text-white/80 font-body text-[11px] uppercase tracking-[0.2em] leading-loose whitespace-pre-line border-l border-accent/40 pl-6 md:pl-12">
                       {aiReport}
-                    </div>
-                    <div className="flex items-center space-x-3 text-[9px] font-black text-zinc-500 uppercase tracking-widest">
-                      <Zap className="w-4 h-4 fill-current text-yellow-400" />
-                      <span>ANALYZED VIA GEMINI 3 PRO ENGINE</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="bg-white border border-gray-200 shadow-sm transition-all overflow-x-auto">
+              {/* Mobile Orders List */}
+              <div className="md:hidden space-y-4">
+                {orders.map(o => (
+                  <div key={o.id} className="bg-white border border-gray-200 p-5 shadow-sm space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-black text-[10px] text-gray-500">#{o.id}</p>
+                        <p className="font-black text-[12px] uppercase mt-1">{o.customer_name}</p>
+                      </div>
+                      <p className="font-serif text-lg">₹{o.total}</p>
+                    </div>
+                    <div className="flex justify-between items-center border-t border-gray-100 pt-4">
+                      <StatusBadge status={o.status} />
+                      <button onClick={() => handleViewOrder(o.id)} className="flex items-center space-x-2 text-[10px] font-black uppercase bg-black text-white px-4 py-2">
+                        <Eye className="w-3 h-3" />
+                        <span>View</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Orders Table */}
+              <div className="hidden md:block bg-white border border-gray-200 shadow-sm transition-all overflow-x-auto">
                 <table className="w-full text-left min-w-[800px]">
                   <thead className="bg-primary/5 text-primary text-[10px] font-body uppercase tracking-[0.3em]">
                     <tr>
@@ -1720,28 +1763,55 @@ Total: ₹${order.total}
                    </div>
                 </div>
 
-                <div className="space-y-6">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">PLATE DESIGN ASSET</label>
-                  <div 
-                    onClick={() => frontFileInputRef.current?.click()}
-                    className="relative border-4 border-dashed border-black aspect-video flex flex-col items-center justify-center bg-zinc-50 cursor-pointer overflow-hidden group hover:bg-zinc-100 transition-all"
-                  >
-                    {(editingProduct?.image || newProduct.image) ? (
-                      <>
-                        <img src={editingProduct ? editingProduct.image : newProduct.image} className="w-full h-full object-contain" />
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white space-y-4">
-                          <RefreshCw className="w-10 h-10 animate-spin-slow" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">SWAP DESIGN ASSET</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">PLATE DESIGN ASSET</label>
+                    <div 
+                      onClick={() => frontFileInputRef.current?.click()}
+                      className="relative border-4 border-dashed border-black aspect-video flex flex-col items-center justify-center bg-zinc-50 cursor-pointer overflow-hidden group hover:bg-zinc-100 transition-all"
+                    >
+                      {(editingProduct?.image || newProduct.image) ? (
+                        <>
+                          <img src={editingProduct ? editingProduct.image : newProduct.image} className="w-full h-full object-contain" />
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white space-y-4">
+                            <RefreshCw className="w-10 h-10 animate-spin-slow" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">SWAP DESIGN ASSET</span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-center">
+                          <ImageIcon className="w-16 h-16 mx-auto text-zinc-200 mb-4 group-hover:text-black transition-colors" />
+                          <p className="text-[10px] font-black uppercase tracking-[0.4em]">UPLOAD FRONT ARTWORK</p>
+                          <p className="text-[8px] text-zinc-400 mt-2 uppercase">PNG / JPG / WEBP</p>
                         </div>
-                      </>
-                    ) : (
-                      <div className="text-center">
-                        <ImageIcon className="w-16 h-16 mx-auto text-zinc-200 mb-4 group-hover:text-black transition-colors" />
-                        <p className="text-[10px] font-black uppercase tracking-[0.4em]">UPLOAD HIGH-RES ARTWORK</p>
-                        <p className="text-[8px] text-zinc-400 mt-2 uppercase">PNG / JPG / WEBP — MIN 2000PX</p>
-                      </div>
-                    )}
-                    <input type="file" ref={frontFileInputRef} className="hidden" accept="image/*" onChange={e => handleImageUpload(e, 'front')} />
+                      )}
+                      <input type="file" ref={frontFileInputRef} className="hidden" accept="image/*" onChange={e => handleImageUpload(e, 'front')} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">PLATE SECOND ASSET</label>
+                    <div 
+                      onClick={() => backFileInputRef.current?.click()}
+                      className="relative border-4 border-dashed border-black aspect-video flex flex-col items-center justify-center bg-zinc-50 cursor-pointer overflow-hidden group hover:bg-zinc-100 transition-all"
+                    >
+                      {(editingProduct?.backImage || newProduct.backImage) ? (
+                        <>
+                          <img src={editingProduct ? editingProduct.backImage : newProduct.backImage} className="w-full h-full object-contain" />
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white space-y-4">
+                            <RefreshCw className="w-10 h-10 animate-spin-slow" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">SWAP SECOND ASSET</span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-center">
+                          <ImageIcon className="w-16 h-16 mx-auto text-zinc-200 mb-4 group-hover:text-black transition-colors" />
+                          <p className="text-[10px] font-black uppercase tracking-[0.4em]">UPLOAD CLOSE-UP/BACK</p>
+                          <p className="text-[8px] text-zinc-400 mt-2 uppercase">PNG / JPG / WEBP</p>
+                        </div>
+                      )}
+                      <input type="file" ref={backFileInputRef} className="hidden" accept="image/*" onChange={e => handleImageUpload(e, 'back')} />
+                    </div>
                   </div>
                 </div>
 

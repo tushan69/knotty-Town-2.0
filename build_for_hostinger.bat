@@ -23,4 +23,4 @@ echo DEPLOYMENT READY!
 echo Upload the contents of the 'hostinger-deploy' folder
 echo to your 'public_html' directory on Hostinger.
 echo ---------------------------------------------------
-pause
+

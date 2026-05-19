@@ -45,6 +45,10 @@ if ($generated_signature === $razorpay_signature) {
             require_once 'whatsapp_service.php';
             sendWhatsAppNotification($order_id, $pdo);
             
+            // Trigger Email Notification
+            require_once 'email_service.php';
+            sendOrderEmailNotification($order_id, $pdo);
+            
             echo json_encode(['status' => 'success', 'message' => 'Payment verified and order updated']);
         } else {
             // This should not happen with the new workflow where order is saved first

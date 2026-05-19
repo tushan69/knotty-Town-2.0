@@ -69,10 +69,9 @@ const Shop: React.FC = () => {
         ? !isVaultItem
         : product.category === activeCategory;
 
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase());
-
-      const isAvailable = !product.isSoldOut;
+      const matchesSearch = !searchTerm || 
+        (product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()));
 
       const sizeMatch = activeSize === 'All' || (product.availableSizes && product.availableSizes.includes(activeSize));
       
@@ -82,14 +81,14 @@ const Shop: React.FC = () => {
       else if (activePrice === 'Over ₹6000') priceMatch = product.price > 6000;
 
       const colorMatch = activeColor === 'All' || 
-        product.description.toLowerCase().includes(activeColor.toLowerCase()) || 
-        product.name.toLowerCase().includes(activeColor.toLowerCase());
+        (product.description && product.description.toLowerCase().includes(activeColor.toLowerCase())) || 
+        (product.name && product.name.toLowerCase().includes(activeColor.toLowerCase()));
 
       const materialMatch = activeMaterial === 'All' || 
-        product.features.some(f => f.toLowerCase().includes(activeMaterial.toLowerCase())) ||
-        product.description.toLowerCase().includes(activeMaterial.toLowerCase());
+        (product.features && Array.isArray(product.features) && product.features.some(f => f && f.toLowerCase().includes(activeMaterial.toLowerCase()))) ||
+        (product.description && product.description.toLowerCase().includes(activeMaterial.toLowerCase()));
 
-      return matchesCategory && matchesSearch && isAvailable && sizeMatch && priceMatch && colorMatch && materialMatch;
+      return matchesCategory && matchesSearch && sizeMatch && priceMatch && colorMatch && materialMatch;
     });
 
     switch (sortBy) {
@@ -285,16 +284,10 @@ const Shop: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="space-y-16">
-                <div className="flex items-center gap-4 py-8 border-b border-primary/5">
-                   <span className="material-symbols-outlined text-accent animate-pulse">info</span>
-                   <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-bold">No matches found for your current criteria. Showing the full archive instead.</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-24">
-                  {products.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                  ))}
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-24">
+                {products.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
               </div>
             )}
           </div>

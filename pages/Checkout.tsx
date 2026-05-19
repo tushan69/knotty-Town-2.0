@@ -58,8 +58,13 @@ const Checkout: React.FC = () => {
 
 
 
+  useEffect(() => {
+    if (cart.length === 0 && !submitted) {
+      navigate('/cart');
+    }
+  }, [cart.length, submitted, navigate]);
+
   if (cart.length === 0 && !submitted) {
-    navigate('/cart');
     return null;
   }
 

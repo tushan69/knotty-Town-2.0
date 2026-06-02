@@ -40,8 +40,10 @@ if ($method == 'GET') {
         $total_items = (int)$count_stmt->fetchColumn();
         $total_pages = ceil($total_items / $limit);
 
-        // Fetch limited set with optimized query
-        $stmt = $conn->prepare("SELECT id, name, price, original_price, category, image, back_image, rating, is_sold_out, is_featured, stock_quantity, features, reviews, available_sizes FROM products ORDER BY is_featured DESC, id ASC LIMIT $limit OFFSET $offset");
+        // Fetch limited set with optimized, parameterized query
+        $stmt = $conn->prepare("SELECT id, name, price, original_price, category, image, back_image, rating, is_sold_out, is_featured, stock_quantity, features, reviews, available_sizes FROM products ORDER BY is_featured DESC, id ASC LIMIT :limit OFFSET :offset");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         

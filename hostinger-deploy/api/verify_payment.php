@@ -4,6 +4,9 @@ header('Content-Type: application/json');
 require_once 'config.php';
 $pdo = $conn; // Map $conn from config.php to $pdo for this script
 
+// Security Hardening: Rate limit signature verification requests
+knotty_rate_limit('verify_payment', 10, 60);
+
 // Get the POST data
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -29,7 +32,7 @@ if (!$razorpay_secret) {
 // signature = hmac_sha256(razorpay_order_id + "|" + razorpay_payment_id, secret)
 $generated_signature = hash_hmac('sha256', $razorpay_order_id . "|" . $razorpay_payment_id, $razorpay_secret);
 
-if ($generated_signature === $razorpay_signature) {
+if (hash_equals($generated_signature, $razorpay_signature)) {
     // Payment is genuine
     try {
         // Check if order exists first

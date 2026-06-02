@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  KNOTTY TOWN - Android HTTPS Enforcement Configuration
+  Forces cleartextTrafficPermitted to false to prevent unencrypted HTTP connections.
+-->
+<network-security-config>
+    <!-- Prevent all cleartext (HTTP) traffic inside the webview and native channels -->
+    <domain-config cleartextTrafficPermitted="false">
+        <!-- Secure main domain and all subdomains -->
+        <domain includeSubdomains="true">knottytown.com</domain>
+        <!-- Secure your Hostinger production API backend -->
+        <domain includeSubdomains="true">api.knottytown.com</domain>
+    </domain-config>
+</network-security-config>

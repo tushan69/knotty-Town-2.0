@@ -2,6 +2,10 @@
 header('Content-Type: application/json');
 
 require_once 'config.php';
+
+// Security Hardening: Rate limit check payment requests to 20 per 60 seconds
+knotty_rate_limit('check_payment_status', 20, 60);
+
 require_admin(); // Ensure only admins can check status
 
 $pdo = $conn;
@@ -11,6 +15,12 @@ $payment_id = $_GET['payment_id'] ?? '';
 
 if (empty($payment_id)) {
     echo json_encode(['status' => 'error', 'message' => 'Payment ID is required']);
+    exit;
+}
+
+// Security Hardening: Validate payment ID format strictly to prevent SSRF and injection
+if (!preg_match('/^[a-zA-Z0-9_:-]{1,100}$/', $payment_id)) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid Payment ID format']);
     exit;
 }
 

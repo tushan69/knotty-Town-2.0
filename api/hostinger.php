@@ -15,6 +15,13 @@ if (empty($path)) {
     exit();
 }
 
+// Security Hardening: Prevent directory traversal or protocol manipulation (SSRF)
+if (strpos($path, '..') !== false || strpos($path, ':') !== false || strpos($path, '//') !== false) {
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid target path structure (Directory traversal or protocol injection detected)"]);
+    exit();
+}
+
 // Get Hostinger token from secure settings
 $stmt = $conn->prepare("SELECT setting_value FROM settings WHERE setting_key = 'hostinger_api_token'");
 $stmt->execute();

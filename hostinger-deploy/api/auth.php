@@ -4,6 +4,9 @@ require_once 'config.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method == 'POST') {
+    // Security Hardening: Rate limit all authentication POST requests to 10 per 60 seconds
+    knotty_rate_limit('auth', 10, 60);
+
     $data = json_decode(file_get_contents("php://input"), true);
     $mode = $data['mode'] ?? 'google'; // 'google', 'login', 'register'
 
@@ -55,7 +58,11 @@ if ($method == 'POST') {
             $expectedUser = ($envUser !== false && $envUser !== '') ? $envUser : 'KK';
             $expectedPass = ($envPass !== false && $envPass !== '') ? $envPass : '382094808321';
 
-            if (strtoupper(trim($username)) === strtoupper(trim($expectedUser)) && trim($password) === $expectedPass) {
+            // Timing Attack Mitigation using hash_equals
+            $user_matches = hash_equals(strtoupper(trim($expectedUser)), strtoupper(trim($username)));
+            $pass_matches = hash_equals($expectedPass, trim($password));
+
+            if ($user_matches && $pass_matches) {
                 $_SESSION['is_admin'] = true;
                 echo json_encode(["status" => "success", "user" => "ADMIN", "token" => knotty_expected_admin_token()]);
             } else {

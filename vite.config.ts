@@ -5,13 +5,9 @@ import react from '@vitejs/plugin-react';
 const rootDir = path.resolve(__dirname);
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, rootDir, '');
-  const geminiKey = (env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY || '').trim();
   return {
     root: rootDir,
     envDir: rootDir,
-    /** Expose GEMINI_* from .env to import.meta.env (same rules as VITE_*). */
-    envPrefix: ['VITE_', 'GEMINI_'],
     base: '/',
     server: {
       port: 3000,
@@ -27,13 +23,46 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     build: {
       cssCodeSplit: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log'],
+        },
+        mangle: {
+          toplevel: true,
+        },
+        format: {
+          comments: false,
+        }
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('@google/generative-ai') || id.includes('@google/genai')) {
+                return 'vendor-ai';
+              }
+              if (id.includes('firebase')) {
+                return 'vendor-firebase';
+              }
+              if (id.includes('jspdf-autotable')) {
+                return 'vendor-autotable';
+              }
+              if (id.includes('jspdf')) {
+                return 'vendor-jspdf';
+              }
+              if (id.includes('react') || id.includes('scheduler')) {
+                return 'vendor-react';
+              }
+              return 'vendor-libs';
+            }
+          }
+        }
+      }
     },
-    define: {
-      'process.env.API_KEY': JSON.stringify(geminiKey),
-      'process.env.GEMINI_API_KEY': JSON.stringify(geminiKey),
-      // Ensures client code reading import.meta.env.GEMINI_API_KEY matches loadEnv (same as .env / .env.local).
-      'import.meta.env.GEMINI_API_KEY': JSON.stringify(geminiKey),
-    },
+    define: {},
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

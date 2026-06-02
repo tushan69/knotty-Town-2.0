@@ -5,6 +5,10 @@ DirectoryIndex index.html
   RewriteEngine On
   RewriteBase /
 
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
   # Allow existing files and directories to load normally
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
@@ -34,6 +38,13 @@ DirectoryIndex index.html
   <FilesMatch "\.(jpg|jpeg|png|webp|svg|css|js)$">
     Header set Cache-Control "max-age=2592000, public"
   </FilesMatch>
+
+  # Security Hardening Response Headers
+  Header set Strict-Transport-Security "max-age=31536000; includeSubdomains; preload"
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "DENY"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://*.razorpay.com https://*.googleapis.com https://apis.google.com https://*.firebaseapp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https://checkout.razorpay.com https://*.razorpay.com https://*.firebaseapp.com https://*.google.com;"
 </IfModule>
 
 # Security: Prevent directory listing

@@ -40,12 +40,22 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/error_log.txt');
 error_reporting(E_ALL);
 
-$cors_origin = getenv('CORS_ALLOW_ORIGIN');
-if ($cors_origin !== false && $cors_origin !== '') {
-    header("Access-Control-Allow-Origin: $cors_origin");
+// --- SECURITY HARDENING: DYNAMIC CORS ORIGIN WHITELIST ---
+$allowed_origins = [
+    'https://knottytown.in',
+    'https://www.knottytown.in',
+    'http://localhost:3000',
+    'http://localhost:5173'
+];
+$http_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($http_origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $http_origin");
+    header("Access-Control-Allow-Credentials: true");
 } else {
-    header("Access-Control-Allow-Origin: *");
+    // If not in whitelist, fallback to production domain for security (block arbitrary domains)
+    header("Access-Control-Allow-Origin: https://knottytown.in");
 }
+
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, X-Admin-Token");
 header("Content-Type: application/json; charset=UTF-8");
@@ -58,9 +68,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
+/**
+ * Custom file-based IP rate limiter to mitigate DDoS, scraping, and brute force attacks.
+ */
+function knotty_rate_limit(string $endpoint, int $limit = 10, int $period = 60): void {
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+    
+    // Check for proxy/CDN IP headers securely
+    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
+    }
+    
+    $ip_hash = hash('sha256', $ip);
+    $dir = __DIR__ . '/rate_limits';
+    
+    if (!is_dir($dir)) {
+        if (!mkdir($dir, 0755, true) && !is_dir($dir)) {
+            // Fallback: if we cannot create the directory, fail open but log the warning
+            error_log("Rate limiting directory could not be created: " . $dir);
+            return;
+        }
+        // Write .htaccess inside to prevent public accessibility
+        file_put_contents($dir . '/.htaccess', "Order Deny,Allow\nDeny from all");
+    }
+    
+    $file = $dir . '/' . $ip_hash . '_' . md5($endpoint) . '.json';
+    $now = time();
+    $requests = [];
+    
+    if (file_exists($file)) {
+        $data = file_get_contents($file);
+        $requests = json_decode($data, true) ?: [];
+    }
+    
+    // Keep only timestamps within the active time window
+    $requests = array_filter($requests, function($timestamp) use ($now, $period) {
+        return ($now - $timestamp) < $period;
+    });
+    
+    if (count($requests) >= $limit) {
+        http_response_code(429);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Too many requests. Please try again in ' . $period . ' seconds.'
+        ]);
+        exit();
+    }
+    
+    $requests[] = $now;
+    file_put_contents($file, json_encode(array_values($requests)));
+}
+
+
 function knotty_expected_admin_token(): string {
     $t = getenv('ADMIN_TOKEN');
     return ($t !== false && $t !== '') ? $t : 'KNOTTY_ADMIN_SECRET_2026';
+}
+
+// Load secure configuration if available (Git-ignored production credentials)
+$secure_env_file = __DIR__ . '/secure_env.php';
+if (file_exists($secure_env_file)) {
+    require_once $secure_env_file;
 }
 
 // --- DATABASE (use hosting panel or .env loader; never commit real credentials) ---
@@ -70,17 +141,16 @@ if ($is_localhost) {
     $username = getenv('DB_USER') ?: 'root';
     $password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
 } else {
-    // ⚠️ HOSTINGER PRODUCTION CREDENTIALS ⚠️
-    // Forcing hardcoded values for production as getenv is unreliable on some Hostinger shared plans
-    $host = 'localhost';
-    $db_name = 'u627175859_kt';
-    $username = 'u627175859_knotty2';
-    $password = '&3;PF9so4T';
+    // Load from secure_env.php if defined, otherwise fall back safely
+    $host = defined('SECURE_DB_HOST') ? SECURE_DB_HOST : 'localhost';
+    $db_name = defined('SECURE_DB_NAME') ? SECURE_DB_NAME : 'knotty_town_prod';
+    $username = defined('SECURE_DB_USER') ? SECURE_DB_USER : 'root';
+    $password = defined('SECURE_DB_PASS') ? SECURE_DB_PASS : '';
 }
 
-// Razorpay Credentials
-define('RAZORPAY_KEY_ID', 'rzp_live_SFDpDwe3qxYPFL');
-define('RAZORPAY_KEY_SECRET', 'uJGLr5bQgW6uMFPo2zdMg7Kw');
+// Razorpay Credentials (load securely, fallback safely to prevent breaks)
+define('RAZORPAY_KEY_ID', defined('SECURE_RAZORPAY_KEY_ID') ? SECURE_RAZORPAY_KEY_ID : (getenv('RAZORPAY_KEY_ID') ?: ''));
+define('RAZORPAY_KEY_SECRET', defined('SECURE_RAZORPAY_KEY_SECRET') ? SECURE_RAZORPAY_KEY_SECRET : (getenv('RAZORPAY_KEY_SECRET') ?: ''));
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $username, $password);

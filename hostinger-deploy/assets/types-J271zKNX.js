@@ -1,1 +1,0 @@
-var s=(S=>(S.OVERSIZED="Oversized Tees",S.GRAPHIC="Graphic Collection",S.MINIMAL="Minimalist",S.CUSTOM="Custom Lab",S.ANIME="Anime Edition",S.CARS="Automotive Series",S.VAULT="Secret Vault",S.METAL_POSTERS="Metal Posters",S.SHIRTS="Shirts",S.POLO_SHIRTS="Polo Shirts",S.FORMAL_DRESS="Formal Dress",S.WOMEN_DRESSES="Women Dresses",S))(s||{});export{s as C};

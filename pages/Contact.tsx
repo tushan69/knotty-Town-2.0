@@ -159,8 +159,8 @@ const Contact: React.FC = () => {
           </h2>
           <p className="text-secondary font-body text-sm font-light tracking-wide">
             Instant pairing and sizing guidance from your catalog. Set{' '}
-            <code className="text-xs bg-primary/5 px-1">GEMINI_API_KEY</code> or{' '}
-            <code className="text-xs bg-primary/5 px-1">VITE_GEMINI_API_KEY</code> in{' '}
+            <code className="text-xs bg-primary/5 px-1">VITE_FIREBASE_API_KEY</code> and{' '}
+            <code className="text-xs bg-primary/5 px-1">VITE_FIREBASE_PROJECT_ID</code> in{' '}
             <code className="text-xs bg-primary/5 px-1">.env</code>, then restart the dev server.
           </p>
         </div>

@@ -4,12 +4,17 @@ require_once 'config.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method == 'POST') {
+    // Security Hardening: Rate limit review submissions to 5 requests per 60 seconds
+    knotty_rate_limit('submit_review', 5, 60);
+
     $data = json_decode(file_get_contents("php://input"), true);
     
     $productId = $data['productId'] ?? null;
-    $userName = $data['userName'] ?? 'Anonymous';
+    
+    // Sanitize input values against XSS
+    $userName = htmlspecialchars(trim($data['userName'] ?? 'Anonymous'), ENT_QUOTES, 'UTF-8');
     $rating = (int)($data['rating'] ?? 5);
-    $comment = $data['comment'] ?? '';
+    $comment = htmlspecialchars(trim($data['comment'] ?? ''), ENT_QUOTES, 'UTF-8');
     $photoData = $data['photoData'] ?? null; // Expecting base64 if it's a new photo
 
     if (!$productId) {
@@ -34,8 +39,13 @@ if ($method == 'POST') {
         if (!is_array($reviews)) $reviews = [];
 
         // Save image if present (very simplified base64 storage for this prototype)
-        // In production, you'd save to a file system and return the URL
-        $photoUrl = $photoData; 
+        // Ensure photoUrl is either a valid base64 data URI for an image or a secure URL, to prevent script injection
+        $photoUrl = null;
+        if (!empty($photoData)) {
+            if (preg_match('/^data:image\/(jpeg|png|gif|webp|jpg);base64,/', $photoData) || filter_var($photoData, FILTER_VALIDATE_URL)) {
+                $photoUrl = $photoData;
+            }
+        }
 
         $newReview = [
             "id" => uniqid(),

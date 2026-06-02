@@ -34,3 +34,17 @@ deployment_ready/
 hostinger_final_package/
 build_log.txt
 tsc_log.txt
+
+# Secure PHP credentials configuration
+api/secure_env.php
+
+# Local scratch files
+scratch/
+
+# Build and local deployment archives/directories
+Deploy/
+knotty_town_deploy/
+knotty_town_deploy.zip
+
+# Temporary files
+stitch_screens/c.cp.*

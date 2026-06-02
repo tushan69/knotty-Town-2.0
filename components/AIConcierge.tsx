@@ -43,7 +43,7 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ layout = 'page' }) => {
           role: 'model',
           content: chat
             ? "Yo! I'm your KNOTTY Concierge. Need a drip check or help finding your next silhouette? Tell me what you're vibe is."
-            : "Concierge is offline — no Gemini key in your project files. In the project root (next to package.json), open .env or .env.local and set GEMINI_API_KEY=your_key (from Google AI Studio). Save, then restart npm run dev. Pasting a key in chat does not configure the app.",
+            : "Concierge is offline — no Firebase credentials in your project files. In the project root (next to package.json), open .env or .env.local and set VITE_FIREBASE_API_KEY=your_key. Save, then restart npm run dev. Pasting a key in chat does not configure the app.",
         },
       ]);
     };
@@ -138,9 +138,17 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ layout = 'page' }) => {
         className={`relative z-10 flex items-center justify-between border-b border-white/10 pb-4 ${compact ? 'mb-4' : 'mb-10 pb-6'}`}
       >
         <div>
-          <div className="mb-2 inline-flex items-center space-x-2 rounded-sm bg-yellow-400 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-black">
-            <Zap className="h-3 w-3 fill-current" />
-            <span>Atelier AI Stylist</span>
+          <div className="mb-2 inline-flex flex-wrap gap-2">
+            <div className="inline-flex items-center space-x-2 rounded-sm bg-yellow-400 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-black">
+              <Zap className="h-3 w-3 fill-current" />
+              <span>Atelier AI Stylist</span>
+            </div>
+            {!isGeminiConfigured() && (
+              <div className="inline-flex items-center space-x-1.5 rounded-sm border border-yellow-400/30 bg-zinc-950 px-2.5 py-1 text-[8px] font-black uppercase tracking-widest text-yellow-400/90 shadow-sm animate-pulse">
+                <span className="h-1.5 w-1.5 rounded-full bg-yellow-400"></span>
+                <span>Config Offline</span>
+              </div>
+            )}
           </div>
           <h2 className={`font-serif tracking-tighter uppercase italic ${compact ? 'text-xl' : 'text-2xl'}`}>Concierge.</h2>
         </div>
@@ -177,6 +185,41 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ layout = 'page' }) => {
           <div className="flex items-center space-x-3 text-zinc-600 italic text-[10px] font-bold tracking-widest uppercase animate-pulse">
             <RefreshCw className="w-3 h-3 animate-spin" />
             <span>Decoding your aesthetic...</span>
+          </div>
+        )}
+        {!isGeminiConfigured() && (
+          <div className="border border-yellow-400/20 bg-zinc-950 p-5 rounded-lg space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center space-x-2 text-yellow-400">
+              <Zap className="w-4 h-4 fill-current animate-pulse" />
+              <h4 className="font-serif text-sm uppercase tracking-wider italic">Atelier AI Setup Guide</h4>
+            </div>
+            <p className="text-[10px] font-semibold leading-relaxed tracking-wider text-zinc-400 uppercase">
+              The AI Stylist Concierge requires valid Firebase credentials to securely connect to Gemini AI Logic.
+            </p>
+            <div className="border-t border-zinc-900 pt-3.5 space-y-3 font-mono text-[9px] text-zinc-500 tracking-wider">
+              <div className="flex items-start space-x-3">
+                <span className="text-yellow-400 font-bold">01.</span>
+                <div>
+                  <p className="text-zinc-300 font-bold uppercase">Create environment file</p>
+                  <p className="text-zinc-500">Add a <span className="text-white bg-zinc-900 px-1 py-0.5 rounded">.env</span> or <span className="text-white bg-zinc-900 px-1 py-0.5 rounded">.env.local</span> in your project root.</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-yellow-400 font-bold">02.</span>
+                <div>
+                  <p className="text-zinc-300 font-bold uppercase">Configure Firebase</p>
+                  <p className="text-zinc-500">Insert your Firebase project credentials:</p>
+                  <pre className="bg-zinc-900 border border-zinc-800 text-zinc-300 p-2 rounded mt-1.5 font-mono select-all">VITE_FIREBASE_API_KEY=your_key{'\n'}VITE_FIREBASE_PROJECT_ID=your_id</pre>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-yellow-400 font-bold">03.</span>
+                <div>
+                  <p className="text-zinc-300 font-bold uppercase">Reboot Platform</p>
+                  <p className="text-zinc-500">Restart the local dev server using <span className="text-white bg-zinc-900 px-1 py-0.5 rounded">npm run dev</span>.</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
